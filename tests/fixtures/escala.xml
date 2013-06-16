@@ -1,0 +1,218 @@
+<NewDataSet>
+  <CWPReportRoster>
+    <RMDateDay>01FRI</RMDateDay>
+    <IdEmpNo>4162</IdEmpNo>
+    <EmpNo>4162</EmpNo>
+    <Signature>LEANDRO1011</Signature>
+    <FullName>LEANDRO   PARATELLA</FullName>
+    <FuncSpec>CNF_SF</FuncSpec>
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime>10:36</CheckInTime>
+    <CheckoutTime />
+    <ActivityDate>1/3/2013 14:36:00</ActivityDate>
+    <Category>FO</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>13:13</STD>
+    <STA>11:36</STA>
+    <Actype>E95</Actype>
+    <FlightNo>4148</FlightNo>
+    <Origin>VCP</Origin>
+    <Destination>GYN</Destination>
+    <DutyDesign />
+    <ActivityInfo>AD4148</ActivityInfo>
+    <ActivityDesc>4148</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>01FRI</RMDateDay>
+    <IdEmpNo>4162</IdEmpNo>
+    <EmpNo>4162</EmpNo>
+    <Signature>LEANDRO1011</Signature>
+    <FullName>LEANDRO   PARATELLA</FullName>
+    <FuncSpec>CNF_SF</FuncSpec>
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime />
+    <CheckoutTime />
+    <ActivityDate>1/3/2013 16:55:00</ActivityDate>
+    <Category>FO</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>15:15</STD>
+    <STA>13:55</STA>
+    <Actype>E95</Actype>
+    <FlightNo>4148</FlightNo>
+    <Origin>GYN</Origin>
+    <Destination>PMW</Destination>
+    <DutyDesign />
+    <ActivityInfo>AD4148</ActivityInfo>
+    <ActivityDesc>4148</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>01MON</RMDateDay>
+    <IdEmpNo>4162</IdEmpNo>
+    <EmpNo>4162</EmpNo>
+    <Signature>LEANDRO1011</Signature>
+    <FullName>LEANDRO   PARATELLA</FullName>
+    <FuncSpec>CNF_SF</FuncSpec>
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime>12:28</CheckInTime>
+    <CheckoutTime>18:02</CheckoutTime>
+    <ActivityDate>1/4/2013 16:13:00</ActivityDate>
+    <Category>FO</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>14:28</STD>
+    <STA>13:13</STA>
+    <Actype>E90</Actype>
+    <FlightNo>4049</FlightNo>
+    <Origin>CNF</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign>P</DutyDesign>
+    <ActivityInfo>AD4049</ActivityInfo>
+    <ActivityDesc>4049</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>02TUE</RMDateDay>
+    <IdEmpNo>4162</IdEmpNo>
+    <EmpNo>4162</EmpNo>
+    <Signature>LEANDRO1011</Signature>
+    <FullName>LEANDRO   PARATELLA</FullName>
+    <FuncSpec>CNF_SF</FuncSpec>
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime />
+    <CheckoutTime />
+    <ActivityDate>2/4/2013 06:15:00</ActivityDate>
+    <Category>FO</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>03:15</STD>
+    <STA>03:15</STA>
+    <Actype />
+    <FlightNo />
+    <Origin>VCP</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign />
+    <ActivityInfo>FR</ActivityInfo>
+    <ActivityDesc>FR</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>03WED</RMDateDay>
+    <IdEmpNo>4162</IdEmpNo>
+    <EmpNo>4162</EmpNo>
+    <Signature>LEANDRO1011</Signature>
+    <FullName>LEANDRO   PARATELLA</FullName>
+    <FuncSpec>CNF_SF</FuncSpec>
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime />
+    <CheckoutTime />
+    <ActivityDate>3/4/2013 06:15:00</ActivityDate>
+    <Category>FO</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>03:15</STD>
+    <STA>03:15</STA>
+    <Actype />
+    <FlightNo />
+    <Origin>VCP</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign />
+    <ActivityInfo>FR</ActivityInfo>
+    <ActivityDesc>FR</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>08MON</RMDateDay>
+    <IdEmpNo>4162</IdEmpNo>
+    <EmpNo>4162</EmpNo>
+    <Signature>LEANDRO1011</Signature>
+    <FullName>LEANDRO   PARATELLA</FullName>
+    <FuncSpec>CNF_SF</FuncSpec>
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime>13:40</CheckInTime>
+    <CheckoutTime>20:00</CheckoutTime>
+    <ActivityDate>8/4/2013 16:40:00</ActivityDate>
+    <Category>FO</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>17:00</STD>
+    <STA>13:40</STA>
+    <Actype />
+    <FlightNo />
+    <Origin>VCP</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign />
+    <ActivityInfo>REU</ActivityInfo>
+    <ActivityDesc>REU</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+</NewDataSet>
