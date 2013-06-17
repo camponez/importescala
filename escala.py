@@ -8,10 +8,14 @@ import time
 import os
 
 class Escala:
-    def __init__(self, arquivo_xml):
+    def __init__(self, arquivo_xml=None, string_xml=None):
         self.escalas = []
 
-        root = self.__load_xml(arquivo_xml)
+
+	if arquivo_xml:
+	    root = self.__load_xml(arquivo_xml)
+	else:
+	    root = self.__load_string_xml(string_xml)
         self.__parser(root)
 
     def __load_xml(self, arquivo_xml):
@@ -23,6 +27,11 @@ class Escala:
         root = tree.getroot()
 
         return root
+
+    def __load_string_xml(self, string_xml):
+	root = ET.fromstring(string_xml)
+
+	return root
 
     def __parser(self, root):
         for child in root:
@@ -116,9 +125,18 @@ class Voo:
         self.activity_info = None
 
 if __name__ == "__main__":
-    print "<html><body><pre>"
+    print "<html><body>"
+    print '<form action="escala.py" method="post" enctype="multipart/form-data">'
+    print 'Upload file: <input type="file" name="myfile" /> <br />'
+    print ' <input type="submit" name="submit" value="Submit" />'
+    print ' </form>'
+    print "<pre>"
     try:
-        escala = Escala('escala.xml')
+	import cgi
+	form_data = cgi.FieldStorage()
+	file_data = form_data['myfile'].value
+
+        escala = Escala(string_xml = file_data)
         output = escala.csv()
 
         f = open('tmp/escala.csv', 'w+')
