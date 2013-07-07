@@ -132,9 +132,9 @@ if __name__ == "__main__":
     print ' </form>'
     print "<pre>"
     try:
-	import cgi
-	form_data = cgi.FieldStorage()
-	file_data = form_data['myfile'].value
+        import cgi
+        form_data = cgi.FieldStorage()
+        file_data = form_data['myfile'].value
 
         escala = Escala(string_xml = file_data)
         output = escala.csv()
