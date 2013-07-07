@@ -6,16 +6,18 @@ from datetime import datetime
 from datetime import time as dtime
 import time
 import os
+import dirs
 
 class Escala:
     def __init__(self, arquivo_xml=None, string_xml=None):
         self.escalas = []
+        self.data_dir = dirs.get_default_dir()
+        arquivo_xml = self.data_dir.get_data_file(arquivo_xml)
 
-
-	if arquivo_xml:
-	    root = self.__load_xml(arquivo_xml)
-	else:
-	    root = self.__load_string_xml(string_xml)
+        if arquivo_xml:
+            root = self.__load_xml(arquivo_xml)
+        else:
+            root = self.__load_string_xml(string_xml)
         self.__parser(root)
 
     def __load_xml(self, arquivo_xml):

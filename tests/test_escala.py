@@ -4,12 +4,14 @@ from datetime import datetime
 from datetime import time
 
 from escala import Escala
+import dirs
 
+dirs.default_dir = dirs.TestDir()
 
 class FrameTest(unittest.TestCase):
 
     def setUp(self):
-        self.escala = Escala('./fixtures/escala.xml')
+        self.escala = Escala('escala.xml')
 
     def tearDown(self):
         pass
