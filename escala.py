@@ -94,7 +94,7 @@ class Escala:
                 csv += voo.checkin_time.strftime('%H:%M')+","
                 csv+='False,-\n'
 
-            csv+='Voo '+voo.origin+'-'+voo.destination+' ('+voo.activity_info+'),'
+            csv+='Flight '+voo.activity_info+' '+voo.origin+'-'+voo.destination+','
             csv += voo.activity_date.strftime('%m/%d/%Y')+","
             csv += voo.sta.strftime('%H:%M')+","
             csv+=voo.activity_date.strftime('%m/%d/%Y')+","
