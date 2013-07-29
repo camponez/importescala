@@ -7,12 +7,14 @@ from datetime import time as dtime
 import time
 import os
 import dirs
+import traceback
 
 class Escala:
     def __init__(self, arquivo_xml=None, string_xml=None):
         self.escalas = []
         self.data_dir = dirs.get_default_dir()
-        arquivo_xml = self.data_dir.get_data_file(arquivo_xml)
+        if arquivo_xml:
+            arquivo_xml = self.data_dir.get_data_file(arquivo_xml)
 
         if arquivo_xml:
             root = self.__load_xml(arquivo_xml)
@@ -137,19 +139,29 @@ if __name__ == "__main__":
     try:
         import cgi
         form_data = cgi.FieldStorage()
-        file_data = form_data['myfile'].value
 
-        escala = Escala(string_xml = file_data)
-        output = escala.csv()
+        file_data = None
+        if 'myfile' in form_data:
+            file_data = form_data['myfile'].value
+        else:
+            xml = 'escala.xml'
+            if os.path.exists(xml):
+                f = open(xml)
+                file_data = f.read()
 
-        f = open('tmp/escala.csv', 'w+')
-        f.write(output)
-        f.close()
+        if file_data:
+            escala = Escala(string_xml = file_data)
+            output = escala.csv()
 
-        print output
+            f = open('tmp/escala.csv', 'w+')
+            f.write(output)
+            f.close()
+
+            print output
     except:
         import sys
         print "Unexpected error:", sys.exc_info()[1]
+        print traceback.format_exc()
 
     print "</pre>"
     print "<a href='tmp/escala.csv'>escala.csv</a>"
