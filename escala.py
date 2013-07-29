@@ -6,16 +6,18 @@ from datetime import datetime
 from datetime import time as dtime
 import time
 import os
+import dirs
 
 class Escala:
     def __init__(self, arquivo_xml=None, string_xml=None):
         self.escalas = []
+        self.data_dir = dirs.get_default_dir()
+        arquivo_xml = self.data_dir.get_data_file(arquivo_xml)
 
-
-	if arquivo_xml:
-	    root = self.__load_xml(arquivo_xml)
-	else:
-	    root = self.__load_string_xml(string_xml)
+        if arquivo_xml:
+            root = self.__load_xml(arquivo_xml)
+        else:
+            root = self.__load_string_xml(string_xml)
         self.__parser(root)
 
     def __load_xml(self, arquivo_xml):
@@ -94,7 +96,7 @@ class Escala:
                 csv += voo.checkin_time.strftime('%H:%M')+","
                 csv+='False,-\n'
 
-            csv+='Voo '+voo.origin+'-'+voo.destination+' ('+voo.activity_info+'),'
+            csv+='Flight '+voo.activity_info+' '+voo.origin+'-'+voo.destination+','
             csv += voo.activity_date.strftime('%m/%d/%Y')+","
             csv += voo.sta.strftime('%H:%M')+","
             csv+=voo.activity_date.strftime('%m/%d/%Y')+","
@@ -126,6 +128,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
+    print "<span>V0.2</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
