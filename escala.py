@@ -130,7 +130,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V0.2</span>"
+    print "<span>V0.3</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
