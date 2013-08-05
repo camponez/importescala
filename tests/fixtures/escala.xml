@@ -215,4 +215,40 @@
     <Value3 />
     <Layout />
   </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>01FRI</RMDateDay>
+    <IdEmpNo>4162</IdEmpNo>
+    <EmpNo>4162</EmpNo>
+    <Signature>LEANDRO1011</Signature>
+    <FullName>LEANDRO   PARATELLA</FullName>
+    <FuncSpec>CNF_SF</FuncSpec>
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime />
+    <CheckoutTime />
+    <ActivityDate>6/8/2013 00:35:00</ActivityDate>
+    <Category>FO</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>22:55</STD>
+    <STA>21:15</STA>
+    <Actype>E95</Actype>
+    <FlightNo>4148</FlightNo>
+    <Origin>GYN</Origin>
+    <Destination>PMW</Destination>
+    <DutyDesign />
+    <ActivityInfo>AD4148</ActivityInfo>
+    <ActivityDesc>4148</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
 </NewDataSet>

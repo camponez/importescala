@@ -4,6 +4,7 @@ print "Content-type: text/html\n\n"
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from datetime import time as dtime
+from datetime import timedelta
 import time
 import os
 import dirs
@@ -43,14 +44,18 @@ class Escala:
 
             datahora =  time.strptime(child[11].text, "%d/%m/%Y %H:%M:%S")
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
+
+            #ajustando horario para UTC-3
+            voo.activity_date = voo.activity_date - timedelta(hours=3)
             voo.present_location = child[8].text
+
             #decolagem
             voo.sta = dtime(int(child[16].text[:-3]),
-                        int(child[16].text[3:]))
+                                int(child[16].text[3:]))
 
             #pouso
             voo.std = dtime(int(child[15].text[:-3]),
-                        int(child[15].text[3:]))
+                                int(child[15].text[3:]))
             voo.actype = child[17].text
             voo.flight_no = child[18].text
             voo.origin = child[19].text
