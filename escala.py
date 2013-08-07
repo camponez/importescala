@@ -60,6 +60,7 @@ class Escala:
             voo.flight_no = child[18].text
             voo.origin = child[19].text
             voo.destination = child[20].text
+            voo.duty_design = child[21].text if child[21].text is not None else False
             voo.activity_info = child[22].text
 
             if child[9].text is not None:
@@ -103,7 +104,11 @@ class Escala:
                 csv += voo.checkin_time.strftime('%H:%M')+","
                 csv+='False,-\n'
 
-            csv+='Flight '+voo.activity_info+' '+voo.origin+'-'+voo.destination+','
+            csv+="Flight "+voo.activity_info+' '+voo.origin+'-'+voo.destination
+            if voo.duty_design:
+                csv+=" (E)"
+
+            csv+=","
             csv += voo.activity_date.strftime('%m/%d/%Y')+","
             csv += voo.sta.strftime('%H:%M')+","
             csv+=voo.activity_date.strftime('%m/%d/%Y')+","
@@ -132,6 +137,7 @@ class Voo:
         self.std = None
         self.sta = None
         self.activity_info = None
+        self.duty_design = None
 
 if __name__ == "__main__":
     print "<html><body>"

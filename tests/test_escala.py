@@ -51,7 +51,7 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(self.escala.get_numero_voos(),7)
 
     def test_CSV(self):
-        self.assertEqual(self.escala.csv(),'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description\nCheckin,03/01/2013,10:36,03/01/2013,10:36,False,-\nFlight AD4148 VCP-GYN,03/01/2013,11:36,03/01/2013,13:13,False,-\nFlight AD4148 GYN-PMW,03/01/2013,13:55,03/01/2013,15:15,False,-\nCheckin,04/01/2013,12:28,04/01/2013,12:28,False,-\nFlight AD4049 CNF-VCP,04/01/2013,13:13,04/01/2013,14:28,False,-\nFR,04/02/2013,03:15,04/02/2013,03:15,True,-\nFR,04/03/2013,03:15,04/03/2013,03:15,True,-\nREU,04/08/2013,13:40,04/08/2013,17:00,False,-\nFlight AD4148 GYN-PMW,08/05/2013,21:15,08/05/2013,22:55,False,-\n')
+        self.assertEqual(self.escala.csv(),'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description\nCheckin,03/01/2013,10:36,03/01/2013,10:36,False,-\nFlight AD4148 VCP-GYN,03/01/2013,11:36,03/01/2013,13:13,False,-\nFlight AD4148 GYN-PMW,03/01/2013,13:55,03/01/2013,15:15,False,-\nCheckin,04/01/2013,12:28,04/01/2013,12:28,False,-\nFlight AD4049 CNF-VCP (E),04/01/2013,13:13,04/01/2013,14:28,False,-\nFR,04/02/2013,03:15,04/02/2013,03:15,True,-\nFR,04/03/2013,03:15,04/03/2013,03:15,True,-\nREU,04/08/2013,13:40,04/08/2013,17:00,False,-\nFlight AD4148 GYN-PMW,08/05/2013,21:15,08/05/2013,22:55,False,-\n')
 
 def main():
     unittest.main()
