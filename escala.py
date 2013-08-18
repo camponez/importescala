@@ -95,6 +95,24 @@ class Escala:
                 csv+='False,-\n'
                 continue
 
+            if voo.activity_info == 'R'+voo.sta.strftime('%H'):
+                csv += 'Reserva,'
+                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%H:%M')+","
+                csv+=voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.std.strftime('%H:%M')+","
+                csv+='False,-\n'
+                continue
+
+            if voo.activity_info == 'P'+voo.sta.strftime('%H'):
+                csv += 'SobAviso,'
+                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%H:%M')+","
+                csv+=voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.std.strftime('%H:%M')+","
+                csv+='False,-\n'
+                continue
+
             if voo.checkin:
                 csv += 'Checkin,'
                 #Data hora inicial
@@ -117,7 +135,6 @@ class Escala:
             csv+='False,-'
 
             csv += '\n'
-
 
         return csv
 
