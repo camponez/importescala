@@ -192,6 +192,8 @@ if __name__ == "__main__":
         print traceback.format_exc()
 
     print "</pre>"
-    print "<a href='tmp/escala.csv'>escala.csv</a>"
+
+    if 'myfile' in form_data:
+        print "<a href='tmp/escala.csv'>escala.csv</a>"
 
     print "</body></html>"
