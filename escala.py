@@ -158,7 +158,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V0.5</span>"
+    print "<span>V0.6</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
@@ -192,6 +192,8 @@ if __name__ == "__main__":
         print traceback.format_exc()
 
     print "</pre>"
-    print "<a href='tmp/escala.csv'>escala.csv</a>"
+
+    if 'myfile' in form_data:
+        print "<a href='tmp/escala.csv'>escala.csv</a>"
 
     print "</body></html>"
