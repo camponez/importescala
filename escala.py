@@ -191,7 +191,7 @@ if __name__ == "__main__":
         if 'myfile' in form_data:
             file_data = form_data['myfile'].value
         else:
-            if os.path.exists(sys.argv[1]):
+            if len(sys.argv) > 1 and os.path.exists(sys.argv[1]):
                 xml = sys.argv[1]
             else:
                 xml = 'escala.xml'
