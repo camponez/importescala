@@ -178,12 +178,11 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V0.7</span>"
+    print "<span>V0.7.1</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
     print ' </form>'
-    print "<pre>"
     try:
         import cgi
         form_data = cgi.FieldStorage()
@@ -192,7 +191,7 @@ if __name__ == "__main__":
         if 'myfile' in form_data:
             file_data = form_data['myfile'].value
         else:
-            if os.path.exists(sys.argv[1]):
+            if len(sys.argv) > 1 and os.path.exists(sys.argv[1]):
                 xml = sys.argv[1]
             else:
                 xml = 'escala.xml'
@@ -202,21 +201,21 @@ if __name__ == "__main__":
 
         if file_data:
             escala = Escala(string_xml = file_data)
+
             output = escala.csv()
 
             f = open('tmp/escala.csv', 'w+')
             f.write(output)
             f.close()
 
-            print output
+            print "<p>Horas de voo: "+ str(escala.somaHoras()/60) + "</p>"
+            print "<pre>" + output + "</pre>"
     except:
         import sys
         print "Unexpected error:", sys.exc_info()[1]
         print traceback.format_exc()
 
-    print "</pre>"
 
-    print "<p>Conjunto de horas: "+ str(escala.somaHoras()/60)
     if 'myfile' in form_data:
         print "<a href='tmp/escala.csv'>escala.csv</a>"
 
