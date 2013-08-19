@@ -68,6 +68,9 @@ SobAviso,09/08/2013,11:00,09/08/2013,23:00,False,-\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
+    def test_CalculoHorasVoadas(self):
+        self.assertEqual(self.escala.somaHoras(), 277)
+
 def main():
     unittest.main()
 

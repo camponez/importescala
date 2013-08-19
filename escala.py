@@ -9,6 +9,7 @@ import time
 import os
 import dirs
 import traceback
+import sys
 
 class Escala:
     def __init__(self, arquivo_xml=None, string_xml=None):
@@ -141,6 +142,25 @@ class Escala:
     def get_numero_voos(self):
         return len(self.escalas)
 
+    def somaHoras(self):
+        segundos = 0
+
+        for voo in self.escalas:
+            codigos_voo = ['FR', 'REU', 'R'+voo.sta.strftime('%H'),
+                            'P'+voo.sta.strftime('%H')]
+
+            if voo.activity_info not in codigos_voo \
+                    and not voo.duty_design:
+                decolagem = datetime.combine(voo.activity_date, voo.sta)
+                pouso = datetime.combine(voo.activity_date, voo.std)
+
+                delta = pouso - decolagem
+
+                segundos += delta.seconds
+
+        minutos = segundos / 60
+        return  minutos
+
 class Voo:
     def __init__(self):
         self.activity_date = None
@@ -172,7 +192,10 @@ if __name__ == "__main__":
         if 'myfile' in form_data:
             file_data = form_data['myfile'].value
         else:
-            xml = 'escala.xml'
+            if os.path.exists(sys.argv[1]):
+                xml = sys.argv[1]
+            else:
+                xml = 'escala.xml'
             if os.path.exists(xml):
                 f = open(xml)
                 file_data = f.read()
@@ -193,6 +216,7 @@ if __name__ == "__main__":
 
     print "</pre>"
 
+    print "<p>Conjunto de horas: "+ str(escala.somaHoras()/60)
     if 'myfile' in form_data:
         print "<a href='tmp/escala.csv'>escala.csv</a>"
 
