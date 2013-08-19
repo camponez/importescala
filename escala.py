@@ -9,6 +9,7 @@ import time
 import os
 import dirs
 import traceback
+import sys
 
 class Escala:
     def __init__(self, arquivo_xml=None, string_xml=None):
@@ -172,7 +173,10 @@ if __name__ == "__main__":
         if 'myfile' in form_data:
             file_data = form_data['myfile'].value
         else:
-            xml = 'escala.xml'
+            if os.path.exists(sys.argv[1]):
+                xml = sys.argv[1]
+            else:
+                xml = 'escala.xml'
             if os.path.exists(xml):
                 f = open(xml)
                 file_data = f.read()
