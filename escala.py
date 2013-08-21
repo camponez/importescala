@@ -85,7 +85,7 @@ class Escala:
 
         for voo in self.escalas:
             if voo.activity_info == 'FR':
-                csv += 'FR,'
+                csv += 'FR '+voo.sta.strftime('%H:%M')+','
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
@@ -184,7 +184,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V0.7.2</span>"
+    print "<span>V0.8</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
