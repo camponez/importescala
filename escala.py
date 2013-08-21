@@ -11,6 +11,8 @@ import os
 import dirs
 import traceback
 import sys
+from list_aeroportos import aeroportos
+
 
 class Escala:
     def __init__(self, arquivo_xml=None, string_xml=None):
@@ -82,7 +84,7 @@ class Escala:
             self.escalas.append(voo)
 
     def csv(self):
-        csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description\n'
+        csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
 
         for voo in self.escalas:
             if voo.activity_info == 'FR':
@@ -91,7 +93,7 @@ class Escala:
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
-                csv+='True,-\n'
+                csv+='True,,-\n'
                 continue
 
             if voo.activity_info == 'REU':
@@ -100,7 +102,7 @@ class Escala:
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
-                csv+='False,-\n'
+                csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'R'+voo.sta.strftime('%H'):
@@ -109,7 +111,7 @@ class Escala:
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
-                csv+='False,-\n'
+                csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'P'+voo.sta.strftime('%H'):
@@ -118,7 +120,7 @@ class Escala:
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
-                csv+='False,-\n'
+                csv+='False,,-\n'
                 continue
 
             if voo.checkin:
@@ -128,7 +130,7 @@ class Escala:
                 csv += voo.checkin_time.strftime('%H:%M')+","
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.checkin_time.strftime('%H:%M')+","
-                csv+='False,-\n'
+                csv+='False,,-\n'
 
             csv+="Flight "+voo.activity_info+' '+voo.origin+'-'+voo.destination
             if voo.duty_design:
@@ -140,7 +142,10 @@ class Escala:
             csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
             csv += voo.std.strftime('%H:%M')+","
 
-            csv+='False,-'
+            csv+='False,"'
+            if voo.origin in aeroportos:
+                csv+=aeroportos[voo.origin]
+            csv+='",-'
 
             csv += '\n'
 
