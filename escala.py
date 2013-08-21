@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# coding=utf-8
 print "Content-type: text/html\n\n"
 
 import xml.etree.ElementTree as ET
