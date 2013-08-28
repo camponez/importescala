@@ -58,8 +58,8 @@ Flight AD4148 VCP-GYN,03/01/2013,11:36,03/01/2013,13:13,False,"Aeroporto Interna
 Flight AD4298 GYN-PMW,03/01/2013,23:45,03/02/2013,01:55,False,"Aeroporto Santa Genoveva",-\n\
 Checkin,04/01/2013,12:28,04/01/2013,12:28,False,,-\n\
 Flight AD4049 CNF-VCP (E),04/01/2013,13:13,04/01/2013,14:28,False,"Aeroporto Internacional Tancredo Neves",-\n\
-FR 03:15,04/02/2013,03:15,04/02/2013,03:15,True,,-\n\
-FR 03:15,04/03/2013,03:15,04/03/2013,03:15,True,,-\n\
+FR 03:15,04/02/2013,03:15,04/02/2013,03:15,False,,-\n\
+FR 03:15,04/03/2013,03:15,04/03/2013,03:15,False,,-\n\
 REU,04/08/2013,13:40,04/08/2013,17:00,False,,-\n\
 Flight AD4035 GYN-PMW,08/05/2013,21:15,08/05/2013,22:55,False,"Aeroporto Santa Genoveva",-\n\
 Reserva,09/04/2013,08:16,09/04/2013,14:15,False,,-\n\

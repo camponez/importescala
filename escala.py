@@ -93,7 +93,7 @@ class Escala:
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
-                csv+='True,,-\n'
+                csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'REU':
