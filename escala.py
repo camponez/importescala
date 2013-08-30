@@ -130,7 +130,10 @@ class Escala:
                 csv += voo.checkin_time.strftime('%H:%M')+","
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.checkin_time.strftime('%H:%M')+","
-                csv+='False,,-\n'
+                csv+='False,"'
+                if voo.origin in aeroportos:
+                    csv+=aeroportos[voo.origin]
+                csv+='",-\n'
 
             csv+="Voo "+voo.origin+'-'+voo.destination
             if voo.duty_design:
