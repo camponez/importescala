@@ -53,10 +53,10 @@ class FrameTest(unittest.TestCase):
     def test_CSV(self):
         check_output = '\
 Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n\
-Checkin,03/01/2013,10:36,03/01/2013,10:36,False,,-\n\
+Checkin,03/01/2013,10:36,03/01/2013,10:36,False,"Aeroporto Internacional Viracopos",-\n\
 Voo VCP-GYN,03/01/2013,11:36,03/01/2013,13:13,False,"Aeroporto Internacional Viracopos",AD4148\n\
 Voo GYN-PMW,03/01/2013,23:45,03/02/2013,01:55,False,"Aeroporto Santa Genoveva",AD4298\n\
-Checkin,04/01/2013,12:28,04/01/2013,12:28,False,,-\n\
+Checkin,04/01/2013,12:28,04/01/2013,12:28,False,"Aeroporto Internacional Tancredo Neves",-\n\
 Voo CNF-VCP (E),04/01/2013,13:13,04/01/2013,14:28,False,"Aeroporto Internacional Tancredo Neves",AD4049\n\
 FR 03:15,04/02/2013,03:15,04/02/2013,03:15,False,,-\n\
 FR 03:15,04/03/2013,03:15,04/03/2013,03:15,False,,-\n\
