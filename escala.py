@@ -179,7 +179,7 @@ class Escala:
 class Voo:
     def __init__(self):
         self.activity_date = None
-        self.presentLocation = None
+        self.present_location = None
         self.flight_no = None
         self.origin = None
         self.destination = None
