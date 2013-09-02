@@ -105,7 +105,8 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info == 'R'+voo.sta.strftime('%H'):
+            if voo.activity_info == 'R'+voo.sta.strftime('%H') or\
+                    voo.activity_info == 'RHC':
                 csv += 'Reserva,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
@@ -114,7 +115,17 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info == 'P'+voo.sta.strftime('%H'):
+            if voo.activity_info in ['S04', 'S12', 'S20']:
+                csv += 'Simulador,'
+                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%H:%M')+","
+                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv += voo.std.strftime('%H:%M')+","
+                csv+='False,,-\n'
+                continue
+
+            if voo.activity_info == 'P'+voo.sta.strftime('%H') or \
+                    voo.activity_info == 'PLT':
                 csv += 'SobAviso,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
@@ -163,7 +174,7 @@ class Escala:
 
         for voo in self.escalas:
             codigos_voo = ['FR', 'REU', 'R'+voo.sta.strftime('%H'),
-                            'P'+voo.sta.strftime('%H')]
+                            'P'+voo.sta.strftime('%H'), 'RHC', 'PLT', 'S04', 'S12', 'S20']
 
             if voo.activity_info not in codigos_voo and not voo.duty_design:
                 decolagem = datetime.combine(voo.activity_date, voo.sta)

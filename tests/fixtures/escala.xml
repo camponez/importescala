@@ -359,4 +359,112 @@
     <Value3 />
     <Layout />
   </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>09SUN</RMDateDay>
+    <IdEmpNo>13864</IdEmpNo>
+    <EmpNo>13864</EmpNo>
+    <Signature>PINS</Signature>
+    <FullName>SAMANTA PINTO</FullName>
+    <FuncSpec />
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime>10:00</CheckInTime>
+    <CheckoutTime>14:00</CheckoutTime>
+    <ActivityDate>09/09/2013 14:00:00</ActivityDate>
+    <Category>FA</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>14:00</STD>
+    <STA>10:00</STA>
+    <Actype />
+    <FlightNo />
+    <Origin>VCP</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign />
+    <ActivityInfo>RHC</ActivityInfo>
+    <ActivityDesc>RHC</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>10SUN</RMDateDay>
+    <IdEmpNo>13864</IdEmpNo>
+    <EmpNo>13864</EmpNo>
+    <Signature>PINS</Signature>
+    <FullName>SAMANTA PINTO</FullName>
+    <FuncSpec />
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime>10:00</CheckInTime>
+    <CheckoutTime>14:00</CheckoutTime>
+    <ActivityDate>09/10/2013 14:00:00</ActivityDate>
+    <Category>FA</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>14:00</STD>
+    <STA>10:00</STA>
+    <Actype />
+    <FlightNo />
+    <Origin>VCP</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign />
+    <ActivityInfo>PLT</ActivityInfo>
+    <ActivityDesc>PLT</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>11SUN</RMDateDay>
+    <IdEmpNo>13864</IdEmpNo>
+    <EmpNo>13864</EmpNo>
+    <Signature>PINS</Signature>
+    <FullName>SAMANTA PINTO</FullName>
+    <FuncSpec />
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime>10:00</CheckInTime>
+    <CheckoutTime>14:00</CheckoutTime>
+    <ActivityDate>09/11/2013 14:00:00</ActivityDate>
+    <Category>FA</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>14:00</STD>
+    <STA>10:00</STA>
+    <Actype />
+    <FlightNo />
+    <Origin>VCP</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign />
+    <ActivityInfo>S04</ActivityInfo>
+    <ActivityDesc>S04</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
 </NewDataSet>
