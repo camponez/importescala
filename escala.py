@@ -93,7 +93,7 @@ class Escala:
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
-                csv+='True,,-\n'
+                csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'REU':
@@ -105,7 +105,8 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info == 'R'+voo.sta.strftime('%H'):
+            if voo.activity_info == 'R'+voo.sta.strftime('%H') or\
+                    voo.activity_info == 'RHC':
                 csv += 'Reserva,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
@@ -114,7 +115,17 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info == 'P'+voo.sta.strftime('%H'):
+            if voo.activity_info in ['S04', 'S12', 'S20']:
+                csv += 'Simulador,'
+                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%H:%M')+","
+                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv += voo.std.strftime('%H:%M')+","
+                csv+='False,,-\n'
+                continue
+
+            if voo.activity_info == 'P'+voo.sta.strftime('%H') or \
+                    voo.activity_info == 'PLT':
                 csv += 'SobAviso,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
@@ -130,9 +141,12 @@ class Escala:
                 csv += voo.checkin_time.strftime('%H:%M')+","
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.checkin_time.strftime('%H:%M')+","
-                csv+='False,,-\n'
+                csv+='False,"'
+                if voo.origin in aeroportos:
+                    csv+=aeroportos[voo.origin]
+                csv+='",-\n'
 
-            csv+="Flight "+voo.activity_info+' '+voo.origin+'-'+voo.destination
+            csv+="Voo "+voo.origin+'-'+voo.destination
             if voo.duty_design:
                 csv+=" (E)"
 
@@ -145,7 +159,8 @@ class Escala:
             csv+='False,"'
             if voo.origin in aeroportos:
                 csv+=aeroportos[voo.origin]
-            csv+='",-'
+
+            csv+='",'+voo.activity_info
 
             csv += '\n'
 
@@ -159,7 +174,7 @@ class Escala:
 
         for voo in self.escalas:
             codigos_voo = ['FR', 'REU', 'R'+voo.sta.strftime('%H'),
-                            'P'+voo.sta.strftime('%H')]
+                            'P'+voo.sta.strftime('%H'), 'RHC', 'PLT', 'S04', 'S12', 'S20']
 
             if voo.activity_info not in codigos_voo and not voo.duty_design:
                 decolagem = datetime.combine(voo.activity_date, voo.sta)
@@ -175,7 +190,7 @@ class Escala:
 class Voo:
     def __init__(self):
         self.activity_date = None
-        self.presentLocation = None
+        self.present_location = None
         self.flight_no = None
         self.origin = None
         self.destination = None
@@ -190,7 +205,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V1.0</span>"
+    print "<span>V1.1</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
