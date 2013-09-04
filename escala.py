@@ -106,7 +106,7 @@ class Escala:
                 continue
 
             if voo.activity_info == 'R'+voo.sta.strftime('%H') or\
-                    voo.activity_info == 'RHC':
+                    voo.activity_info == 'RHC' or voo.activity_info == 'R0':
                 csv += 'Reserva,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
@@ -174,7 +174,8 @@ class Escala:
 
         for voo in self.escalas:
             codigos_voo = ['FR', 'REU', 'R'+voo.sta.strftime('%H'),
-                            'P'+voo.sta.strftime('%H'), 'RHC', 'PLT', 'S04', 'S12', 'S20']
+                            'P'+voo.sta.strftime('%H'), 'RHC', 'PLT', 'S04',
+                            'S12', 'S20', 'R0']
 
             if voo.activity_info not in codigos_voo and not voo.duty_design:
                 decolagem = datetime.combine(voo.activity_date, voo.sta)
@@ -205,7 +206,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V1.1</span>"
+    print "<span>V1.2</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
