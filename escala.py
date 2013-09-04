@@ -88,7 +88,7 @@ class Escala:
 
         for voo in self.escalas:
             if voo.activity_info == 'FR':
-                csv += 'FR '+voo.sta.strftime('%H:%M')+','
+                csv += 'FR,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","

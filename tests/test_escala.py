@@ -207,8 +207,8 @@ Voo VCP-GYN,03/01/2013,11:36,03/01/2013,13:13,False,"Aeroporto Internacional Vir
 Voo GYN-PMW,03/01/2013,23:45,03/02/2013,01:55,False,"Aeroporto Santa Genoveva",AD4298\n\
 Checkin,04/01/2013,12:28,04/01/2013,12:28,False,"Aeroporto Internacional Tancredo Neves",-\n\
 Voo CNF-VCP (E),04/01/2013,13:13,04/01/2013,14:28,False,"Aeroporto Internacional Tancredo Neves",AD4049\n\
-FR 03:15,04/02/2013,03:15,04/02/2013,03:15,False,,-\n\
-FR 03:15,04/03/2013,03:15,04/03/2013,03:15,False,,-\n\
+FR,04/02/2013,03:15,04/02/2013,03:15,False,,-\n\
+FR,04/03/2013,03:15,04/03/2013,03:15,False,,-\n\
 REU,04/08/2013,13:40,04/08/2013,17:00,False,,-\n\
 Voo GYN-PMW,08/05/2013,21:15,08/05/2013,22:55,False,"Aeroporto Santa Genoveva",AD4035\n\
 Reserva,09/04/2013,08:16,09/04/2013,14:15,False,,-\n\
