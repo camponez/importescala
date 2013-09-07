@@ -88,7 +88,7 @@ class Escala:
 
         for voo in self.escalas:
             if voo.activity_info == 'FR':
-                csv += 'FR '+voo.sta.strftime('%H:%M')+','
+                csv += 'FR,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
@@ -135,7 +135,7 @@ class Escala:
                 continue
 
             if voo.checkin:
-                csv += 'Checkin,'
+                csv += 'CheckIn,'
                 #Data hora inicial
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.checkin_time.strftime('%H:%M')+","
@@ -146,7 +146,7 @@ class Escala:
                     csv+=aeroportos[voo.origin]
                 csv+='",-\n'
 
-            csv+="Voo "+voo.origin+'-'+voo.destination
+            csv+="Voo "+voo.origin+'-'+voo.destination + ' ' + voo.activity_info
             if voo.duty_design:
                 csv+=" (E)"
 
@@ -160,7 +160,7 @@ class Escala:
             if voo.origin in aeroportos:
                 csv+=aeroportos[voo.origin]
 
-            csv+='",'+voo.activity_info
+            csv+='",-'
 
             csv += '\n'
 
@@ -206,7 +206,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V1.2</span>"
+    print "<span>V1.3</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
