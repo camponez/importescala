@@ -135,7 +135,7 @@ class Escala:
                 continue
 
             if voo.checkin:
-                csv += 'Checkin,'
+                csv += 'CheckIn,'
                 #Data hora inicial
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.checkin_time.strftime('%H:%M')+","
@@ -146,7 +146,7 @@ class Escala:
                     csv+=aeroportos[voo.origin]
                 csv+='",-\n'
 
-            csv+="Voo "+voo.origin+'-'+voo.destination
+            csv+="Voo "+voo.origin+'-'+voo.destination + ' ' + voo.activity_info
             if voo.duty_design:
                 csv+=" (E)"
 
@@ -160,7 +160,7 @@ class Escala:
             if voo.origin in aeroportos:
                 csv+=aeroportos[voo.origin]
 
-            csv+='",'+voo.activity_info
+            csv+='",-'
 
             csv += '\n'
 
