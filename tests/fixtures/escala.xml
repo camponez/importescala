@@ -503,4 +503,40 @@
     <Value3 />
     <Layout />
   </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>26SAT</RMDateDay>
+    <IdEmpNo>13864</IdEmpNo>
+    <EmpNo>13864</EmpNo>
+    <Signature>PINS</Signature>
+    <FullName>SAMANTA PINTO</FullName>
+    <FuncSpec />
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime />
+    <CheckoutTime />
+    <ActivityDate>26/10/2013 09:15:00</ActivityDate>
+    <Category>FA</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>09:30</STD>
+    <STA>06:15</STA>
+    <Actype />
+    <FlightNo />
+    <Origin>VCP</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign />
+    <ActivityInfo>R07</ActivityInfo>
+    <ActivityDesc>R07</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
 </NewDataSet>
