@@ -114,7 +114,7 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info.startswith('R0') or\
+            if voo.activity_info.startswith('R') or\
                     voo.activity_info == 'RHC':
                 csv += 'Reserva,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
@@ -183,7 +183,7 @@ class Escala:
 
         for voo in self.escalas:
             codigos_voo = ['FR', 'REU', 'R04', 'R05', 'R06', 'R07', 'R08',
-                            'R09', 'R12', 'R13', 'R15', 'R18',
+                            'R09', 'R12', 'R13', 'R15', 'R18', 'R21',
                             'P'+voo.sta.strftime('%H'), 'RHC', 'PLT', 'S04',
                             'S12', 'S20', 'R0']
 
@@ -216,7 +216,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V1.5</span>"
+    print "<span>V1.6</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
