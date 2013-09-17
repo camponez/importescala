@@ -87,6 +87,15 @@ class Escala:
         csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
 
         for voo in self.escalas:
+            if voo.activity_info == 'FP':
+                csv += 'FP,'
+                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%H:%M')+","
+                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv += voo.std.strftime('%H:%M')+","
+                csv+='False,,-\n'
+                continue
+
             if voo.activity_info == 'FR':
                 csv += 'FR,'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","

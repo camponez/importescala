@@ -197,7 +197,7 @@ class FrameTest(unittest.TestCase):
         p_voo = self.escala.escalas[3]
 
     def test_NumerosVoos(self):
-        self.assertEqual(self.escala.get_numero_voos(),15)
+        self.assertEqual(self.escala.get_numero_voos(),16)
 
     def test_CSV(self):
         check_output = '\
@@ -218,7 +218,8 @@ Reserva,09/09/2013,10:00,09/09/2013,14:00,False,,-\n\
 SobAviso,10/09/2013,10:00,10/09/2013,14:00,False,,-\n\
 Simulador,11/09/2013,10:00,11/09/2013,14:00,False,,-\n\
 Reserva,12/09/2013,05:00,12/09/2013,12:00,False,,-\n\
-Reserva,10/26/2013,06:15,10/26/2013,09:30,False,,-\n'
+Reserva,10/26/2013,06:15,10/26/2013,09:30,False,,-\n\
+FP,10/06/2013,06:50,10/06/2013,06:50,False,,-\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
