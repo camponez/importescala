@@ -116,7 +116,7 @@ class Escala:
 
             if voo.activity_info.startswith('R') or\
                     voo.activity_info == 'RHC':
-                csv += 'Reserva,'
+                csv += 'Reserva('+voo.activity_info+'),'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
