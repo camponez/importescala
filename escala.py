@@ -116,7 +116,7 @@ class Escala:
 
             if voo.activity_info.startswith('R') or\
                     voo.activity_info == 'RHC':
-                csv += 'Reserva,'
+                csv += 'Reserva('+voo.activity_info+'),'
                 csv += voo.activity_date.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
@@ -216,7 +216,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V1.6</span>"
+    print "<span>V1.7</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
