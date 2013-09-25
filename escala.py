@@ -94,7 +94,6 @@ class Escala:
                 voo.checkin_time = datetime(voo.activity_date.year, voo.activity_date.month,
                     voo.activity_date.day,
                     int(child[9].text[:-3]), int(child[9].text[3:]))
-                voo.checkin_time = voo.checkin_time - timedelta(hours=d_saving)
             else:
                 voo.checkin = False
                 voo.checkin_time = None
