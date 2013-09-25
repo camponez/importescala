@@ -94,7 +94,6 @@ class Escala:
                 voo.checkin_time = datetime(voo.activity_date.year, voo.activity_date.month,
                     voo.activity_date.day,
                     int(child[9].text[:-3]), int(child[9].text[3:]))
-                voo.checkin_time = voo.checkin_time - timedelta(hours=d_saving)
             else:
                 voo.checkin = False
                 voo.checkin_time = None
@@ -230,7 +229,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V1.8</span>"
+    print "<span>V1.9</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
