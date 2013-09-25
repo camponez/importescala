@@ -13,9 +13,13 @@ import traceback
 import sys
 from list_aeroportos import aeroportos
 
+DST_INICIO = datetime(2013,10,20)
+DST_FIM = datetime(2014,2,16)
+
 
 class Escala:
     def __init__(self, arquivo_xml=None, string_xml=None):
+
         self.escalas = []
         self.data_dir = dirs.get_default_dir()
         if arquivo_xml:
@@ -43,28 +47,40 @@ class Escala:
 	return root
 
     def __parser(self, root):
+
         for child in root:
             voo = Voo()
+            d_saving = 0
 
             datahora =  time.strptime(child[11].text, "%d/%m/%Y %H:%M:%S")
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
 
+            # offset de horario de verão
+            if voo.activity_date > DST_INICIO and voo.activity_date < DST_FIM:
+                d_saving = -1
+
             #ajustando horario para UTC-3
-            voo.activity_date = voo.activity_date - timedelta(hours=3)
-            voo.data_pouso = voo.activity_date
+            voo.activity_date = voo.activity_date - timedelta(hours=3 + d_saving)
+
             voo.present_location = child[8].text
 
             #decolagem
-            voo.sta = dtime(int(child[16].text[:-3]),
-                                int(child[16].text[3:]))
+            voo.sta = datetime(voo.activity_date.year, voo.activity_date.month,
+                    voo.activity_date.day,
+                    int(child[16].text[:-3]), int(child[16].text[3:]))
 
             #pouso
-            voo.std = dtime(int(child[15].text[:-3]),
-                                int(child[15].text[3:]))
+            voo.std = datetime(voo.activity_date.year, voo.activity_date.month,
+                    voo.activity_date.day,
+                    int(child[15].text[:-3]), int(child[15].text[3:]))
 
             # se houver mudanca de dia
-            if voo.sta > voo.std:
-                voo.data_pouso = voo.data_pouso + timedelta(days=1)
+            if voo.sta.time() > voo.std.time():
+                voo.std = voo.std + timedelta(days=1)
+
+            # ajuste horario de verao
+            voo.sta = voo.sta - timedelta(hours=d_saving)
+            voo.std = voo.std - timedelta(hours=d_saving)
 
             voo.actype = child[17].text
             voo.flight_no = child[18].text
@@ -75,8 +91,10 @@ class Escala:
 
             if child[9].text is not None:
                 voo.checkin = True
-                voo.checkin_time = dtime(int(child[9].text[:-3]),
-                        int(child[9].text[3:]))
+                voo.checkin_time = datetime(voo.activity_date.year, voo.activity_date.month,
+                    voo.activity_date.day,
+                    int(child[9].text[:-3]), int(child[9].text[3:]))
+                voo.checkin_time = voo.checkin_time - timedelta(hours=d_saving)
             else:
                 voo.checkin = False
                 voo.checkin_time = None
@@ -89,27 +107,27 @@ class Escala:
         for voo in self.escalas:
             if voo.activity_info == 'FP':
                 csv += 'FP,'
-                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv +=voo.std.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
                 csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'FR':
                 csv += 'FR,'
-                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv+=voo.std.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
                 csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'REU':
                 csv += 'REU,'
-                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv+=voo.std.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
                 csv+='False,,-\n'
                 continue
@@ -117,18 +135,18 @@ class Escala:
             if voo.activity_info.startswith('R') or\
                     voo.activity_info == 'RHC':
                 csv += 'Reserva('+voo.activity_info+'),'
-                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv+=voo.std.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
                 csv+='False,,-\n'
                 continue
 
             if voo.activity_info in ['S04', 'S12', 'S20']:
                 csv += 'Simulador,'
-                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv+=voo.std.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
                 csv+='False,,-\n'
                 continue
@@ -136,9 +154,9 @@ class Escala:
             if voo.activity_info == 'P'+voo.sta.strftime('%H') or \
                     voo.activity_info == 'PLT':
                 csv += 'SobAviso,'
-                csv += voo.activity_date.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+                csv+=voo.std.strftime('%m/%d/%Y')+","
                 csv += voo.std.strftime('%H:%M')+","
                 csv+='False,,-\n'
                 continue
@@ -160,9 +178,9 @@ class Escala:
                 csv+=" (E)"
 
             csv+=","
-            csv += voo.activity_date.strftime('%m/%d/%Y')+","
+            csv += voo.sta.strftime('%m/%d/%Y')+","
             csv += voo.sta.strftime('%H:%M')+","
-            csv+=voo.data_pouso.strftime('%m/%d/%Y')+","
+            csv+=voo.std.strftime('%m/%d/%Y')+","
             csv += voo.std.strftime('%H:%M')+","
 
             csv+='False,"'
@@ -184,14 +202,11 @@ class Escala:
         for voo in self.escalas:
             codigos_voo = ['FR', 'REU', 'R04', 'R05', 'R06', 'R07', 'R08',
                             'R09', 'R12', 'R13', 'R15', 'R18', 'R21',
-                            'P'+voo.sta.strftime('%H'), 'RHC', 'PLT', 'S04',
-                            'S12', 'S20', 'R0']
+                            'P04', 'P06', 'P08', 'P11', 'RHC', 'PLT', 'S04',
+                            'P12','S12', 'S20', 'R0', 'FP']
 
             if voo.activity_info not in codigos_voo and not voo.duty_design:
-                decolagem = datetime.combine(voo.activity_date, voo.sta)
-                pouso = datetime.combine(voo.data_pouso, voo.std)
-
-                delta = pouso - decolagem
+                delta = voo.std - voo.sta
 
                 segundos += delta.seconds
 
@@ -212,11 +227,10 @@ class Voo:
         self.sta = None
         self.activity_info = None
         self.duty_design = None
-        self.data_pouso = None # se o pouso for em dia diferente
 
 if __name__ == "__main__":
     print "<html><body>"
-    print "<span>V1.7</span>"
+    print "<span>V1.8</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'

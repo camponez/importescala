@@ -26,165 +26,27 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.destination, 'GYN')
         self.assertEqual(p_voo.actype, 'E95')
         self.assertTrue(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, time(10,36))
-        self.assertEqual(p_voo.std, time(13,13))
-        self.assertEqual(p_voo.sta, time(11,36))
+        self.assertEqual(p_voo.checkin_time, datetime(2013,3,1,10,36))
+        self.assertEqual(p_voo.std, datetime(2013,3,1,13,13))
+        self.assertEqual(p_voo.sta, datetime(2013,3,1,11,36))
         self.assertEqual(p_voo.activity_info, 'AD4148')
         self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,3,1,11,36))
 
-    def test_AttributosVoo2(self):
-        p_voo = self.escala.escalas[1]
+    def test_AttributosVoo17(self):
+        p_voo = self.escala.escalas[17]
 
-        self.assertEqual(p_voo.activity_date,datetime(2013,3,1,13,55))
+        self.assertEqual(p_voo.activity_date,datetime(2013,10,28,04,00))
         self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, '4298')
-        self.assertEqual(p_voo.origin, 'GYN')
-        self.assertEqual(p_voo.destination, 'PMW')
-        self.assertEqual(p_voo.actype, 'E95')
-        self.assertEqual(p_voo.sta, time(23,45))
-        self.assertEqual(p_voo.std, time(01,55))
-        self.assertEqual(p_voo.activity_info, 'AD4298')
+        self.assertEqual(p_voo.flight_no, None)
+        self.assertEqual(p_voo.origin, 'VCP')
+        self.assertEqual(p_voo.destination, 'VCP')
+        self.assertEqual(p_voo.activity_info, 'P04')
+        self.assertEqual(p_voo.actype, None)
+        self.assertEqual(p_voo.sta, datetime(2013,10,28,04,00))
+        self.assertEqual(p_voo.std, datetime(2013,10,28,16,00))
         self.assertFalse(p_voo.checkin)
         self.assertEqual(p_voo.checkin_time, None)
         self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,3,2,13,55))
-
-    def test_AttributosVoo3(self):
-        p_voo = self.escala.escalas[2]
-
-        self.assertEqual(p_voo.activity_date,datetime(2013,4,1,13,13))
-        self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, '4049')
-        self.assertEqual(p_voo.origin, 'CNF')
-        self.assertEqual(p_voo.destination, 'VCP')
-        self.assertEqual(p_voo.actype, 'E90')
-        self.assertEqual(p_voo.sta, time(13,13))
-        self.assertEqual(p_voo.std, time(14,28))
-        self.assertEqual(p_voo.activity_info, 'AD4049')
-        self.assertTrue(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, time(12,28))
-        self.assertEqual(p_voo.duty_design, 'P')
-        self.assertEqual(p_voo.data_pouso, datetime(2013,4,1,13,13))
-
-    def test_AttributosVoo4(self):
-        p_voo = self.escala.escalas[3]
-
-        self.assertEqual(p_voo.activity_date,datetime(2013,4,2,03,15))
-        self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, None)
-        self.assertEqual(p_voo.origin, 'VCP')
-        self.assertEqual(p_voo.destination, 'VCP')
-        self.assertEqual(p_voo.actype, None)
-        self.assertEqual(p_voo.sta, time(03,15))
-        self.assertEqual(p_voo.std, time(03,15))
-        self.assertEqual(p_voo.activity_info, 'FR')
-        self.assertFalse(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, None)
-        self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,4,2,03,15))
-
-    def test_AttributosVoo5(self):
-        p_voo = self.escala.escalas[4]
-
-        self.assertEqual(p_voo.activity_date,datetime(2013,4,3,03,15))
-        self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, None)
-        self.assertEqual(p_voo.origin, 'VCP')
-        self.assertEqual(p_voo.destination, 'VCP')
-        self.assertEqual(p_voo.actype, None)
-        self.assertEqual(p_voo.sta, time(03,15))
-        self.assertEqual(p_voo.std, time(03,15))
-        self.assertEqual(p_voo.activity_info, 'FR')
-        self.assertFalse(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, None)
-        self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,4,3,03,15))
-
-    def test_AttributosVoo6(self):
-        p_voo = self.escala.escalas[5]
-
-        self.assertEqual(p_voo.activity_date,datetime(2013,4,8,13,40))
-        self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, None)
-        self.assertEqual(p_voo.origin, 'VCP')
-        self.assertEqual(p_voo.destination, 'VCP')
-        self.assertEqual(p_voo.actype, None)
-        self.assertEqual(p_voo.sta, time(13,40))
-        self.assertEqual(p_voo.std, time(17,00))
-        self.assertEqual(p_voo.activity_info, 'REU')
-        self.assertTrue(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, time(13,40))
-        self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,4,8,13,40))
-
-    def test_AttributosVoo7(self):
-        p_voo = self.escala.escalas[6]
-
-        self.assertEqual(p_voo.activity_date,datetime(2013,8,5,21,35))
-        self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, '4035')
-        self.assertEqual(p_voo.origin, 'GYN')
-        self.assertEqual(p_voo.destination, 'PMW')
-        self.assertEqual(p_voo.actype, 'E95')
-        self.assertEqual(p_voo.sta, time(21,15))
-        self.assertEqual(p_voo.std, time(22,55))
-        self.assertFalse(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, None)
-        self.assertEqual(p_voo.activity_info, 'AD4035')
-        self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,8,5,21,35))
-
-    def test_AttributosVoo8(self):
-        p_voo = self.escala.escalas[7]
-
-        self.assertEqual(p_voo.activity_date,datetime(2013,9,4,8,16))
-        self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, None)
-        self.assertEqual(p_voo.origin, 'VCP')
-        self.assertEqual(p_voo.destination, 'VCP')
-        self.assertEqual(p_voo.actype, None)
-        self.assertEqual(p_voo.sta, time(8,16))
-        self.assertEqual(p_voo.std, time(14,15))
-        self.assertEqual(p_voo.activity_info, 'R08')
-        self.assertTrue(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, time(8,15))
-        self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,9,4,8,16))
-
-    def test_AttributosVoo9(self):
-        p_voo = self.escala.escalas[8]
-
-        self.assertEqual(p_voo.activity_date,datetime(2013,9,5,4,46))
-        self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, None)
-        self.assertEqual(p_voo.origin, 'VCP')
-        self.assertEqual(p_voo.destination, 'VCP')
-        self.assertEqual(p_voo.actype, None)
-        self.assertEqual(p_voo.sta, time(4,46))
-        self.assertEqual(p_voo.std, time(8,45))
-        self.assertEqual(p_voo.activity_info, 'R04')
-        self.assertTrue(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, time(4,45))
-        self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,9,5,4,46))
-
-    def test_AttributosVoo10(self):
-        p_voo = self.escala.escalas[9]
-
-        self.assertEqual(p_voo.activity_date,datetime(2013,9,8,11,00))
-        self.assertEqual(p_voo.present_location, 'VCP')
-        self.assertEqual(p_voo.flight_no, None)
-        self.assertEqual(p_voo.origin, 'VCP')
-        self.assertEqual(p_voo.destination, 'VCP')
-        self.assertEqual(p_voo.activity_info, 'P11')
-        self.assertEqual(p_voo.actype, None)
-        self.assertEqual(p_voo.sta, time(11,00))
-        self.assertEqual(p_voo.std, time(23,00))
-        self.assertTrue(p_voo.checkin)
-        self.assertEqual(p_voo.checkin_time, time(11,00))
-        self.assertFalse(p_voo.duty_design)
-        self.assertEqual(p_voo.data_pouso, datetime(2013,9,8,11,00))
 
     def test_AttributosQuartoVoo(self):
         p_voo = self.escala.escalas[4]
@@ -197,7 +59,7 @@ class FrameTest(unittest.TestCase):
         p_voo = self.escala.escalas[3]
 
     def test_NumerosVoos(self):
-        self.assertEqual(self.escala.get_numero_voos(),17)
+        self.assertEqual(self.escala.get_numero_voos(),18)
 
     def test_CSV(self):
         check_output = '\
@@ -216,11 +78,12 @@ Reserva(R04),09/05/2013,04:46,09/05/2013,08:45,False,,-\n\
 SobAviso,09/08/2013,11:00,09/08/2013,23:00,False,,-\n\
 Reserva(RHC),09/09/2013,10:00,09/09/2013,14:00,False,,-\n\
 SobAviso,10/09/2013,10:00,10/09/2013,14:00,False,,-\n\
-Simulador,11/09/2013,10:00,11/09/2013,14:00,False,,-\n\
-Reserva(R0),12/09/2013,05:00,12/09/2013,12:00,False,,-\n\
-Reserva(R07),10/26/2013,06:15,10/26/2013,09:30,False,,-\n\
+Simulador,11/09/2013,11:00,11/09/2013,15:00,False,,-\n\
+Reserva(R0),12/09/2013,06:00,12/09/2013,13:00,False,,-\n\
+Reserva(R07),10/26/2013,07:15,10/26/2013,10:30,False,,-\n\
 FP,10/06/2013,06:50,10/06/2013,06:50,False,,-\n\
-Reserva(R12),10/25/2013,11:00,10/25/2013,16:00,False,,-\n'
+Reserva(R12),10/25/2013,12:00,10/25/2013,17:00,False,,-\n\
+SobAviso,10/28/2013,04:00,10/28/2013,16:00,False,,-\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
