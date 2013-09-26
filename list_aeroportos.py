@@ -89,7 +89,7 @@ aeroportos ={
         'SJK': 'Aeroporto de São José dos Campos',
         'SJL': 'Aeroporto Internacional Marechal Cunha Machado',
         'SJP': 'Aeroporto de São José do Rio Preto',
-        'SLZ': '',
+        'SLZ': 'Aeroporto Internacional Marechal Cunha Machado',
         'SSA': 'Aeroporto Internacional Dep. Luís Eduardo Magalhães',
         'STM': 'Aeroporto Internacional de Santarém',
         'TBT': 'Aeroporto Internacional de Tabatinga',
