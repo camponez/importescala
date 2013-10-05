@@ -82,6 +82,8 @@ class Escala:
             voo.sta = voo.sta - timedelta(hours=d_saving)
             voo.std = voo.std - timedelta(hours=d_saving)
 
+            voo.horas_de_voo = str(voo.std - voo.sta)[:-3]
+
             voo.actype = child[17].text
             voo.flight_no = child[18].text
             voo.origin = child[19].text
@@ -186,7 +188,8 @@ class Escala:
             if voo.origin in aeroportos:
                 csv+=aeroportos[voo.origin]
 
-            csv+='",-'
+            csv+='",Horas de voo: '
+            csv+=voo.horas_de_voo
 
             csv += '\n'
 
@@ -226,6 +229,7 @@ class Voo:
         self.sta = None
         self.activity_info = None
         self.duty_design = None
+        self.horas_de_voo = None
 
 if __name__ == "__main__":
     print "<html><body>"
