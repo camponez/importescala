@@ -63,6 +63,7 @@ class FrameTest(unittest.TestCase):
         self.assertTrue(p_voo.checkin)
         self.assertEqual(p_voo.checkin_time, datetime(2013,10,29,5,8))
         self.assertFalse(p_voo.duty_design)
+        self.assertEqual(p_voo.horas_de_voo, '1:17')
 
     def test_AttributosQuartoVoo(self):
         p_voo = self.escala.escalas[4]
@@ -78,14 +79,14 @@ class FrameTest(unittest.TestCase):
         check_output = '\
 Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n\
 CheckIn,03/01/2013,10:36,03/01/2013,10:36,False,"Aeroporto Internacional Viracopos",-\n\
-Voo VCP-GYN AD4148,03/01/2013,11:36,03/01/2013,13:13,False,"Aeroporto Internacional Viracopos",-\n\
-Voo GYN-PMW AD4298,03/01/2013,23:45,03/02/2013,01:55,False,"Aeroporto Santa Genoveva",-\n\
+Voo VCP-GYN AD4148,03/01/2013,11:36,03/01/2013,13:13,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:37\n\
+Voo GYN-PMW AD4298,03/01/2013,23:45,03/02/2013,01:55,False,"Aeroporto Santa Genoveva",Horas de voo: 2:10\n\
 CheckIn,04/01/2013,12:28,04/01/2013,12:28,False,"Aeroporto Internacional Tancredo Neves",-\n\
-Voo CNF-VCP AD4049 (E),04/01/2013,13:13,04/01/2013,14:28,False,"Aeroporto Internacional Tancredo Neves",-\n\
+Voo CNF-VCP AD4049 (E),04/01/2013,13:13,04/01/2013,14:28,False,"Aeroporto Internacional Tancredo Neves",Horas de voo: 1:15\n\
 FR,04/02/2013,03:15,04/02/2013,03:15,False,,-\n\
 FR,04/03/2013,03:15,04/03/2013,03:15,False,,-\n\
 REU,04/08/2013,13:40,04/08/2013,17:00,False,,-\n\
-Voo GYN-PMW AD4035,08/05/2013,21:15,08/05/2013,22:55,False,"Aeroporto Santa Genoveva",-\n\
+Voo GYN-PMW AD4035,08/05/2013,21:15,08/05/2013,22:55,False,"Aeroporto Santa Genoveva",Horas de voo: 1:40\n\
 Reserva(R08),09/04/2013,08:16,09/04/2013,14:15,False,,-\n\
 Reserva(R04),09/05/2013,04:46,09/05/2013,08:45,False,,-\n\
 SobAviso,09/08/2013,11:00,09/08/2013,23:00,False,,-\n\
@@ -98,7 +99,7 @@ FP,10/06/2013,06:50,10/06/2013,06:50,False,,-\n\
 Reserva(R12),10/25/2013,12:00,10/25/2013,17:00,False,,-\n\
 SobAviso,10/28/2013,04:00,10/28/2013,16:00,False,,-\n\
 CheckIn,10/29/2013,05:08,10/29/2013,05:08,False,"Aeroporto Internacional Viracopos",-\n\
-Voo VCP-FLN AD4050,10/29/2013,05:58,10/29/2013,07:15,False,"Aeroporto Internacional Viracopos",-\n'
+Voo VCP-FLN AD4050,10/29/2013,05:58,10/29/2013,07:15,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:17\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
