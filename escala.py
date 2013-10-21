@@ -152,7 +152,7 @@ class Escala:
 
             if voo.activity_info == 'P'+voo.sta.strftime('%H') or \
                     voo.activity_info == 'PLT':
-                csv += 'SobAviso,'
+                csv += 'SobreAviso,'
                 csv += voo.sta.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.std.strftime('%m/%d/%Y')+","
