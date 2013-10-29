@@ -56,8 +56,8 @@ class Escala:
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
 
             # offset de horario de verão
-            if voo.activity_date > DST_INICIO and voo.activity_date < DST_FIM:
-                d_saving = -1
+            #if voo.activity_date > DST_INICIO and voo.activity_date < DST_FIM:
+            #    d_saving = -1
 
             #ajustando horario para UTC-3
             voo.activity_date = voo.activity_date - timedelta(hours=3 + d_saving)
