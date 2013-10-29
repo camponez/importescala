@@ -255,7 +255,11 @@ if __name__ == "__main__":
 
             output = escala.csv()
 
-            f = open('tmp/escala.csv', 'w+')
+            tmp_escala = 'tmp/escala.csv'
+            if os.path.exists(tmp_escala):
+                os.remove(tmp_escala)
+
+            f = open(tmp_escala, 'w+')
             f.write(output)
             f.close()
 
@@ -268,6 +272,6 @@ if __name__ == "__main__":
 
 
     if 'myfile' in form_data:
-        print "<a href='tmp/escala.csv'>escala.csv</a>"
+        print "<a href='"+tmp_escala+"'>escala.csv</a>"
 
     print "</body></html>"
