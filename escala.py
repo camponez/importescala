@@ -15,7 +15,7 @@ from list_aeroportos import aeroportos
 
 DST_INICIO = datetime(2013,10,20)
 DST_FIM = datetime(2014,2,16)
-VERSION = '1.10'
+VERSION = '1.11'
 
 
 class Escala:
@@ -153,7 +153,9 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info == 'P'+voo.sta.strftime('%H') or \
+            if voo.activity_info in \
+                    ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08',
+                            'P09', 'P10', 'P11', 'P12'] or \
                     voo.activity_info == 'PLT':
                 csv += 'SobreAviso,'
                 csv += voo.sta.strftime('%m/%d/%Y')+","
@@ -205,7 +207,9 @@ class Escala:
         for voo in self.escalas:
             codigos_voo = ['FR', 'REU', 'R04', 'R05', 'R06', 'R07', 'R08',
                             'R09', 'R12', 'R13', 'R15', 'R18', 'R21',
-                            'P04', 'P06', 'P08', 'P11', 'RHC', 'PLT', 'S04',
+                            'P01', 'P02', 'P03','P04', 'P05', 'P06', 'P07',
+                            'P08', 'P09', 'P10', 'P11',
+                            'RHC', 'PLT', 'S04', 'S05', 'S06',
                             'P12','S12', 'S20', 'R0', 'FP']
 
             if voo.activity_info not in codigos_voo and not voo.duty_design:
