@@ -57,8 +57,8 @@ class Escala:
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
 
             # offset de horario de verão
-            if voo.activity_date > DST_INICIO and voo.activity_date < DST_FIM:
-                d_saving = -1
+            #if voo.activity_date > DST_INICIO and voo.activity_date < DST_FIM:
+            #    d_saving = -1
 
             #ajustando horario para UTC-3
             voo.activity_date = voo.activity_date - timedelta(hours=3 + d_saving)
@@ -155,7 +155,7 @@ class Escala:
 
             if voo.activity_info == 'P'+voo.sta.strftime('%H') or \
                     voo.activity_info == 'PLT':
-                csv += 'SobAviso,'
+                csv += 'SobreAviso,'
                 csv += voo.sta.strftime('%m/%d/%Y')+","
                 csv += voo.sta.strftime('%H:%M')+","
                 csv+=voo.std.strftime('%m/%d/%Y')+","
@@ -260,7 +260,11 @@ if __name__ == "__main__":
 
             output = escala.csv()
 
-            f = open('tmp/escala.csv', 'w+')
+            tmp_escala = 'tmp/escala.csv'
+            if os.path.exists(tmp_escala):
+                os.remove(tmp_escala)
+
+            f = open(tmp_escala, 'w+')
             f.write(output)
             f.close()
 
@@ -273,6 +277,6 @@ if __name__ == "__main__":
 
 
     if 'myfile' in form_data:
-        print "<a href='tmp/escala.csv'>escala.csv</a>"
+        print "<a href='"+tmp_escala+"'>escala.csv</a>"
 
     print "</body></html>"

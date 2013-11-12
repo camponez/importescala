@@ -89,15 +89,15 @@ REU,04/08/2013,13:40,04/08/2013,17:00,False,,-\n\
 Voo GYN-PMW AD4035,08/05/2013,21:15,08/05/2013,22:55,False,"Aeroporto Santa Genoveva",Horas de voo: 1:40\n\
 Reserva(R08),09/04/2013,08:16,09/04/2013,14:15,False,,-\n\
 Reserva(R04),09/05/2013,04:46,09/05/2013,08:45,False,,-\n\
-SobAviso,09/08/2013,11:00,09/08/2013,23:00,False,,-\n\
+SobreAviso,09/08/2013,11:00,09/08/2013,23:00,False,,-\n\
 Reserva(RHC),09/09/2013,10:00,09/09/2013,14:00,False,,-\n\
-SobAviso,10/09/2013,10:00,10/09/2013,14:00,False,,-\n\
+SobreAviso,10/09/2013,10:00,10/09/2013,14:00,False,,-\n\
 Simulador,11/09/2013,11:00,11/09/2013,15:00,False,,-\n\
 Reserva(R0),12/09/2013,06:00,12/09/2013,13:00,False,,-\n\
 Reserva(R07),10/26/2013,07:15,10/26/2013,10:30,False,,-\n\
 FP,10/06/2013,06:50,10/06/2013,06:50,False,,-\n\
 Reserva(R12),10/25/2013,12:00,10/25/2013,17:00,False,,-\n\
-SobAviso,10/28/2013,04:00,10/28/2013,16:00,False,,-\n\
+SobreAviso,10/28/2013,04:00,10/28/2013,16:00,False,,-\n\
 CheckIn,10/29/2013,05:08,10/29/2013,05:08,False,"Aeroporto Internacional Viracopos",-\n\
 Voo VCP-FLN AD4050,10/29/2013,05:58,10/29/2013,07:15,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:17\n'
 
