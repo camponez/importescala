@@ -73,7 +73,7 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.activity_info, 'FR')
 
     def test_NumerosVoos(self):
-        self.assertEqual(self.escala.get_numero_voos(),19)
+        self.assertEqual(self.escala.get_numero_voos(),20)
 
     def test_CSV(self):
         check_output = '\
@@ -99,7 +99,8 @@ FP,10/06/2013,06:50,10/06/2013,06:50,False,,-\n\
 Reserva(R12),10/25/2013,11:00,10/25/2013,16:00,False,,-\n\
 SobreAviso,10/28/2013,03:00,10/28/2013,15:00,False,,-\n\
 CheckIn,10/29/2013,05:08,10/29/2013,05:08,False,"Aeroporto Internacional Viracopos",-\n\
-Voo VCP-FLN AD4050,10/29/2013,04:58,10/29/2013,06:15,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:17\n'
+Voo VCP-FLN AD4050,10/29/2013,04:58,10/29/2013,06:15,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:17\n\
+F,10/30/2013,06:50,10/30/2013,06:50,False,,-\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
