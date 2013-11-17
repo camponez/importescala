@@ -125,6 +125,15 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
+            if voo.activity_info == 'F':
+                csv += 'F,'
+                csv += voo.sta.strftime('%m/%d/%Y')+","
+                csv += voo.sta.strftime('%H:%M')+","
+                csv+=voo.std.strftime('%m/%d/%Y')+","
+                csv += voo.std.strftime('%H:%M')+","
+                csv+='False,,-\n'
+                continue
+
             if voo.activity_info == 'REU':
                 csv += 'REU,'
                 csv += voo.sta.strftime('%m/%d/%Y')+","
@@ -210,7 +219,7 @@ class Escala:
                             'P01', 'P02', 'P03','P04', 'P05', 'P06', 'P07',
                             'P08', 'P09', 'P10', 'P11',
                             'RHC', 'PLT', 'S04', 'S05', 'S06',
-                            'P12','S12', 'S20', 'R0', 'FP']
+                            'P12','S12', 'S20', 'R0', 'FP', 'F']
 
             if voo.activity_info not in codigos_voo and not voo.duty_design:
                 delta = voo.std - voo.sta
