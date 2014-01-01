@@ -247,6 +247,7 @@ class Voo:
 
 if __name__ == "__main__":
     print "<html><body>"
+    print open('how-to.html').read()
     print "<span>"+VERSION+"</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
