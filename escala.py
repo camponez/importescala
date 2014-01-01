@@ -283,6 +283,8 @@ if __name__ == "__main__":
             f.close()
 
             print "<p>Horas de voo: "+ str(escala.somaHoras()/60) + "</p>"
+            if 'myfile' in form_data:
+                print "<a href='"+tmp_escala+"'>escala.csv</a>"
             print "<pre>" + output + "</pre>"
     except:
         import sys
@@ -290,7 +292,5 @@ if __name__ == "__main__":
         print traceback.format_exc()
 
 
-    if 'myfile' in form_data:
-        print "<a href='"+tmp_escala+"'>escala.csv</a>"
 
     print "</body></html>"
