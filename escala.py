@@ -103,62 +103,55 @@ class Escala:
 
             self.escalas.append(voo)
 
+    def __strfdate(self, date):
+        return date.strftime('%d/%m/%Y')
+
+    def __format_date(self, voo):
+        str = self.__strfdate(voo.sta) + ","
+        str += voo.sta.strftime('%H:%M') + ","
+        str += self.__strfdate(voo.std) + ","
+        str += voo.std.strftime('%H:%M') + ","
+        return str
+
+
     def csv(self):
         csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
 
         for voo in self.escalas:
             if voo.activity_info == 'FP':
                 csv += 'FP,'
-                csv += voo.sta.strftime('%m/%d/%Y')+","
-                csv += voo.sta.strftime('%H:%M')+","
-                csv +=voo.std.strftime('%m/%d/%Y')+","
-                csv += voo.std.strftime('%H:%M')+","
+                csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'FR':
                 csv += 'FR,'
-                csv += voo.sta.strftime('%m/%d/%Y')+","
-                csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.std.strftime('%m/%d/%Y')+","
-                csv += voo.std.strftime('%H:%M')+","
+                csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'F':
                 csv += 'F,'
-                csv += voo.sta.strftime('%m/%d/%Y')+","
-                csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.std.strftime('%m/%d/%Y')+","
-                csv += voo.std.strftime('%H:%M')+","
+                csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
             if voo.activity_info == 'REU':
                 csv += 'REU,'
-                csv += voo.sta.strftime('%m/%d/%Y')+","
-                csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.std.strftime('%m/%d/%Y')+","
-                csv += voo.std.strftime('%H:%M')+","
+                csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
             if voo.activity_info.startswith('R') or\
                     voo.activity_info == 'RHC':
                 csv += 'Reserva('+voo.activity_info+'),'
-                csv += voo.sta.strftime('%m/%d/%Y')+","
-                csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.std.strftime('%m/%d/%Y')+","
-                csv += voo.std.strftime('%H:%M')+","
+                csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
             if voo.activity_info in ['S04', 'S12', 'S20']:
                 csv += 'Simulador,'
-                csv += voo.sta.strftime('%m/%d/%Y')+","
-                csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.std.strftime('%m/%d/%Y')+","
-                csv += voo.std.strftime('%H:%M')+","
+                csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
@@ -167,20 +160,17 @@ class Escala:
                             'P09', 'P10', 'P11', 'P12'] or \
                     voo.activity_info == 'PLT':
                 csv += 'SobreAviso,'
-                csv += voo.sta.strftime('%m/%d/%Y')+","
-                csv += voo.sta.strftime('%H:%M')+","
-                csv+=voo.std.strftime('%m/%d/%Y')+","
-                csv += voo.std.strftime('%H:%M')+","
+                csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
             if voo.checkin:
                 csv += 'CheckIn,'
                 #Data hora inicial
-                csv += voo.activity_date.strftime('%m/%d/%Y')+","
-                csv += voo.checkin_time.strftime('%H:%M')+","
-                csv += voo.activity_date.strftime('%m/%d/%Y')+","
-                csv += voo.checkin_time.strftime('%H:%M')+","
+                csv += self.__strfdate(voo.activity_date) + ","
+                csv += voo.checkin_time.strftime('%H:%M') + ","
+                csv += self.__strfdate(voo.activity_date) + ","
+                csv += voo.checkin_time.strftime('%H:%M') + ","
                 csv+='False,"'
                 if voo.origin in aeroportos:
                     csv+=aeroportos[voo.origin]
@@ -191,10 +181,7 @@ class Escala:
                 csv+=" (E)"
 
             csv+=","
-            csv += voo.sta.strftime('%m/%d/%Y')+","
-            csv += voo.sta.strftime('%H:%M')+","
-            csv+=voo.std.strftime('%m/%d/%Y')+","
-            csv += voo.std.strftime('%H:%M')+","
+            csv += self.__format_date(voo)
 
             csv+='False,"'
             if voo.origin in aeroportos:
