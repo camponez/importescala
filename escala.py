@@ -233,7 +233,9 @@ class Voo:
         self.horas_de_voo = None
 
 if __name__ == "__main__":
-    print "<html><body>"
+    print "<html><head>"
+    print "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
+    print "</head><body>"
     print open('how-to.html').read()
     print "<span>"+VERSION+"</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
