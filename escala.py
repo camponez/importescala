@@ -43,9 +43,9 @@ class Escala:
         return root
 
     def __load_string_xml(self, string_xml):
-	root = ET.fromstring(string_xml)
+        root = ET.fromstring(string_xml)
 
-	return root
+        return root
 
     def __parser(self, root):
 
@@ -57,8 +57,7 @@ class Escala:
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
 
             # offset de horario de verão
-            #if voo.activity_date > DST_INICIO and voo.activity_date < DST_FIM:
-            #    d_saving = -1
+            d_saving = 1
 
             #ajustando horario para UTC-3
             voo.activity_date = voo.activity_date - timedelta(hours=3 + d_saving)
@@ -112,7 +111,6 @@ class Escala:
         str += self.__strfdate(voo.std) + ","
         str += voo.std.strftime('%H:%M') + ","
         return str
-
 
     def csv(self):
         csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
