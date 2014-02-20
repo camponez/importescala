@@ -15,7 +15,7 @@ from list_aeroportos import aeroportos
 
 DST_INICIO = datetime(2013,10,20)
 DST_FIM = datetime(2014,2,16)
-VERSION = '1.13'
+VERSION = '1.14'
 
 
 class Escala:
@@ -231,7 +231,9 @@ class Voo:
         self.horas_de_voo = None
 
 if __name__ == "__main__":
-    print "<html><body>"
+    print "<html><head>"
+    print "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
+    print "</head><body>"
     print open('how-to.html').read()
     print "<span>"+VERSION+"</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
