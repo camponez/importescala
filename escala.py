@@ -43,9 +43,9 @@ class Escala:
         return root
 
     def __load_string_xml(self, string_xml):
-	root = ET.fromstring(string_xml)
+        root = ET.fromstring(string_xml)
 
-	return root
+        return root
 
     def __parser(self, root):
 
