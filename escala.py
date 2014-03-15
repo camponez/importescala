@@ -142,8 +142,7 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info.startswith('R') or\
-                    voo.activity_info == 'RHC':
+            if voo.activity_info.startswith('R'):
                 csv += 'Reserva('+voo.activity_info+'),'
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
