@@ -37,7 +37,7 @@ aeroportos ={
         'FLN': 'Aeroporto Internacional Hercílio Luz',
         'FOR': 'Aeroporto Internacional Pinto Martins',
         'GIG': 'Aeroporto Internacional do Rio de Janeiro',
-        'GRU': 'Aeroporto Internacional de Garulhos',
+        'GRU': 'Aeroporto Internacional de Guarulhos',
         'GVR': 'Aeroporto Coronel Altino Machado',
         'GYN': 'Aeroporto Santa Genoveva',
         'HUW': 'Aeroporto de Humaiatá',
