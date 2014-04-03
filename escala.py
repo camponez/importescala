@@ -155,8 +155,7 @@ class Escala:
 
             if voo.activity_info in \
                     ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08',
-                            'P09', 'P10', 'P11', 'P12'] or \
-                    voo.activity_info == 'PLT':
+                            'P09', 'P10', 'P11', 'P12', 'P', 'PLT']:
                 csv += 'SobreAviso,'
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
