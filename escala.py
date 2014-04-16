@@ -15,7 +15,7 @@ from list_aeroportos import aeroportos
 
 DST_INICIO = datetime(2013,10,20)
 DST_FIM = datetime(2014,2,16)
-VERSION = '1.16'
+VERSION = '1.17'
 
 
 class Escala:
@@ -136,6 +136,12 @@ class Escala:
 
             if voo.activity_info == 'DMI':
                 csv += 'DMI,'
+                csv += self.__format_date(voo)
+                csv+='False,,-\n'
+                continue
+
+            if voo.activity_info in ['PP1', 'PP2']:
+                csv += 'Periódico,'
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
