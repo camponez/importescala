@@ -140,6 +140,12 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
+            if voo.activity_info in ['PP1', 'PP2']:
+                csv += 'Periódico,'
+                csv += self.__format_date(voo)
+                csv+='False,,-\n'
+                continue
+
             if voo.activity_info == 'REU':
                 csv += 'REU,'
                 csv += self.__format_date(voo)
