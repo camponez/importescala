@@ -15,7 +15,7 @@ from list_aeroportos import aeroportos
 
 DST_INICIO = datetime(2013,10,20)
 DST_FIM = datetime(2014,2,16)
-VERSION = '1.18'
+VERSION = '1.19'
 
 
 class Escala:
@@ -246,7 +246,14 @@ if __name__ == "__main__":
     print "<html><head>"
     print "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
     print "</head><body>"
+    print "<table><tr><td>"
     print open('how-to.html').read()
+    print "</td><td>"
+    print "<div style='text-align:center'><p>Changelog</p></div>"
+    print "<ul>"
+    print open('changelog.html').read()
+    print "</ul>"
+    print "</td></tr></table>"
     print "<span>"+VERSION+"</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
