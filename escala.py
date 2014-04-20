@@ -116,26 +116,14 @@ class Escala:
         csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
 
         for voo in self.escalas:
-            if voo.activity_info == 'FP':
-                csv += 'FP,'
+            if voo.activity_info in ['F', 'FA', 'FR', 'FP', 'DMI', 'REU']:
+                csv += voo.activity_info + ','
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info == 'FR':
-                csv += 'FR,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
-                continue
-
-            if voo.activity_info == 'F':
-                csv += 'F,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
-                continue
-
-            if voo.activity_info == 'REU':
-                csv += 'REU,'
+            if voo.activity_info in ['PP1', 'PP2']:
+                csv += 'Periódico,'
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
