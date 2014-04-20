@@ -15,7 +15,7 @@ from list_aeroportos import aeroportos
 
 DST_INICIO = datetime(2013,10,20)
 DST_FIM = datetime(2014,2,16)
-VERSION = '1.15'
+VERSION = '1.19'
 
 
 class Escala:
@@ -57,7 +57,7 @@ class Escala:
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
 
             # offset de horario de verão
-            d_saving = 1
+            #d_saving = 1
 
             #ajustando horario para UTC-3
             voo.activity_date = voo.activity_date - timedelta(hours=3 + d_saving)
@@ -190,7 +190,8 @@ class Escala:
                             'P01', 'P02', 'P03','P04', 'P05', 'P06', 'P07',
                             'P08', 'P09', 'P10', 'P11',
                             'RHC', 'PLT', 'S04', 'S05', 'S06',
-                            'P12','S12', 'S20', 'R0', 'FP', 'F']
+                            'P12','S12', 'S20', 'R0', 'FP', 'F', 'DMI',
+                            'FA', 'PP1', 'PP2']
 
             if voo.activity_info not in codigos_voo and not voo.duty_design:
                 delta = voo.std - voo.sta
@@ -220,7 +221,14 @@ if __name__ == "__main__":
     print "<html><head>"
     print "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
     print "</head><body>"
+    print "<table><tr><td>"
     print open('how-to.html').read()
+    print "</td><td>"
+    print "<div style='text-align:center'><p>Changelog</p></div>"
+    print "<ul>"
+    print open('changelog.html').read()
+    print "</ul>"
+    print "</td></tr></table>"
     print "<span>"+VERSION+"</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
