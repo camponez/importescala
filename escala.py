@@ -15,7 +15,7 @@ from list_aeroportos import aeroportos
 
 DST_INICIO = datetime(2013,10,20)
 DST_FIM = datetime(2014,2,16)
-VERSION = '1.19'
+VERSION = '1.20'
 
 
 class Escala:
@@ -116,26 +116,8 @@ class Escala:
         csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
 
         for voo in self.escalas:
-            if voo.activity_info == 'FP':
-                csv += 'FP,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
-                continue
-
-            if voo.activity_info == 'FR':
-                csv += 'FR,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
-                continue
-
-            if voo.activity_info in ['F', 'FA']:
-                csv += 'F,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
-                continue
-
-            if voo.activity_info == 'DMI':
-                csv += 'DMI,'
+            if voo.activity_info in ['F', 'FA', 'FR', 'FP', 'DMI', 'REU']:
+                csv += voo.activity_info + ','
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
@@ -146,14 +128,7 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info == 'REU':
-                csv += 'REU,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
-                continue
-
-            if voo.activity_info.startswith('R') or\
-                    voo.activity_info == 'RHC':
+            if voo.activity_info.startswith('R'):
                 csv += 'Reserva('+voo.activity_info+'),'
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
