@@ -1,30 +1,8 @@
 #! /usr/bin/env python
 #coding: utf-8
 
-'''
-COPYRIGHT (c) 2009, 2010, 2011, 2012
-.. in order of first contribution
-Olof Bjarnason
-    Initial proof-of-concept pygame implementation.
-Fredrik Wendt
-    Help with Tkinter implementation (replacing the pygame dependency)
-Krunoslav Saho
-    Added always-on-top to the pytddmon window
-Samuel Ytterbrink
-    Print(".") will not screw up test-counting (it did before)
-    Docstring support
-    Recursive discovery of tests
-    Refactoring to increase Pylint score from 6 to 9.5 out of 10 (!)
-    Numerous refactorings & other improvements
-Rafael Capucho
-    Python shebang at start of script, enabling "./pytddmon.py" on unix systems
-Ilian Iliev
-    Use integers instead of floats in file modified time (checksum calc)
-    Auto-update of text in Details window when the log changes
-Henrik Bohre
-    Status bar in pytddmon window, showing either last time tests were
-    run, or "Testing..." during a test run
-    
+"""
+COPYRIGHT (c) 2009-2014
 
 LICENSE
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -44,7 +22,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-'''
+"""
 
 import os
 import sys
@@ -61,26 +39,30 @@ import functools
 ON_PYTHON3 = sys.version_info[0] == 3
 ON_WINDOWS = platform.system() == "Windows"
 
+
 ####
 ## Core
 ####
 
 class Pytddmon:
-    "The core class, all functionality is combined into this class"
+    """The core class, all functionality (except UI) is combined into this class"""
+
     def __init__(
-        self,
-        file_finder,
-        monitor,
-        project_name = "<pytddmon>"
+            self,
+            file_finder,
+            monitor,
+            project_name="<pytddmon>",
+            pulse_disabled=False
     ):
         self.file_finder = file_finder
         self.project_name = project_name
         self.monitor = monitor
+        self.pulse_disabled = pulse_disabled
         self.change_detected = False
 
         self.total_tests_run = 0
         self.total_tests_passed = 0
-        self.last_testrun_time = -1
+        self.last_test_run_time = -1
         self.log = ""
         self.status_message = 'n/a'
 
@@ -88,9 +70,9 @@ class Pytddmon:
 
     def run_tests(self):
         """Runs all tests and updates state variables with results."""
-        
+
         file_paths = self.file_finder()
-        
+
         # We need to run the tests in a separate process, since
         # Python caches loaded modules, and unittest/doctest
         # imports modules to run them.
@@ -99,20 +81,20 @@ class Pytddmon:
         # time, using processes = 1.
         start = time.time()
         if file_paths:
-            pool = multiprocessing.Pool(processes = 1)
+            pool = multiprocessing.Pool(processes=1)
             results = pool.map(run_tests_in_file, file_paths)
             pool.close()
             pool.join()
         else:
             results = []
-        self.last_testrun_time = time.time() - start
-        
+        self.last_test_run_time = time.time() - start
+
         now = time.strftime("%H:%M:%S", time.localtime())
         self.log = ""
         self.log += "Monitoring folder %s.\n" % self.project_name
         self.log += "Found <TOTALTESTS> tests in %i files.\n" % len(results)
         self.log += "Last change detected at %s.\n" % now
-        self.log += "Test run took %.2f seconds.\n" % self.last_testrun_time
+        self.log += "Test run took %.2f seconds.\n" % self.last_test_run_time
         self.log += "\n"
         self.total_tests_passed = 0
         self.total_tests_run = 0
@@ -127,8 +109,8 @@ class Pytddmon:
             else:
                 module_logs.append(module_log)
         self.log += ''.join(module_logs)
-        self.log = self.log.replace('<TOTALTESTS>', 
-                str(int(self.total_tests_run.real)))
+        self.log = self.log.replace('<TOTALTESTS>',
+                                    str(int(self.total_tests_run.real)))
         self.status_message = now
 
     def get_and_set_change_detected(self):
@@ -149,9 +131,10 @@ class Pytddmon:
         """Return message in status bar"""
         return self.status_message
 
+
 class Monitor:
-    'Looks for file changes when prompted to'
-    
+    """Looks for file changes when prompted to"""
+
     def __init__(self, file_finder, get_file_size, get_file_modtime):
         self.file_finder = file_finder
         self.get_file_size = get_file_size
@@ -160,10 +143,10 @@ class Monitor:
 
     def get_snapshot(self):
         snapshot = {}
-        for file in self.file_finder():
-            file_size = self.get_file_size(file)
-            file_modtime = self.get_file_modtime(file)
-            snapshot[file] = (file_size, file_modtime)
+        for found_file in self.file_finder():
+            file_size = self.get_file_size(found_file)
+            file_modtime = self.get_file_modtime(found_file)
+            snapshot[found_file] = (file_size, file_modtime)
         return snapshot
 
     def look_for_changes(self):
@@ -172,23 +155,41 @@ class Monitor:
         self.snapshot = new_snapshot
         return change_detected
 
+class Kata:
+    ''' Generates a logical unit test template file '''
+    def __init__(self, kata_name):
+        classname = kata_name.title().replace(' ', '') + 'Tests'
+        self.content = '''\
+import unittest
+# Unit tests for kata '{0}'.
+
+class {1}(unittest.TestCase):
+
+    def test_something(self):
+        self.assertTrue(True)
+
+    def test_another_thing(self):
+        self.assertEqual([1, 2], range(1, 3))
+
+'''.format(kata_name, classname)
+        self.filename = 'test_' + kata_name.lower().replace(' ', '_') + '.py'
 
 ####
 ## Finding files
 ####
 
 class FileFinder:
-    "Returns all files matching given regular expression from root downwards"
-    
+    """Returns all files matching given regular expression from root downwards"""
+
     def __init__(self, root, regexp):
         self.root = os.path.abspath(root)
         self.regexp = regexp
-        
+
     def __call__(self):
         return self.find_files()
 
     def find_files(self):
-        "recursively finds files matching regexp"
+        """recursively finds files matching regexp"""
         file_paths = set()
         for path, _folder, filenames in os.walk(self.root):
             for filename in filenames:
@@ -197,12 +198,14 @@ class FileFinder:
                         os.path.abspath(os.path.join(path, filename))
                     )
         return file_paths
-        
+
     def re_complete_match(self, string_to_match):
-        "full string regexp check"
+        """full string regexp check"""
         return bool(re.match(self.regexp + "$", string_to_match))
 
+
 wildcard_to_regex = fnmatch.translate
+
 
 ####
 ## Finding & running tests
@@ -210,32 +213,37 @@ wildcard_to_regex = fnmatch.translate
 
 def log_exceptions(func):
     """Decorator that forwards the error message from an exception to the log
-    slot of the return value, and also returns a complexnumber to signal that
+    slot of the return value, and also returns a complex number to signal that
     the result is an error."""
     wraps = functools.wraps
 
     @wraps(func)
     def wrapper(*a, **k):
-        "Docstring"
+        """Docstring"""
         try:
             return func(*a, **k)
         except:
             import traceback
-            return ('Exception(%s)' % a[0] , 0, 1j, traceback.format_exc())
+
+            return 'Exception(%s)' % a[0], 0, 1j, traceback.format_exc()
+
     return wrapper
+
 
 @log_exceptions
 def run_tests_in_file(file_path):
     module = file_name_to_module("", file_path)
     return run_module(module)
 
+
 def run_module(module):
     suite = find_tests_in_module(module)
     (green, total, log) = run_suite(suite)
-    return (module, green, total, log)
+    return module, green, total, log
+
 
 def file_name_to_module(base_path, file_name):
-    r"""Converts filenames of files in packages to import friendly dot
+    r"""Converts file_names of files in packages to import friendly dot
     separated paths.
 
     Examples:
@@ -266,36 +274,41 @@ def file_name_to_module(base_path, file_name):
     module_name = '.'.join(module_words)
     return module_name
 
+
 def find_tests_in_module(module):
     suite = unittest.TestSuite()
     suite.addTests(find_unittests_in_module(module))
     suite.addTests(find_doctests_in_module(module))
     return suite
 
+
 def find_unittests_in_module(module):
     test_loader = unittest.TestLoader()
     return test_loader.loadTestsFromName(module)
 
+
 def find_doctests_in_module(module):
     try:
-        return doctest.DocTestSuite(module, optionflags = doctest.ELLIPSIS)
+        return doctest.DocTestSuite(module, optionflags=doctest.ELLIPSIS)
     except ValueError:
         return unittest.TestSuite()
+
 
 def run_suite(suite):
     def StringIO():
         if ON_PYTHON3:
             import io as StringIO
         else:
-            import StringIO 
+            import StringIO
         return StringIO.StringIO()
+
     err_log = StringIO()
-    text_test_runner = unittest.TextTestRunner(stream = err_log, verbosity = 1)
+    text_test_runner = unittest.TextTestRunner(stream=err_log, verbosity=1)
     result = text_test_runner.run(suite)
     green = result.testsRun - len(result.failures) - len(result.errors)
     total = result.testsRun
-    log = err_log.getvalue() if green<total else "All %i tests passed\n" % green
-    return (green, total, log)
+    log = err_log.getvalue() if green < total else "All %i tests passed\n" % green
+    return green, total, log
 
 
 ####
@@ -303,23 +316,33 @@ def run_suite(suite):
 ####
 
 def import_tkinter():
-    "imports tkinter from python 3.x or python 2.x"
-    if not ON_PYTHON3:
-        import Tkinter as tkinter
-    else:
-        import tkinter
+    """imports tkinter from python 3.x or python 2.x"""
+    try:
+        if not ON_PYTHON3:
+            import Tkinter as tkinter
+        else:
+            import tkinter
+    except ImportError as e:
+        sys.stderr.write('Cannot import tkinter. Please install it using your system ' +
+                         'package manager, since tkinter is not available on PyPI. On Ubuntu : ' +
+                         '`sudo apt-get install python-tk`.\n' +
+                         'The actual error was "{0}"\n'.format(e))
+        raise SystemExit(1)
     return tkinter
 
+
 def import_tkFont():
-    "imports tkFont from python 3.x or python 2.x"
+    """imports tkFont from python 3.x or python 2.x"""
     if not ON_PYTHON3:
         import tkFont
     else:
-        from tkinter import font as tkFont 
+        from tkinter import font as tkFont
     return tkFont
-    
+
+
 class TKGUIButton(object):
     """Encapsulate the button(label)"""
+
     def __init__(self, tkinter, tkFont, toplevel, display_log_callback):
         self.font = tkFont.Font(name="Helvetica", size=28)
         self.label = tkinter.Label(
@@ -334,35 +357,37 @@ class TKGUIButton(object):
         self.pack()
 
     def bind_click(self, display_log_callback):
-        """Binds the left mous button click event to trigger the logg_windows\
-        diplay method"""
+        """Binds the left mouse button click event to trigger the log_windows
+        display method"""
         self.label.bind(
             '<Button-1>',
             display_log_callback
         )
 
     def pack(self):
-        "packs the lable"
+        """packs the label"""
         self.label.pack(
             expand=1,
             fill='both'
         )
 
     def update(self, text, color):
-        "updates the collor and displayed text."
+        """updates the color and displayed text."""
         self.label.configure(
             bg=color,
             activebackground=color,
             text=text
         )
 
+
 class TkGUI(object):
     """Connect pytddmon engine to Tkinter GUI toolkit"""
+
     def __init__(self, pytddmon, tkinter, tkFont):
         self.pytddmon = pytddmon
         self.tkinter = tkinter
         self.tkFont = tkFont
-        self.color_picker = ColorPicker()
+        self.color_picker = ColorPicker(pulse_disabled=pytddmon.pulse_disabled)
         self.root = None
         self.building_root()
         self.title_font = None
@@ -388,7 +413,7 @@ class TkGUI(object):
         self.root.minsize(
             width=self.title_font.measure(
                 self.pytddmon.project_name
-            ) + buttons_width, 
+            ) + buttons_width,
             height=0
         )
         self.frame.pack(expand=1, fill="both")
@@ -404,7 +429,7 @@ class TkGUI(object):
             print("Minimize me!")
 
     def building_fonts(self):
-        "building fonts"
+        """building fonts"""
         self.title_font = self.tkFont.nametofont("TkCaptionFont")
 
     def building_frame(self):
@@ -428,7 +453,7 @@ class TkGUI(object):
         self.status_bar.pack(expand=1, fill="both")
 
     def _update_and_get_color(self):
-        "Calculate the current color and trigger pulse"
+        """Calculate the current color and trigger pulse"""
         self.color_picker.set_result(
             self.pytddmon.total_tests_passed,
             self.pytddmon.total_tests_run,
@@ -439,8 +464,8 @@ class TkGUI(object):
         return rgb
 
     def _get_text(self):
-        "Calculates the text to show the user(passed/total or Error!)"
-        if self.pytddmon.total_tests_run.imag!=0:
+        """Calculates the text to show the user(passed/total or Error!)"""
+        if self.pytddmon.total_tests_run.imag != 0:
             text = "?ERROR"
         else:
             text = "%r/%r" % (
@@ -456,7 +481,7 @@ class TkGUI(object):
         self.button.update(text, rgb)
         self.root.configure(bg=rgb)
         self.update_status(self.pytddmon.get_status_message())
-    
+
         if self.pytddmon.change_detected:
             self.update_text_window()
 
@@ -467,18 +492,22 @@ class TkGUI(object):
         self.status_bar.update_idletasks()
 
     def get_text_message(self):
-        """returns the logmessage from pytddmon"""
+        """returns the log message from pytddmon"""
         message = self.pytddmon.get_log()
         return message
 
     def create_text_window(self):
-        """creates new window and text widget""" 
+        """creates new window and text widget"""
         win = self.tkinter.Toplevel()
         if ON_WINDOWS:
             win.attributes("-toolwindow", 1)
         win.title('Details')
+        win.protocol('WM_DELETE_WINDOW', self.when_message_window_x)
         self.message_window = win
         self.text = self.tkinter.Text(win)
+        self.message_window.withdraw()
+
+    def when_message_window_x(self):
         self.message_window.withdraw()
 
     def update_text_window(self):
@@ -492,9 +521,9 @@ class TkGUI(object):
         text.focus_set()
 
     def display_log_message(self, _arg):
-        """displays/close the logmessage from pytddmon in a window"""
+        """displays/close the log message from pytddmon in a window"""
         if self.message_window.state() == 'normal':
-            self.message_window.state('iconic')
+            self.message_window.withdraw()
         else:
             self.message_window.state('normal')
 
@@ -516,7 +545,7 @@ class ColorPicker:
     ColorPicker decides the background color the pytddmon window,
     based on the number of green tests, and the total number of
     tests. Also, there is a "pulse" (light color, dark color),
-    to increase the feeling of continous testing.
+    to increase the feeling of continuous testing.
     """
     color_table = {
         (True, 'green'): '0f0',
@@ -529,24 +558,27 @@ class ColorPicker:
         (False, 'gray'): '555'
     }
 
-    def __init__(self):
+    def __init__(self, pulse_disabled=False):
         self.color = 'green'
         self.light = True
+        self.pulse_disabled = pulse_disabled
 
     def pick(self):
-        "returns the tuple (light, color) with the types(bool ,str)"
-        return (self.light, self.color)
+        """returns the tuple (light, color) with the types(bool ,str)"""
+        return self.light, self.color
 
     def pulse(self):
-        "updates the light state"
+        """updates the light state"""
+        if self.pulse_disabled:
+            return
         self.light = not self.light
 
     def reset_pulse(self):
-        "resets the light state"
+        """resets the light state"""
         self.light = True
 
     def set_result(self, green, total):
-        "calculates what color should be used and may reset the lightness"
+        """calculates what color should be used and may reset the lightness"""
         old_color = self.color
         self.color = 'green'
         if green.imag or total.imag:
@@ -575,60 +607,94 @@ def parse_commandline():
         action="store_true",
         default=False,
         help='Run all tests, write the results to "pytddmon.log" and exit.')
+    parser.add_option(
+        "--log-path",
+        help='Instead of writing to "pytddmon.log" in --log-and-exit, write to LOG_PATH.')
+    parser.add_option(
+        "--gen-kata",
+        help='Generate a stub unit test file appropriate for jump starting a kata')
+    parser.add_option(
+        "--no-pulse",
+        dest="pulse_disabled",
+        action="store_true",
+        default=False,
+        help='Disable the "heartbeating colorshift" of pytddmon.')
     (options, args) = parser.parse_args()
-    return (args, options.log_and_exit)
+    return (
+        args,
+        options.log_and_exit,
+        options.log_path,
+        options.pulse_disabled,
+        options.gen_kata)
+
 
 def build_monitor(file_finder):
     os.stat_float_times(False)
+
     def get_file_size(file_path):
         stat = os.stat(file_path)
         return stat.st_size
+
     def get_file_modtime(file_path):
         stat = os.stat(file_path)
         return stat.st_mtime
+
     return Monitor(file_finder, get_file_size, get_file_modtime)
+
 
 def run():
     """
     The main function: basic initialization and program start
     """
     cwd = os.getcwd()
-    
+
     # Include current work directory in Python path
     sys.path[:0] = [cwd]
-    
+
     # Command line argument handling
-    (static_file_set, test_mode) = parse_commandline()
-    
+    (static_file_set, test_mode, test_output, pulse_disabled, kata_name) = parse_commandline()
+
+    # Generating a kata unit test file? Do it and exit ...
+    if kata_name:
+        kata = Kata(kata_name)
+        print('Writing kata unit test template to ' + kata.filename + '.')
+        with open(kata.filename, 'w') as f:
+            f.write(kata.content)
+        return
+
     # What files to monitor?
     if not static_file_set:
         regex = wildcard_to_regex("*.py")
     else:
         regex = '|'.join(static_file_set)
     file_finder = FileFinder(cwd, regex)
-    
+
     # The change detector: Monitor
     monitor = build_monitor(file_finder)
-    
+
     # Python engine ready to be setup
     pytddmon = Pytddmon(
         file_finder,
         monitor,
-        project_name = os.path.basename(cwd)
+        project_name=os.path.basename(cwd),
+        pulse_disabled=pulse_disabled
     )
-    
-    # Start the engine!
+
+    # Start the engine
     if not test_mode:
         TkGUI(pytddmon, import_tkinter(), import_tkFont()).run()
     else:
         pytddmon.main()
-        with open("pytddmon.log", "w") as log_file:
+
+        outputfile = test_output or 'pytddmon.log'
+        with open(outputfile, 'w') as log_file:
             log_file.write(
                 "green=%r\ntotal=%r\n" % (
                     pytddmon.total_tests_passed,
                     pytddmon.total_tests_run
                 )
             )
+
 
 if __name__ == '__main__':
     run()
