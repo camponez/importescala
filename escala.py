@@ -260,8 +260,11 @@ if __name__ == "__main__":
     print ' <input type="submit" name="submit" value="Submit" />'
     print ' </form>'
     try:
+        import uuid
         import cgi
         form_data = cgi.FieldStorage()
+
+        tmp_escala = 'tmp/' + str(uuid.uuid4().get_hex().upper()[0:6]) + '.csv'
 
         file_data = None
         if 'myfile' in form_data:
@@ -279,10 +282,6 @@ if __name__ == "__main__":
             escala = Escala(string_xml = file_data)
 
             output = escala.csv()
-
-            tmp_escala = 'tmp/escala.csv'
-            if os.path.exists(tmp_escala):
-                os.remove(tmp_escala)
 
             f = open(tmp_escala, 'w+')
             f.write(output)
