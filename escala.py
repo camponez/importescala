@@ -13,8 +13,6 @@ import traceback
 import sys
 from list_aeroportos import aeroportos
 
-DST_INICIO = datetime(2013,10,20)
-DST_FIM = datetime(2014,2,16)
 VERSION = '1.21'
 
 
