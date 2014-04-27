@@ -34,8 +34,8 @@ class Escala:
 
     def __load_xml(self, arquivo_xml):
         if not os.path.exists(arquivo_xml):
-           print 'Oh dear.'
-           raise
+            print 'Oh dear: '+arquivo_xml+ ' not found'
+            raise
 
         tree = ET.parse(arquivo_xml)
         root = tree.getroot()
