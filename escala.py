@@ -13,7 +13,9 @@ import traceback
 import sys
 from list_aeroportos import aeroportos
 
-VERSION = '1.22'
+from __version__ import *
+
+VERSION = MAJOR+'.'+MINOR
 
 
 class Escala:
