@@ -189,7 +189,7 @@ class Escala:
                             'P08', 'P09', 'P10', 'P11',
                             'RHC', 'PLT', 'S04', 'S05', 'S06',
                             'P12','S12', 'S20', 'R0', 'FP', 'F', 'DMI',
-                            'FA', 'PP1', 'PP2']
+                            'FA', 'PP1', 'PP2', 'P']
 
             if voo.activity_info not in codigos_voo and not voo.duty_design:
                 delta = voo.std - voo.sta
