@@ -11,7 +11,7 @@ dirs.default_dir = dirs.TestDir()
 class FrameTest(unittest.TestCase):
 
     def setUp(self):
-        self.escala = Escala('escala.xml')
+        self.escala = Escala('fixtures/escala.xml')
 
     def tearDown(self):
         pass
@@ -73,7 +73,7 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.activity_info, 'FR')
 
     def test_NumerosVoos(self):
-        self.assertEqual(self.escala.get_numero_voos(),21)
+        self.assertEqual(self.escala.get_numero_voos(),22)
 
     def test_CSV(self):
         check_output = '\
@@ -101,7 +101,8 @@ SobreAviso,28/10/2013,03:00,28/10/2013,15:00,False,,-\n\
 CheckIn,29/10/2013,05:08,29/10/2013,05:08,False,"Aeroporto Internacional Viracopos",-\n\
 Voo VCP-FLN AD4050,29/10/2013,04:58,29/10/2013,06:15,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:17\n\
 F,30/10/2013,06:50,30/10/2013,06:50,False,,-\n\
-FA,30/10/2013,06:50,30/10/2013,06:50,False,,-\n'
+FA,30/10/2013,06:50,30/10/2013,06:50,False,,-\n\
+SobreAviso,01/11/2013,03:00,01/11/2013,15:00,False,,-\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 

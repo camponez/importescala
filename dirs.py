@@ -16,7 +16,7 @@ class DevelDir(Dir):
 
 class TestDir(Dir):
     def __init__(self):
-        self.data_dir = "./tests/fixtures/"
+        self.data_dir = "./test/"
 
 default_dir = None
 
