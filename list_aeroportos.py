@@ -68,7 +68,7 @@ aeroportos ={
         'NVT': 'Aeroporto Internacional Ministro Victor Konder',
         'OAL': '',
         'OLC': '',
-        'OPS': '',
+        'OPS': 'Aeroporto de Sinop',
         'PET': 'Aeroporto Internacional de Pelotas',
         'PFB': '',
         'PIN': 'Aeroporto Parintins',

@@ -22,7 +22,12 @@ class Escala:
     def __init__(self, arquivo_xml=None, string_xml=None):
 
         self.escalas = []
+        self.ignore_list = []
+
+        self.__load_list()
+
         self.data_dir = dirs.get_default_dir()
+
         if arquivo_xml:
             arquivo_xml = self.data_dir.get_data_file(arquivo_xml)
 
@@ -32,10 +37,32 @@ class Escala:
             root = self.__load_string_xml(string_xml)
         self.__parser(root)
 
+    def __load_list(self):
+        # Periodico
+        self.periodico = ['PP1', 'PP2']
+
+        self.ignore_list += self.periodico
+
+        # Sobreaviso
+        self.sobreaviso = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08',
+                            'P09', 'P10', 'P11', 'P12', 'P', 'PLT']
+
+        self.ignore_list += self.sobreaviso
+
+        # Folgas
+        self.folgas =['F', 'FA', 'FR', 'FP', 'DMI', 'REU']
+
+        self.ignore_list += self.folgas
+
+        # Simulador
+        self.simulador = ['S04', 'S05', 'S06', 'S12', 'S20']
+
+        self.ignore_list += self.simulador
+
     def __load_xml(self, arquivo_xml):
         if not os.path.exists(arquivo_xml):
-           print 'Oh dear.'
-           raise
+            print 'Oh dear: '+arquivo_xml+ ' not found'
+            raise
 
         tree = ET.parse(arquivo_xml)
         root = tree.getroot()
@@ -113,16 +140,17 @@ class Escala:
         return str
 
     def csv(self):
+
         csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
 
         for voo in self.escalas:
-            if voo.activity_info in ['F', 'FA', 'FR', 'FP', 'DMI', 'REU']:
+            if voo.activity_info in self.folgas:
                 csv += voo.activity_info + ','
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info in ['PP1', 'PP2']:
+            if voo.activity_info in self.periodico:
                 csv += 'Periódico,'
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
@@ -134,15 +162,13 @@ class Escala:
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info in ['S04', 'S12', 'S20']:
+            if voo.activity_info in self.simulador:
                 csv += 'Simulador,'
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
                 continue
 
-            if voo.activity_info in \
-                    ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08',
-                            'P09', 'P10', 'P11', 'P12', 'P', 'PLT']:
+            if voo.activity_info in self.sobreaviso:
                 csv += 'SobreAviso,'
                 csv += self.__format_date(voo)
                 csv+='False,,-\n'
@@ -185,15 +211,8 @@ class Escala:
         segundos = 0
 
         for voo in self.escalas:
-            codigos_voo = ['FR', 'REU', 'R04', 'R05', 'R06', 'R07', 'R08',
-                            'R09', 'R12', 'R13', 'R15', 'R18', 'R21',
-                            'P01', 'P02', 'P03','P04', 'P05', 'P06', 'P07',
-                            'P08', 'P09', 'P10', 'P11',
-                            'RHC', 'PLT', 'S04', 'S05', 'S06',
-                            'P12','S12', 'S20', 'R0', 'FP', 'F', 'DMI',
-                            'FA', 'PP1', 'PP2', 'P']
-
-            if voo.activity_info not in codigos_voo and not voo.duty_design:
+            if voo.activity_info not in self.ignore_list and \
+                    not voo.activity_info.startswith('R') and not voo.duty_design:
                 delta = voo.std - voo.sta
 
                 segundos += delta.seconds
