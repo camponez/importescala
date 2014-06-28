@@ -42,6 +42,7 @@ aeroportos ={
         'GYN': 'Aeroporto Santa Genoveva',
         'HUW': 'Aeroporto de Humaiatá',
         'IGU': 'Aeroporto Internacional Cataratas',
+        'IMP': 'Aeroporto de Imperatriz',
         'IOS': 'Aeroporto_de_Ilhéus',
         'IPN': '',
         'IRZ': '',
