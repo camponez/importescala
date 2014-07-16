@@ -45,12 +45,12 @@ class Escala:
 
         # Sobreaviso
         self.sobreaviso = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08',
-                            'P09', 'P10', 'P11', 'P12', 'P', 'PLT']
+                            'P09', 'P10', 'P11', 'P12', 'P', 'PLT', 'PC1']
 
         self.ignore_list += self.sobreaviso
 
         # Folgas
-        self.folgas =['F', 'FA', 'FR', 'FP', 'DMI', 'REU']
+        self.folgas =['F', 'FA', 'FR', 'FP', 'DMI', 'REU', 'FER']
 
         self.ignore_list += self.folgas
 
