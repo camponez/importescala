@@ -39,13 +39,13 @@ class Escala:
 
     def __load_list(self):
         # Periodico
-        self.periodico = ['PP1', 'PP2']
+        self.periodico = ['PP1', 'PP2', 'PC1']
 
         self.ignore_list += self.periodico
 
         # Sobreaviso
         self.sobreaviso = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08',
-                            'P09', 'P10', 'P11', 'P12', 'P', 'PLT', 'PC1']
+                            'P09', 'P10', 'P11', 'P12', 'P', 'PLT']
 
         self.ignore_list += self.sobreaviso
 
