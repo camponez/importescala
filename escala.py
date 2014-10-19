@@ -309,3 +309,5 @@ if __name__ == "__main__":
 
 
     print "</body></html>"
+
+# vim:tabstop=4:expandtab:smartindent

@@ -36,3 +36,5 @@ def format_date(voo):
     string += strfdate(voo.std) + ","
     string += voo.std.strftime('%H:%M') + ","
     return string
+
+# vim:tabstop=4:expandtab:smartindent
