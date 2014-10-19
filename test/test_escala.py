@@ -72,6 +72,8 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.flight_no,None)
         self.assertEqual(p_voo.activity_info, 'FR')
 
+    def test_CalculoHorasVoadas(self):
+        self.assertEqual(self.escala.soma_horas(), 404)
     def test_NumerosVoos(self):
         self.assertEqual(self.escala.get_numero_voos(),22)
 
@@ -106,8 +108,6 @@ SobreAviso,01/11/2013,03:00,01/11/2013,15:00,False,,-\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
-    def test_CalculoHorasVoadas(self):
-        self.assertEqual(self.escala.somaHoras(), 404)
 
 def main():
     unittest.main()

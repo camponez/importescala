@@ -2,9 +2,8 @@
 # coding=utf-8
 print "Content-type: text/html\n\n"
 
-import xml.etree.ElementTree as ET
 from datetime import datetime
-from datetime import time as dtime
+#from datetime import time as dtime
 from datetime import timedelta
 import time
 import os
@@ -12,17 +11,29 @@ import dirs
 import traceback
 import sys
 from list_aeroportos import aeroportos
+from func import load_xml
+from func import load_string_xml
+from func import format_date
+from func import strfdate
 
-from __version__ import *
+from __version__ import MINOR
+from __version__ import MAJOR
 
-VERSION = MAJOR+'.'+MINOR
+VERSION = MAJOR + '.' + MINOR
 
 
-class Escala:
+class Escala(object):
+    """
+    Classe escala
+    """
     def __init__(self, arquivo_xml=None, string_xml=None):
 
         self.escalas = []
         self.ignore_list = []
+        self.periodico = None
+        self.sobreaviso = None
+        self.folgas = None
+        self.simulador = None
 
         self.__load_list()
 
@@ -32,25 +43,29 @@ class Escala:
             arquivo_xml = self.data_dir.get_data_file(arquivo_xml)
 
         if arquivo_xml:
-            root = self.__load_xml(arquivo_xml)
+            root = load_xml(arquivo_xml)
         else:
-            root = self.__load_string_xml(string_xml)
+            root = load_string_xml(string_xml)
         self.__parser(root)
 
     def __load_list(self):
+        """
+        Load lista de tipos
+        """
         # Periodico
-        self.periodico = ['PP1', 'PP2']
+        self.periodico = ['PP1', 'PP2', 'PC1']
 
         self.ignore_list += self.periodico
 
         # Sobreaviso
-        self.sobreaviso = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08',
-                            'P09', 'P10', 'P11', 'P12', 'P', 'PLT']
+        self.sobreaviso = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06',
+                           'P07', 'P08', 'P09', 'P10', 'P11', 'P12',
+                           'P', 'PLT']
 
         self.ignore_list += self.sobreaviso
 
         # Folgas
-        self.folgas =['F', 'FA', 'FR', 'FP', 'DMI', 'REU']
+        self.folgas = ['F', 'FA', 'FR', 'FP', 'DMI', 'REU', 'FER']
 
         self.ignore_list += self.folgas
 
@@ -59,28 +74,19 @@ class Escala:
 
         self.ignore_list += self.simulador
 
-    def __load_xml(self, arquivo_xml):
-        if not os.path.exists(arquivo_xml):
-            print 'Oh dear: '+arquivo_xml+ ' not found'
-            raise
 
-        tree = ET.parse(arquivo_xml)
-        root = tree.getroot()
 
-        return root
-
-    def __load_string_xml(self, string_xml):
-        root = ET.fromstring(string_xml)
-
-        return root
 
     def __parser(self, root):
+        """
+        Parser
+        """
 
         for child in root:
             voo = Voo()
             d_saving = 0
 
-            datahora =  time.strptime(child[11].text, "%d/%m/%Y %H:%M:%S")
+            datahora = time.strptime(child[11].text, "%d/%m/%Y %H:%M:%S")
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
 
             # offset de horario de verão
@@ -92,14 +98,18 @@ class Escala:
             voo.present_location = child[8].text
 
             #decolagem
-            voo.sta = datetime(voo.activity_date.year, voo.activity_date.month,
-                    voo.activity_date.day,
-                    int(child[16].text[:-3]), int(child[16].text[3:]))
+            voo.sta = datetime(voo.activity_date.year,
+                               voo.activity_date.month,
+                               voo.activity_date.day,
+                               int(child[16].text[:-3]),
+                               int(child[16].text[3:]))
 
             #pouso
-            voo.std = datetime(voo.activity_date.year, voo.activity_date.month,
-                    voo.activity_date.day,
-                    int(child[15].text[:-3]), int(child[15].text[3:]))
+            voo.std = datetime(voo.activity_date.year,
+                               voo.activity_date.month,
+                               voo.activity_date.day,
+                               int(child[15].text[:-3]),
+                               int(child[15].text[3:]))
 
             # se houver mudanca de dia
             if voo.sta.time() > voo.std.time():
@@ -120,99 +130,103 @@ class Escala:
 
             if child[9].text is not None:
                 voo.checkin = True
-                voo.checkin_time = datetime(voo.activity_date.year, voo.activity_date.month,
-                    voo.activity_date.day,
-                    int(child[9].text[:-3]), int(child[9].text[3:]))
+                voo.checkin_time = datetime(voo.activity_date.year,
+                                            voo.activity_date.month,
+                                            voo.activity_date.day,
+                                            int(child[9].text[:-3]),
+                                            int(child[9].text[3:]))
             else:
                 voo.checkin = False
                 voo.checkin_time = None
 
             self.escalas.append(voo)
 
-    def __strfdate(self, date):
-        return date.strftime('%d/%m/%Y')
-
-    def __format_date(self, voo):
-        str = self.__strfdate(voo.sta) + ","
-        str += voo.sta.strftime('%H:%M') + ","
-        str += self.__strfdate(voo.std) + ","
-        str += voo.std.strftime('%H:%M') + ","
-        return str
-
     def csv(self):
+        """
+        Criando arquivoi CSV
+        """
 
-        csv = 'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
+        csv = 'Subject,Start Date,Start Time,End Date,End Time,'+\
+                'All Day Event,Location,Description\n'
 
         for voo in self.escalas:
             if voo.activity_info in self.folgas:
                 csv += voo.activity_info + ','
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
+                csv += format_date(voo)
+                csv += 'False,,-\n'
                 continue
 
             if voo.activity_info in self.periodico:
                 csv += 'Periódico,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
+                csv += format_date(voo)
+                csv += 'False,,-\n'
                 continue
 
             if voo.activity_info.startswith('R'):
                 csv += 'Reserva('+voo.activity_info+'),'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
+                csv += format_date(voo)
+                csv += 'False,,-\n'
                 continue
 
             if voo.activity_info in self.simulador:
                 csv += 'Simulador,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
+                csv += format_date(voo)
+                csv += 'False,,-\n'
                 continue
 
             if voo.activity_info in self.sobreaviso:
                 csv += 'SobreAviso,'
-                csv += self.__format_date(voo)
-                csv+='False,,-\n'
+                csv += format_date(voo)
+                csv += 'False,,-\n'
                 continue
 
             if voo.checkin:
                 csv += 'CheckIn,'
                 #Data hora inicial
-                csv += self.__strfdate(voo.activity_date) + ","
+                csv += strfdate(voo.activity_date) + ","
                 csv += voo.checkin_time.strftime('%H:%M') + ","
-                csv += self.__strfdate(voo.activity_date) + ","
+                csv += strfdate(voo.activity_date) + ","
                 csv += voo.checkin_time.strftime('%H:%M') + ","
-                csv+='False,"'
+                csv += 'False,"'
                 if voo.origin in aeroportos:
-                    csv+=aeroportos[voo.origin]
-                csv+='",-\n'
+                    csv += aeroportos[voo.origin]
+                csv += '",-\n'
 
-            csv+="Voo "+voo.origin+'-'+voo.destination + ' ' + voo.activity_info
+            csv += "Voo "+ voo.origin + '-' +voo.destination +\
+                    ' ' + voo.activity_info
             if voo.duty_design:
-                csv+=" (E)"
+                csv += " (E)"
 
-            csv+=","
-            csv += self.__format_date(voo)
+            csv += ","
+            csv += format_date(voo)
 
-            csv+='False,"'
+            csv += 'False,"'
             if voo.origin in aeroportos:
-                csv+=aeroportos[voo.origin]
+                csv += aeroportos[voo.origin]
 
-            csv+='",Horas de voo: '
-            csv+=voo.horas_de_voo
+            csv += '",Horas de voo: '
+            csv += voo.horas_de_voo
 
             csv += '\n'
 
         return csv
 
     def get_numero_voos(self):
+        """
+        Número de voos
+        """
         return len(self.escalas)
 
-    def somaHoras(self):
+    def soma_horas(self):
+        """
+        Soma de horas
+        """
         segundos = 0
 
         for voo in self.escalas:
             if voo.activity_info not in self.ignore_list and \
-                    not voo.activity_info.startswith('R') and not voo.duty_design:
+                    not voo.activity_info.startswith('R') and \
+                    not voo.duty_design:
                 delta = voo.std - voo.sta
 
                 segundos += delta.seconds
@@ -221,6 +235,9 @@ class Escala:
         return  minutos
 
 class Voo:
+    """
+    Classe que representa um voo
+    """
     def __init__(self):
         self.activity_date = None
         self.present_location = None
@@ -256,37 +273,36 @@ if __name__ == "__main__":
     try:
         import uuid
         import cgi
-        form_data = cgi.FieldStorage()
+        FORM_DATA = cgi.FieldStorage()
 
-        tmp_escala = 'tmp/' + str(uuid.uuid4().get_hex().upper()[0:6]) + '.csv'
+        TMP_ESCALA = 'tmp/' + str(uuid.uuid4().get_hex().upper()[0:6]) + '.csv'
 
-        file_data = None
-        if 'myfile' in form_data:
-            file_data = form_data['myfile'].value
+        FILE_DATA = None
+        if 'myfile' in FORM_DATA:
+            FILE_DATA = FORM_DATA['myfile'].value
         else:
             if len(sys.argv) > 1 and os.path.exists(sys.argv[1]):
-                xml = sys.argv[1]
+                XML = sys.argv[1]
             else:
-                xml = 'escala.xml'
-            if os.path.exists(xml):
-                f = open(xml)
-                file_data = f.read()
+                XML = 'escala.xml'
+            if os.path.exists(XML):
+                F = open(XML)
+                FILE_DATA = F.read()
 
-        if file_data:
-            escala = Escala(string_xml = file_data)
+        if FILE_DATA:
+            ESCALA = Escala(string_xml=FILE_DATA)
 
-            output = escala.csv()
+            OUTPUT = ESCALA.csv()
 
-            f = open(tmp_escala, 'w+')
-            f.write(output)
-            f.close()
+            F = open(TMP_ESCALA, 'w+')
+            F.write(OUTPUT)
+            F.close()
 
-            print "<p>Horas de voo: "+ str(escala.somaHoras()/60) + "</p>"
-            if 'myfile' in form_data:
-                print "<a href='"+tmp_escala+"'>escala.csv</a>"
-            print "<pre>" + output + "</pre>"
+            print "<p>Horas de voo: "+ str(ESCALA.soma_horas()/60) + "</p>"
+            if 'myfile' in FORM_DATA:
+                print "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
+            print "<pre>" + OUTPUT + "</pre>"
     except:
-        import sys
         print "Unexpected error:", sys.exc_info()[1]
         print traceback.format_exc()
 
