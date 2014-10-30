@@ -232,7 +232,10 @@ class Escala(object):
                 segundos += delta.seconds
 
         minutos = segundos / 60
-        return  minutos
+
+        tempo = datetime(1, 1, 1) + timedelta(minutes=minutos)
+
+        return  str(tempo.hour) + ":" + str(tempo.minute)
 
 class Voo:
     """
@@ -309,3 +312,5 @@ if __name__ == "__main__":
 
 
     print "</body></html>"
+
+# vim:tabstop=4:expandtab:smartindent

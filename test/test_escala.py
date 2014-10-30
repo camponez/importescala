@@ -73,7 +73,7 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.activity_info, 'FR')
 
     def test_CalculoHorasVoadas(self):
-        self.assertEqual(self.escala.soma_horas(), 404)
+        self.assertEqual(self.escala.soma_horas(), "6:44")
     def test_NumerosVoos(self):
         self.assertEqual(self.escala.get_numero_voos(),22)
 
