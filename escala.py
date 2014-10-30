@@ -235,7 +235,7 @@ class Escala(object):
 
         tempo = datetime(1, 1, 1) + timedelta(minutes=minutos)
 
-        return  str(tempo.hour) + ":" + str(tempo.minute)
+        return  str((tempo.day - 1) * 24 + tempo.hour) + ":" + str(tempo.minute)
 
 class Voo:
     """
@@ -301,7 +301,7 @@ if __name__ == "__main__":
             F.write(OUTPUT)
             F.close()
 
-            print "<p>Horas de voo: "+ str(ESCALA.soma_horas()/60) + "</p>"
+            print "<p>Horas de voo: "+ ESCALA.soma_horas() + "</p>"
             if 'myfile' in FORM_DATA:
                 print "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
             print "<pre>" + OUTPUT + "</pre>"
