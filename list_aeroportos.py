@@ -67,7 +67,7 @@ aeroportos ={
         'MOC': 'Aeroporto de Montes Claros',
         'NAT': 'Aeroporto Internacional Augusto Severo',
         'NVT': 'Aeroporto Internacional Ministro Victor Konder',
-        'OAL': '',
+        'OAL': 'Aeroporto de Cacoal',
         'OLC': '',
         'OPS': 'Aeroporto de Sinop',
         'PET': 'Aeroporto Internacional de Pelotas',
