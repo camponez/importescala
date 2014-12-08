@@ -75,8 +75,6 @@ class Escala(object):
         self.ignore_list += self.simulador
 
 
-
-
     def __parser(self, root):
         """
         Parser
@@ -221,23 +219,86 @@ class Escala(object):
         """
         Soma de horas
         """
-        segundos = 0
+        segundos_diurno = 0
+        segundos_noturno = 0
 
         for voo in self.escalas:
+            chegada_18h = datetime(voo.std.year,
+                                   voo.std.month,
+                                   voo.std.day,
+                                   18, 0)
+            chegada_6h = datetime(voo.std.year,
+                                  voo.std.month,
+                                  voo.std.day,
+                                  6, 0) + timedelta(hours=24)
+
+            saida_18h = datetime(voo.sta.year,
+                                 voo.sta.month,
+                                 voo.sta.day,
+                                 18, 0)
+
+            saida_6h = datetime(voo.sta.year,
+                                voo.sta.month,
+                                voo.sta.day,
+                                6, 0)
+
             if voo.activity_info not in self.ignore_list and \
-                    not voo.activity_info.startswith('R') and \
-                    not voo.duty_design:
-                delta = voo.std - voo.sta
+               not voo.activity_info.startswith('R') and \
+               not voo.duty_design:
 
-                segundos += delta.seconds
+                if voo.sta > saida_18h and voo.std < chegada_6h:
+                    delta = voo.std - voo.sta
+                    segundos_noturno += delta.seconds
+                    continue
 
-        minutos = segundos / 60
+                if voo.sta > saida_6h and voo.std < chegada_18h:
+                    delta = voo.std - voo.sta
+                    segundos_diurno += delta.seconds
+                    continue
 
-        tempo = datetime(1, 1, 1) + timedelta(minutes=minutos)
+                if voo.sta > saida_18h and voo.std > chegada_6h or \
+                        voo.sta > saida_18h and voo.std > saida_6h:
+                    delta = voo.std - saida_18h
+                    segundos_noturno += delta.seconds
 
-        return  str(tempo.hour) + ":" + str(tempo.minute)
+                    delta = chegada_18h - voo.sta
+                    segundos_diurno += delta.seconds
+                    continue
 
-class Voo:
+                if voo.sta > saida_6h and voo.std > chegada_18h:
+                    delta = voo.std - saida_18h
+                    segundos_diurno += delta.seconds
+
+                    delta = saida_18h - voo.sta
+                    segundos_noturno += delta.seconds
+                    continue
+
+                if voo.sta < saida_6h and voo.std > saida_6h:
+                    delta = voo.std - saida_6h
+                    segundos_diurno += delta.seconds
+
+                    delta = saida_6h - voo.sta
+                    segundos_noturno += delta.seconds
+                    continue
+
+        segundos_total = (segundos_diurno + segundos_noturno)
+
+        tempo_diurno = datetime(1, 1, 1) + timedelta(seconds=segundos_diurno)
+        tempo_noturno = datetime(1, 1, 1) + timedelta(seconds=segundos_noturno)
+        tempo_total = datetime(1, 1, 1) + timedelta(seconds=segundos_total)
+
+        tempo_diurno_str = str((tempo_diurno.day - 1) * 24 + tempo_diurno.hour) + \
+                ":" + str(tempo_diurno.minute)
+
+        tempo_noturno_str = str((tempo_noturno.day - 1) * 24 + tempo_noturno.hour) + \
+                ":" + str(tempo_noturno.minute)
+
+        tempo_total_str = str((tempo_total.day - 1) * 24 + tempo_total.hour) + \
+                ":" + str(tempo_total.minute)
+
+        return  tempo_diurno_str + ',' + tempo_noturno_str + ',' + tempo_total_str
+
+class Voo(object):
     """
     Classe que representa um voo
     """
@@ -301,7 +362,13 @@ if __name__ == "__main__":
             F.write(OUTPUT)
             F.close()
 
-            print "<p>Horas de voo: "+ str(ESCALA.soma_horas()/60) + "</p>"
+            HORAS_DIURNO = ESCALA.soma_horas().split(',')[0]
+            HORAS_NOTURNO = ESCALA.soma_horas().split(',')[1]
+            HORAS_TOTAL = ESCALA.soma_horas().split(',')[2]
+
+            print "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
+            print "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
+            print "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
             if 'myfile' in FORM_DATA:
                 print "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
             print "<pre>" + OUTPUT + "</pre>"
