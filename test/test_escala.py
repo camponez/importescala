@@ -73,9 +73,9 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.activity_info, 'FR')
 
     def test_CalculoHorasVoadas(self):
-        self.assertEqual(self.escala.soma_horas(), "6:44")
+        self.assertEqual(self.escala.soma_horas(), "4:10,6:47,10:57")
     def test_NumerosVoos(self):
-        self.assertEqual(self.escala.get_numero_voos(),22)
+        self.assertEqual(self.escala.get_numero_voos(), 23)
 
     def test_CSV(self):
         check_output = '\
@@ -102,6 +102,8 @@ Reserva(R12),25/10/2013,11:00,25/10/2013,16:00,False,,-\n\
 SobreAviso,28/10/2013,03:00,28/10/2013,15:00,False,,-\n\
 CheckIn,29/10/2013,05:08,29/10/2013,05:08,False,"Aeroporto Internacional Viracopos",-\n\
 Voo VCP-FLN AD4050,29/10/2013,04:58,29/10/2013,06:15,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:17\n\
+CheckIn,29/10/2013,05:08,29/10/2013,05:08,False,"Aeroporto Internacional Viracopos",-\n\
+Voo VCP-FLN AD4050,29/10/2013,16:05,29/10/2013,20:18,False,"Aeroporto Internacional Viracopos",Horas de voo: 4:13\n\
 F,30/10/2013,06:50,30/10/2013,06:50,False,,-\n\
 FA,30/10/2013,06:50,30/10/2013,06:50,False,,-\n\
 SobreAviso,01/11/2013,03:00,01/11/2013,15:00,False,,-\n'

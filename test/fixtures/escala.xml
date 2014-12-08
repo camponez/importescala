@@ -684,6 +684,42 @@
     <Layout />
   </CWPReportRoster>
   <CWPReportRoster>
+    <RMDateDay>29TUE</RMDateDay>
+    <IdEmpNo>13864</IdEmpNo>
+    <EmpNo>13864</EmpNo>
+    <Signature>PINS</Signature>
+    <FullName>SAMANTA PINTO</FullName>
+    <FuncSpec />
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>VCP</PresentLocation>
+    <CheckInTime>05:08</CheckInTime>
+    <CheckoutTime />
+    <ActivityDate>29/10/2013 07:58:00</ActivityDate>
+    <Category>FA</Category>
+    <Base>VCP</Base>
+    <Request />
+    <STD>20:18</STD>
+    <STA>16:05</STA>
+    <Actype>E95</Actype>
+    <FlightNo>4050</FlightNo>
+    <Origin>VCP</Origin>
+    <Destination>FLN</Destination>
+    <DutyDesign />
+    <ActivityInfo>AD4050</ActivityInfo>
+    <ActivityDesc>4050</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
+  <CWPReportRoster>
     <RMDateDay>30FRI</RMDateDay>
     <IdEmpNo>13864</IdEmpNo>
     <EmpNo>13864</EmpNo>
