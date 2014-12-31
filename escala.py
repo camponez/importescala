@@ -287,14 +287,17 @@ class Escala(object):
         tempo_noturno = datetime(1, 1, 1) + timedelta(seconds=segundos_noturno)
         tempo_total = datetime(1, 1, 1) + timedelta(seconds=segundos_total)
 
-        tempo_diurno_str = str((tempo_diurno.day - 1) * 24 + tempo_diurno.hour) + \
-                ":" + str(tempo_diurno.minute)
+        tempo_diurno_str = "%d:%02d" % \
+                ((tempo_diurno.day - 1) * 24 + tempo_diurno.hour,
+                 tempo_diurno.minute)
 
-        tempo_noturno_str = str((tempo_noturno.day - 1) * 24 + tempo_noturno.hour) + \
-                ":" + str(tempo_noturno.minute)
+        tempo_noturno_str = "%d:%02d" % \
+                ((tempo_noturno.day - 1) * 24 + tempo_noturno.hour,
+                 tempo_noturno.minute)
 
-        tempo_total_str = str((tempo_total.day - 1) * 24 + tempo_total.hour) + \
-                ":" + str(tempo_total.minute)
+        tempo_total_str = "%d:%02d" % \
+                ((tempo_total.day - 1) * 24 + tempo_total.hour, \
+                 tempo_total.minute)
 
         return  tempo_diurno_str + ',' + tempo_noturno_str + ',' + tempo_total_str
 
