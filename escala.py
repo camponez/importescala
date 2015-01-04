@@ -381,18 +381,28 @@ if __name__ == "__main__":
 
 
     ANALYTICS = "\
-<script>\
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');\
-ga('create', 'UA-2271271-18', 'auto');\
-ga('send', 'pageview');\
-</script>\
+<script>\n\
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n\
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n\
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n\
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n\
+ga('create', 'UA-2271271-18', 'auto');\n\
+ga('send', 'pageview');\n\
+</script>\n\
 "
+
+    AMONG_US = '\
+<script id="_waux0d">var _wau = _wau || [];\n\
+_wau.push(["tab", "z9s00fhb7vfs", "x0d", "bottom-right"]);\n\
+(function() {var s=document.createElement("script"); s.async=true;\n\
+s.src="http://widgets.amung.us/tab.js";\n\
+document.getElementsByTagName("head")[0].appendChild(s);\n\
+})();</script>\n\
+'
 
 
     print ANALYTICS
+    print AMONG_US
     print "</body></html>"
 
 # vim:tabstop=4:expandtab:smartindent
