@@ -296,10 +296,10 @@ class Escala(object):
                  tempo_noturno.minute)
 
         tempo_total_str = "%d:%02d" % \
-                ((tempo_total.day - 1) * 24 + tempo_total.hour, \
+                ((tempo_total.day - 1) * 24 + tempo_total.hour,
                  tempo_total.minute)
 
-        return  tempo_diurno_str + ',' + tempo_noturno_str + ',' + tempo_total_str
+        return  [tempo_diurno_str, tempo_noturno_str, tempo_total_str]
 
 class Voo(object):
     """
@@ -332,7 +332,7 @@ if __name__ == "__main__":
     print open('changelog.html').read()
     print "</ul>"
     print "</td></tr></table>"
-    print "<span>"+VERSION+"</span>"
+    print "<span>" + VERSION + "</span>"
     print '<form action="escala.py" method="post" enctype="multipart/form-data">'
     print 'Upload file: <input type="file" name="myfile" /> <br />'
     print ' <input type="submit" name="submit" value="Submit" />'
@@ -365,9 +365,9 @@ if __name__ == "__main__":
             F.write(OUTPUT)
             F.close()
 
-            HORAS_DIURNO = ESCALA.soma_horas().split(',')[0]
-            HORAS_NOTURNO = ESCALA.soma_horas().split(',')[1]
-            HORAS_TOTAL = ESCALA.soma_horas().split(',')[2]
+            HORAS_DIURNO = ESCALA.soma_horas()[0]
+            HORAS_NOTURNO = ESCALA.soma_horas()[1]
+            HORAS_TOTAL = ESCALA.soma_horas()[2]
 
             print "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
             print "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
