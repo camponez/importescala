@@ -70,7 +70,7 @@ class Escala(object):
         self.ignore_list += self.folgas
 
         # Simulador
-        self.simulador = ['S04', 'S05', 'S06', 'S12', 'S20']
+        self.simulador = ['S04', 'S05', 'S06', 'S12', 'S20', 'T30']
 
         self.ignore_list += self.simulador
 
@@ -167,7 +167,7 @@ class Escala(object):
                 continue
 
             if voo.activity_info in self.simulador:
-                csv += 'Simulador,'
+                csv += 'Simulador (' + voo.activity_info + '),'
                 csv += format_date(voo)
                 csv += 'False,,-\n'
                 continue
@@ -287,14 +287,17 @@ class Escala(object):
         tempo_noturno = datetime(1, 1, 1) + timedelta(seconds=segundos_noturno)
         tempo_total = datetime(1, 1, 1) + timedelta(seconds=segundos_total)
 
-        tempo_diurno_str = str((tempo_diurno.day - 1) * 24 + tempo_diurno.hour) + \
-                ":" + str(tempo_diurno.minute)
+        tempo_diurno_str = "%d:%02d" % \
+                ((tempo_diurno.day - 1) * 24 + tempo_diurno.hour,
+                 tempo_diurno.minute)
 
-        tempo_noturno_str = str((tempo_noturno.day - 1) * 24 + tempo_noturno.hour) + \
-                ":" + str(tempo_noturno.minute)
+        tempo_noturno_str = "%d:%02d" % \
+                ((tempo_noturno.day - 1) * 24 + tempo_noturno.hour,
+                 tempo_noturno.minute)
 
-        tempo_total_str = str((tempo_total.day - 1) * 24 + tempo_total.hour) + \
-                ":" + str(tempo_total.minute)
+        tempo_total_str = "%d:%02d" % \
+                ((tempo_total.day - 1) * 24 + tempo_total.hour, \
+                 tempo_total.minute)
 
         return  tempo_diurno_str + ',' + tempo_noturno_str + ',' + tempo_total_str
 
@@ -377,7 +380,29 @@ if __name__ == "__main__":
         print traceback.format_exc()
 
 
+    ANALYTICS = "\
+<script>\n\
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n\
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n\
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n\
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n\
+ga('create', 'UA-2271271-18', 'auto');\n\
+ga('send', 'pageview');\n\
+</script>\n\
+"
 
+    AMONG_US = '\
+<script id="_waux0d">var _wau = _wau || [];\n\
+_wau.push(["tab", "z9s00fhb7vfs", "x0d", "bottom-right"]);\n\
+(function() {var s=document.createElement("script"); s.async=true;\n\
+s.src="http://widgets.amung.us/tab.js";\n\
+document.getElementsByTagName("head")[0].appendChild(s);\n\
+})();</script>\n\
+'
+
+
+    print ANALYTICS
+    print AMONG_US
     print "</body></html>"
 
 # vim:tabstop=4:expandtab:smartindent
