@@ -70,7 +70,7 @@ class Escala(object):
         self.ignore_list += self.folgas
 
         # Simulador
-        self.simulador = ['S04', 'S05', 'S06', 'S12', 'S20']
+        self.simulador = ['S04', 'S05', 'S06', 'S12', 'S20', 'T30']
 
         self.ignore_list += self.simulador
 
@@ -167,7 +167,7 @@ class Escala(object):
                 continue
 
             if voo.activity_info in self.simulador:
-                csv += 'Simulador,'
+                csv += 'Simulador (' + voo.activity_info + '),'
                 csv += format_date(voo)
                 csv += 'False,,-\n'
                 continue
