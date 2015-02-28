@@ -424,12 +424,12 @@ if __name__ == "__main__":
             HORAS_DIURNO = ESCALA.soma_horas()[0]
             HORAS_NOTURNO = ESCALA.soma_horas()[1]
             HORAS_TOTAL = ESCALA.soma_horas()[2]
-            HORAS_FAIXA_1 = ESCALA.soma_horas()[3]
+            HORAS_FAIXA_2 = ESCALA.soma_horas()[3]
 
             html +=  "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
             html +=  "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
             html +=  "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
-            html +=  "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_1 + "</p>"
+            html +=  "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_2 + "</p>"
             if 'myfile' in FORM_DATA:
                 html += "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
             html += "<pre>" + OUTPUT + "</pre>"
