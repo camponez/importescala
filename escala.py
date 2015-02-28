@@ -232,7 +232,9 @@ class Escala(object):
 
         ics = "BEGIN:VCALENDAR\n"
         ics += "VERSION:2.0\n"
+        ics += "CALSCALE:GREGORIAN\n"
         ics += "PRODID:-//Escala Azul//EN\n"
+        ics += "X-WR-TIMEZONE:America/Sao_Paulo\n"
 
         for voo in self.escalas:
             ics += "BEGIN:VEVENT\n"
