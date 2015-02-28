@@ -236,6 +236,7 @@ class Escala(object):
 
         for voo in self.escalas:
             ics += "BEGIN:VEVENT\n"
+            ics += "UID:123\n"
 
             if voo.activity_info in self.folgas:
                 ics += "SUMMARY:" + voo.activity_info + '\n'
@@ -271,6 +272,7 @@ class Escala(object):
                     ics += aeroportos[voo.origin] + '\n'
                 ics += 'END:VEVENT\n'
                 ics += 'BEGIN:VEVENT\n'
+                ics += 'UID:123\n'
 
 
             ics += "SUMMARY:Voo "+ voo.origin + '-' +voo.destination +\
