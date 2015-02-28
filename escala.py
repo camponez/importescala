@@ -79,7 +79,7 @@ class Escala(object):
 
         # Simulador
         self.simulador = ['S04', 'S05', 'S06', 'S12', 'S20', 'T30',
-                          'SBO', 'H30']
+                          'SBO', 'H30', 'V30']
 
         self.ignore_list += self.simulador
 
