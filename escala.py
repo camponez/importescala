@@ -498,7 +498,7 @@ if __name__ == "__main__":
 
             OUTPUT_CSV = ESCALA.csv()
 
-            f = open(TMP_ESCALA_ICS, 'w+')
+            f = open(TMP_ESCALA_CSV, 'w+')
             f.write(OUTPUT_CSV)
             f.close()
 
