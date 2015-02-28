@@ -6,7 +6,7 @@ def load_xml(arquivo_xml):
     Load xml
     """
     if not os.path.exists(arquivo_xml):
-        print 'Oh dear: ' + arquivo_xml + ' not found'
+        print('Oh dear: ' + arquivo_xml + ' not found')
         raise
 
     tree = ET.parse(arquivo_xml)

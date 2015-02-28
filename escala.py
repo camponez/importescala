@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding=utf-8
-print "Content-type: text/html\n\n"
+print ("Content-type: text/html\n\n")
 
 from datetime import datetime
 #from datetime import time as dtime
@@ -376,22 +376,23 @@ class Voo(object):
         self.horas_de_voo = None
 
 if __name__ == "__main__":
-    print "<html><head>"
-    print "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
-    print "</head><body>"
-    print "<table><tr><td>"
-    print open('how-to.html').read()
-    print "</td><td>"
-    print "<div style='text-align:center'><p>Changelog</p></div>"
-    print "<ul>"
-    print open('changelog.html').read()
-    print "</ul>"
-    print "</td></tr></table>"
-    print "<span>" + VERSION + "</span>"
-    print '<form action="escala.py" method="post" enctype="multipart/form-data">'
-    print 'Upload file: <input type="file" name="myfile" /> <br />'
-    print ' <input type="submit" name="submit" value="Submit" />'
-    print ' </form>'
+    html = "<html><head>"
+    html += "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
+    html += "</head><body>"
+    html += "<table><tr><td>"
+    html += open('how-to.html').read()
+    html += "</td><td>"
+    html += "<div style='text-align:center'><p>Changelog</p></div>"
+    html += "<ul>"
+    html += open('changelog.html').read()
+    html += "</ul>"
+    html += "</td></tr></table>"
+    html += "<span>" + VERSION + "</span>"
+    html += '<form action="escala.py" method="post" enctype="multipart/form-data">'
+    html += 'Upload file: <input type="file" name="myfile" /> <br />'
+    html += ' <input type="submit" name="submit" value="Submit" />'
+    html += ' </form>'
+
     try:
         import uuid
         import cgi
@@ -425,16 +426,16 @@ if __name__ == "__main__":
             HORAS_TOTAL = ESCALA.soma_horas()[2]
             HORAS_FAIXA_1 = ESCALA.soma_horas()[3]
 
-            print "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
-            print "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
-            print "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
-            print "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_1 + "</p>"
+            html +=  "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
+            html +=  "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
+            html +=  "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
+            html +=  "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_1 + "</p>"
             if 'myfile' in FORM_DATA:
-                print "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
-            print "<pre>" + OUTPUT + "</pre>"
+                html += "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
+            html += "<pre>" + OUTPUT + "</pre>"
     except:
-        print "Unexpected error:", sys.exc_info()[1]
-        print traceback.format_exc()
+        html += "Unexpected error:", sys.exc_info()[1]
+        html += traceback.format_exc()
 
 
     ANALYTICS = "\
@@ -458,8 +459,9 @@ document.getElementsByTagName("head")[0].appendChild(s);\n\
 '
 
 
-    print ANALYTICS
-    print AMONG_US
-    print "</body></html>"
+    html += ANALYTICS
+    html += AMONG_US
+    html += "</body></html>"
+    print (html)
 
 # vim:tabstop=4:expandtab:smartindent
