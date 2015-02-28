@@ -27,6 +27,12 @@ def strfdate(date):
     """
     return date.strftime('%d/%m/%Y')
 
+def strfdate_ics(date):
+    """
+    Converter data ics pra string
+    """
+    return date.strftime('%Y%d%m')
+
 def format_date(voo):
     """
     Formatar data
@@ -35,6 +41,31 @@ def format_date(voo):
     string += voo.sta.strftime('%H:%M') + ","
     string += strfdate(voo.std) + ","
     string += voo.std.strftime('%H:%M') + ","
+    return string
+
+def format_date_ics(voo, checkin=False):
+    """
+    Formatar data for ICS
+    """
+    if checkin:
+        string = "DTSTAMP:" + strfdate_ics(voo.activity_date)
+        string += "T" + voo.checkin_time.strftime('%H%M00') + "\n"
+
+        string += "DTSTART:" + strfdate_ics(voo.activity_date)
+        string += "T" + voo.checkin_time.strftime('%H%M00') + "\n"
+
+        string += "DTEND:" + strfdate_ics(voo.activity_date)
+        string += "T" + voo.checkin_time.strftime('%H%M00') + "\n"
+    else:
+        string = "DTSTAMP:" + strfdate_ics(voo.sta)
+        string += "T" + voo.sta.strftime('%H%M00') + "\n"
+
+        string += "DTSTART:" + strfdate_ics(voo.sta)
+        string += "T" + voo.sta.strftime('%H%M00') + "\n"
+
+        string += "DTEND:" + strfdate_ics(voo.std)
+        string += "T" + voo.std.strftime('%H%M00') + "\n"
+
     return string
 
 # vim:tabstop=4:expandtab:smartindent

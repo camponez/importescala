@@ -12,6 +12,8 @@ class FrameTest(unittest.TestCase):
 
     def setUp(self):
         self.escala = Escala('fixtures/escala.xml')
+        self.dir = dirs.TestDir()
+        self.maxDiff = None
 
     def tearDown(self):
         pass
@@ -77,6 +79,16 @@ class FrameTest(unittest.TestCase):
                                                     '0:00'])
     def test_NumerosVoos(self):
         self.assertEqual(self.escala.get_numero_voos(), 23)
+
+    def test_ICS(self):
+        """
+        Check ICS output
+        """
+        escala = Escala('fixtures/escala_ics.xml')
+        f = open(self.dir.get_data_dir()+'fixtures/escala.ics')
+        self.assertEqual(escala.ics().split('\n'), f.read().split('\n')[:-1])
+
+    # test_ICS()
 
     def test_CSV(self):
         check_output = '\
