@@ -55,7 +55,7 @@ aeroportos ={
         'JPR': 'Aeroporto José Coleto',
         'JTC': '',
         'LBR': 'Aeroporto de Lábrea',
-        'LDB': '',
+        'LDB': 'Aeroporto de Londrina',
         'LEC': '',
         'MAB': 'Aeroporto de Marabá',
         'MAO': 'Aeroporto Internacional Eduardo Gomes',

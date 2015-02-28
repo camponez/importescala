@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # coding=utf-8
-print "Content-type: text/html\n\n"
+print ("Content-type: text/html\n\n")
 
 from datetime import datetime
 #from datetime import time as dtime
@@ -20,6 +20,14 @@ from __version__ import MINOR
 from __version__ import MAJOR
 
 VERSION = MAJOR + '.' + MINOR
+
+SEGUNDA = 0
+TERCA = 1
+QUARTA = 2
+QUINTA = 3
+SEXTA = 4
+SABADO = 5
+DOMINGO = 6
 
 
 class Escala(object):
@@ -220,28 +228,43 @@ class Escala(object):
         """
         Soma de horas
         """
+
+        horas = Horas(self.escalas, self.ignore_list)
+
+        horas.calc_saidas_chegadas()
+
+        return  [horas.tempo_diurno_str, horas.tempo_noturno_str, horas.tempo_total_str,
+                 horas.tempo_faixa2_str]
+
+class Horas(object):
+    "Classe Horas"
+    def __init__(self, escalas, ignore_list):
+        self.escalas = escalas
+        self.ignore_list = ignore_list
+
+        self.tempo_total_str = None
+        self.tempo_noturno_str = None
+        self.tempo_diurno_str = None
+        self.tempo_diurno_especial_str = None
+        self.tempo_faixa2_str = '0:00'
+    # __init__()
+
+    def calc_saidas_chegadas(self):
+        """Cálculo de chegadas e saidas"""
+
+        segundos_diurno_especial = 0
         segundos_diurno = 0
         segundos_noturno = 0
+        segundos_noturno_especial = 0
 
         for voo in self.escalas:
-            chegada_18h = datetime(voo.std.year,
-                                   voo.std.month,
-                                   voo.std.day,
-                                   18, 0)
-            chegada_6h = datetime(voo.std.year,
-                                  voo.std.month,
-                                  voo.std.day,
-                                  6, 0) + timedelta(hours=24)
+            chegada_18h = self.calc_data(voo.std, 18, 0)
 
-            saida_18h = datetime(voo.sta.year,
-                                 voo.sta.month,
-                                 voo.sta.day,
-                                 18, 0)
+            chegada_6h = self.calc_data(voo.std, 6, 0) + timedelta(hours=24)
 
-            saida_6h = datetime(voo.sta.year,
-                                voo.sta.month,
-                                voo.sta.day,
-                                6, 0)
+            saida_18h = self.calc_data(voo.sta, 18, 0)
+
+            saida_6h = self.calc_data(voo.sta, 6, 0)
 
             if voo.activity_info not in self.ignore_list and \
                not voo.activity_info.startswith('R') and \
@@ -255,6 +278,9 @@ class Escala(object):
                 if voo.sta > saida_6h and voo.std < chegada_18h:
                     delta = voo.std - voo.sta
                     segundos_diurno += delta.seconds
+
+                    if voo.std.weekday() == DOMINGO:
+                        segundos_diurno_especial += delta.seconds
                     continue
 
                 if voo.sta > saida_18h and voo.std > chegada_6h or \
@@ -264,6 +290,9 @@ class Escala(object):
 
                     delta = chegada_18h - voo.sta
                     segundos_diurno += delta.seconds
+
+                    if voo.std.weekday() == DOMINGO:
+                        segundos_diurno_especial += delta.seconds
                     continue
 
                 if voo.sta > saida_6h and voo.std > chegada_18h:
@@ -272,6 +301,8 @@ class Escala(object):
 
                     delta = saida_18h - voo.sta
                     segundos_noturno += delta.seconds
+                    if voo.std.weekday() == DOMINGO:
+                        segundos_noturno_especial += delta.seconds
                     continue
 
                 if voo.sta < saida_6h and voo.std > saida_6h:
@@ -280,27 +311,50 @@ class Escala(object):
 
                     delta = saida_6h - voo.sta
                     segundos_noturno += delta.seconds
+                    if voo.std.weekday() == DOMINGO:
+                        segundos_noturno_especial += delta.seconds
                     continue
 
         segundos_total = (segundos_diurno + segundos_noturno)
 
         tempo_diurno = datetime(1, 1, 1) + timedelta(seconds=segundos_diurno)
+        tempo_diurno_especial = datetime(1, 1, 1) + \
+                timedelta(seconds=segundos_diurno_especial)
+
         tempo_noturno = datetime(1, 1, 1) + timedelta(seconds=segundos_noturno)
+        #tempo_noturno_especial = datetime(1, 1, 1) + \
+        #        timedelta(seconds=segundos_noturno)
+
         tempo_total = datetime(1, 1, 1) + timedelta(seconds=segundos_total)
 
-        tempo_diurno_str = "%d:%02d" % \
-                ((tempo_diurno.day - 1) * 24 + tempo_diurno.hour,
-                 tempo_diurno.minute)
+        self.tempo_diurno_str = self.calc_tempo_str(tempo_diurno)
 
-        tempo_noturno_str = "%d:%02d" % \
-                ((tempo_noturno.day - 1) * 24 + tempo_noturno.hour,
-                 tempo_noturno.minute)
+        self.tempo_noturno_str = self.calc_tempo_str(tempo_noturno)
 
-        tempo_total_str = "%d:%02d" % \
-                ((tempo_total.day - 1) * 24 + tempo_total.hour, \
-                 tempo_total.minute)
+        self.tempo_total_str = self.calc_tempo_str(tempo_total)
 
-        return  tempo_diurno_str + ',' + tempo_noturno_str + ',' + tempo_total_str
+        self.tempo_diurno_especial_str = self.calc_tempo_str(tempo_diurno_especial)
+
+        if ((tempo_total.day - 1) * 24 + tempo_total.hour) > 70:
+            self.tempo_faixa2_str = "%d:%02d" % \
+                    ((tempo_total.day - 1) * 24 + tempo_total.hour - 70,
+                     tempo_total.minute)
+
+    # calc_saidas_chegadas()
+
+    def calc_data(self, data, hora, minuto):
+        return datetime(data.year,
+                        data.month,
+                        data.day,
+                        hora, minuto)
+    # calc_data()
+
+    def calc_tempo_str(self, tempo):
+        return "%d:%02d" % \
+                ((tempo.day - 1) * 24 + tempo.hour,
+                  tempo.minute)
+
+    # calc_tempo()
 
 class Voo(object):
     """
@@ -322,22 +376,23 @@ class Voo(object):
         self.horas_de_voo = None
 
 if __name__ == "__main__":
-    print "<html><head>"
-    print "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
-    print "</head><body>"
-    print "<table><tr><td>"
-    print open('how-to.html').read()
-    print "</td><td>"
-    print "<div style='text-align:center'><p>Changelog</p></div>"
-    print "<ul>"
-    print open('changelog.html').read()
-    print "</ul>"
-    print "</td></tr></table>"
-    print "<span>"+VERSION+"</span>"
-    print '<form action="escala.py" method="post" enctype="multipart/form-data">'
-    print 'Upload file: <input type="file" name="myfile" /> <br />'
-    print ' <input type="submit" name="submit" value="Submit" />'
-    print ' </form>'
+    html = "<html><head>"
+    html += "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
+    html += "</head><body>"
+    html += "<table><tr><td>"
+    html += open('how-to.html').read()
+    html += "</td><td>"
+    html += "<div style='text-align:center'><p>Changelog</p></div>"
+    html += "<ul>"
+    html += open('changelog.html').read()
+    html += "</ul>"
+    html += "</td></tr></table>"
+    html += "<span>" + VERSION + "</span>"
+    html += '<form action="escala.py" method="post" enctype="multipart/form-data">'
+    html += 'Upload file: <input type="file" name="myfile" /> <br />'
+    html += ' <input type="submit" name="submit" value="Submit" />'
+    html += ' </form>'
+
     try:
         import uuid
         import cgi
@@ -366,19 +421,21 @@ if __name__ == "__main__":
             F.write(OUTPUT)
             F.close()
 
-            HORAS_DIURNO = ESCALA.soma_horas().split(',')[0]
-            HORAS_NOTURNO = ESCALA.soma_horas().split(',')[1]
-            HORAS_TOTAL = ESCALA.soma_horas().split(',')[2]
+            HORAS_DIURNO = ESCALA.soma_horas()[0]
+            HORAS_NOTURNO = ESCALA.soma_horas()[1]
+            HORAS_TOTAL = ESCALA.soma_horas()[2]
+            HORAS_FAIXA_2 = ESCALA.soma_horas()[3]
 
-            print "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
-            print "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
-            print "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
+            html +=  "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
+            html +=  "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
+            html +=  "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
+            html +=  "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_2 + "</p>"
             if 'myfile' in FORM_DATA:
-                print "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
-            print "<pre>" + OUTPUT + "</pre>"
+                html += "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
+            html += "<pre>" + OUTPUT + "</pre>"
     except:
-        print "Unexpected error:", sys.exc_info()[1]
-        print traceback.format_exc()
+        html += "Unexpected error:", sys.exc_info()[1]
+        html += traceback.format_exc()
 
 
     ANALYTICS = "\
@@ -402,8 +459,9 @@ document.getElementsByTagName("head")[0].appendChild(s);\n\
 '
 
 
-    print ANALYTICS
-    print AMONG_US
-    print "</body></html>"
+    html += ANALYTICS
+    html += AMONG_US
+    html += "</body></html>"
+    print (html)
 
 # vim:tabstop=4:expandtab:smartindent
