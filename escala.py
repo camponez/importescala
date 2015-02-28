@@ -55,7 +55,8 @@ class Escala(object):
             root = load_xml(arquivo_xml)
         else:
             root = load_string_xml(string_xml)
-        self.__parser(root)
+
+        self.__parser(root, 3)
 
     def __load_list(self):
         """
@@ -85,7 +86,7 @@ class Escala(object):
         self.ignore_list += self.simulador
 
 
-    def __parser(self, root):
+    def __parser(self, root, timezone):
         """
         Parser
         """
@@ -97,11 +98,8 @@ class Escala(object):
             datahora = time.strptime(child[11].text, "%d/%m/%Y %H:%M:%S")
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
 
-            # offset de horario de verão
-            #d_saving = 1
-
             #ajustando horario para UTC-3
-            voo.activity_date = voo.activity_date - timedelta(hours=3 + d_saving)
+            voo.activity_date = voo.activity_date - timedelta(hours=timezone + d_saving)
 
             voo.present_location = child[8].text
 
@@ -124,8 +122,8 @@ class Escala(object):
                 voo.std = voo.std + timedelta(days=1)
 
             # ajuste horario de verao
-            voo.sta = voo.sta - timedelta(hours=d_saving)
-            voo.std = voo.std - timedelta(hours=d_saving)
+            # voo.sta = voo.sta - timedelta(hours=d_saving)
+            # voo.std = voo.std - timedelta(hours=d_saving)
 
             voo.horas_de_voo = str(voo.std - voo.sta)[:-3]
 
