@@ -14,6 +14,7 @@ from list_aeroportos import aeroportos
 from func import load_xml
 from func import load_string_xml
 from func import format_date
+from func import format_date_ics
 from func import strfdate
 
 from __version__ import MINOR
@@ -79,7 +80,7 @@ class Escala(object):
 
         # Simulador
         self.simulador = ['S04', 'S05', 'S06', 'S12', 'S20', 'T30',
-                          'SBO', 'H30']
+                          'SBO', 'H30', 'V30']
 
         self.ignore_list += self.simulador
 
@@ -150,7 +151,7 @@ class Escala(object):
 
     def csv(self):
         """
-        Criando arquivoi CSV
+        Criando arquivo CSV
         """
 
         csv = 'Subject,Start Date,Start Time,End Date,End Time,'+\
@@ -217,6 +218,80 @@ class Escala(object):
             csv += '\n'
 
         return csv
+
+    def ics(self):
+        """
+        Criando arquivo ICS
+        """
+
+        def end_event(voo):
+            ics = 'DESCRIPTION:-\n'
+            ics += format_date_ics(voo)
+            ics += "END:VEVENT\n"
+            return ics
+
+        ics = "BEGIN:VCALENDAR\n"
+        ics += "VERSION:2.0\n"
+        ics += "PRODID:-//Escala Azul//EN\n"
+
+        for voo in self.escalas:
+            ics += "BEGIN:VEVENT\n"
+
+            if voo.activity_info in self.folgas:
+                ics += "SUMMARY:" + voo.activity_info + '\n'
+                ics += end_event(voo)
+                continue
+
+            if voo.activity_info in self.periodico:
+                ics += 'SUMMARY: Periódico\n'
+                ics += end_event(voo)
+                continue
+
+            if voo.activity_info.startswith('R'):
+                ics += 'SUMMARY:Reserva('+voo.activity_info+'),'
+                ics += end_event(voo)
+                continue
+
+            if voo.activity_info in self.simulador:
+                ics += 'SUMMARY:Simulador (' + voo.activity_info + ')\n'
+                ics += end_event(voo)
+                continue
+
+            if voo.activity_info in self.sobreaviso:
+                ics += 'SUMMARY:SobreAviso,'
+                ics += end_event(voo)
+                continue
+
+            if voo.checkin:
+                ics += 'SUMMARY:CheckIn\n'
+                ics += 'DESCRIPTION:-\n'
+                ics += format_date_ics(voo, True)
+                ics += 'LOCATION:'
+                if voo.origin in aeroportos:
+                    ics += aeroportos[voo.origin] + '\n'
+                ics += 'END:VEVENT\n'
+                ics += 'BEGIN:VEVENT\n'
+
+
+            ics += "SUMMARY:Voo "+ voo.origin + '-' +voo.destination +\
+                    ' ' + voo.activity_info
+            if voo.duty_design:
+                ics += " (E)"
+            ics += '\n'
+
+            ics += 'DESCRIPTION:Horas de voo: '
+            ics += voo.horas_de_voo + '\n'
+            ics += format_date_ics(voo)
+
+            ics += 'LOCATION:'
+            if voo.origin in aeroportos:
+                ics += aeroportos[voo.origin] + '\n'
+
+            ics += 'END:VEVENT\n'
+
+        ics += "END:VCALENDAR"
+
+        return ics
 
     def get_numero_voos(self):
         """
@@ -398,7 +473,11 @@ if __name__ == "__main__":
         import cgi
         FORM_DATA = cgi.FieldStorage()
 
-        TMP_ESCALA = 'tmp/' + str(uuid.uuid4().get_hex().upper()[0:6]) + '.csv'
+        tmp_name = str(uuid.uuid4().get_hex().upper()[0:6])
+        TMP_ESCALA_CSV = 'tmp/' + tmp_name + '.csv'
+
+        tmp_name = str(uuid.uuid4().get_hex().upper()[0:6])
+        TMP_ESCALA_ICS = 'tmp/' + tmp_name + '.ics'
 
         FILE_DATA = None
         if 'myfile' in FORM_DATA:
@@ -415,11 +494,17 @@ if __name__ == "__main__":
         if FILE_DATA:
             ESCALA = Escala(string_xml=FILE_DATA)
 
-            OUTPUT = ESCALA.csv()
+            OUTPUT_CSV = ESCALA.csv()
 
-            F = open(TMP_ESCALA, 'w+')
-            F.write(OUTPUT)
-            F.close()
+            f = open(TMP_ESCALA_ICS, 'w+')
+            f.write(OUTPUT_CSV)
+            f.close()
+
+            OUTPUT_ICS = ESCALA.ics()
+
+            f = open(TMP_ESCALA_ICS, 'w+')
+            f.write(OUTPUT_ICS)
+            f.close()
 
             HORAS_DIURNO = ESCALA.soma_horas()[0]
             HORAS_NOTURNO = ESCALA.soma_horas()[1]
@@ -431,8 +516,9 @@ if __name__ == "__main__":
             html +=  "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
             html +=  "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_2 + "</p>"
             if 'myfile' in FORM_DATA:
-                html += "<a href='" + TMP_ESCALA + "'>escala.csv</a>"
-            html += "<pre>" + OUTPUT + "</pre>"
+                html += "<a href='" + TMP_ESCALA_CSV + "'>escala.csv</a><br />"
+                html += "<a href='" + TMP_ESCALA_ICS + "'>escala.ics</a>"
+            html += "<pre>" + OUTPUT_CSV + "</pre>"
     except:
         html += "Unexpected error:", sys.exc_info()[1]
         html += traceback.format_exc()
