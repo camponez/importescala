@@ -31,7 +31,7 @@ def strfdate_ics(date):
     """
     Converter data ics pra string
     """
-    return date.strftime('%Y%d%m')
+    return date.strftime('%Y%m%d')
 
 def format_date(voo):
     """
@@ -49,22 +49,22 @@ def format_date_ics(voo, checkin=False):
     """
     if checkin:
         string = "DTSTAMP:" + strfdate_ics(voo.activity_date)
-        string += "T" + voo.checkin_time.strftime('%H%M00') + "\n"
+        string += "T" + voo.checkin_time.strftime('%H%M00Z') + "\n"
 
         string += "DTSTART:" + strfdate_ics(voo.activity_date)
-        string += "T" + voo.checkin_time.strftime('%H%M00') + "\n"
+        string += "T" + voo.checkin_time.strftime('%H%M00Z') + "\n"
 
         string += "DTEND:" + strfdate_ics(voo.activity_date)
-        string += "T" + voo.checkin_time.strftime('%H%M00') + "\n"
+        string += "T" + voo.checkin_time.strftime('%H%M00Z') + "\n"
     else:
         string = "DTSTAMP:" + strfdate_ics(voo.sta)
-        string += "T" + voo.sta.strftime('%H%M00') + "\n"
+        string += "T" + voo.sta.strftime('%H%M00Z') + "\n"
 
         string += "DTSTART:" + strfdate_ics(voo.sta)
-        string += "T" + voo.sta.strftime('%H%M00') + "\n"
+        string += "T" + voo.sta.strftime('%H%M00Z') + "\n"
 
         string += "DTEND:" + strfdate_ics(voo.std)
-        string += "T" + voo.std.strftime('%H%M00') + "\n"
+        string += "T" + voo.std.strftime('%H%M00Z') + "\n"
 
     return string
 
