@@ -249,7 +249,7 @@ class Escala(object):
                 continue
 
             if voo.activity_info.startswith('R'):
-                ics += 'SUMMARY:Reserva('+voo.activity_info+'),'
+                ics += 'SUMMARY:Reserva('+voo.activity_info+')\n'
                 ics += end_event(voo)
                 continue
 
@@ -259,7 +259,7 @@ class Escala(object):
                 continue
 
             if voo.activity_info in self.sobreaviso:
-                ics += 'SUMMARY:SobreAviso,'
+                ics += 'SUMMARY:SobreAviso\n'
                 ics += end_event(voo)
                 continue
 
