@@ -44,7 +44,7 @@ aeroportos ={
         'IATA': 'Aeroporto Regional da Zona da Mata',
         'IGU': 'Aeroporto Internacional Cataratas',
         'IMP': 'Aeroporto de Imperatriz',
-        'IOS': 'Aeroporto_de_Ilhéus',
+        'IOS': 'Aeroporto de Ilhéus',
         'IPN': '',
         'IRZ': '',
         'ITB': 'Aeroporto de Itaituba',
