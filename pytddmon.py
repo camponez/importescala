@@ -33,8 +33,8 @@ import unittest
 import doctest
 import time
 import multiprocessing
-import fnmatch
 import functools
+
 
 ON_PYTHON3 = sys.version_info[0] == 3
 ON_WINDOWS = platform.system() == "Windows"
@@ -45,7 +45,8 @@ ON_WINDOWS = platform.system() == "Windows"
 ####
 
 class Pytddmon:
-    """The core class, all functionality (except UI) is combined into this class"""
+    """The core class, all functionality (except UI) is
+    combined into this class"""
 
     def __init__(
             self,
@@ -155,11 +156,13 @@ class Monitor:
         self.snapshot = new_snapshot
         return change_detected
 
+
 class Kata:
     ''' Generates a logical unit test template file '''
     def __init__(self, kata_name):
         classname = kata_name.title().replace(' ', '') + 'Tests'
         self.content = '''\
+# coding: utf-8
 import unittest
 # Unit tests for kata '{0}'.
 
@@ -169,17 +172,18 @@ class {1}(unittest.TestCase):
         self.assertTrue(True)
 
     def test_another_thing(self):
-        self.assertEqual([1, 2], range(1, 3))
+        self.assertEqual([1, 2], [x for x in range(1, 3)])
 
 '''.format(kata_name, classname)
         self.filename = 'test_' + kata_name.lower().replace(' ', '_') + '.py'
 
+
 ####
 ## Finding files
 ####
-
 class FileFinder:
-    """Returns all files matching given regular expression from root downwards"""
+    """Returns all files matching given regular
+    expression from root downwards"""
 
     def __init__(self, root, regexp):
         self.root = os.path.abspath(root)
@@ -202,9 +206,6 @@ class FileFinder:
     def re_complete_match(self, string_to_match):
         """full string regexp check"""
         return bool(re.match(self.regexp + "$", string_to_match))
-
-
-wildcard_to_regex = fnmatch.translate
 
 
 ####
@@ -307,7 +308,10 @@ def run_suite(suite):
     result = text_test_runner.run(suite)
     green = result.testsRun - len(result.failures) - len(result.errors)
     total = result.testsRun
-    log = err_log.getvalue() if green < total else "All %i tests passed\n" % green
+    if green < total:
+        log = err_log.getvalue()
+    else:
+        log = "All %i tests passed\n" % total
     return green, total, log
 
 
@@ -323,10 +327,12 @@ def import_tkinter():
         else:
             import tkinter
     except ImportError as e:
-        sys.stderr.write('Cannot import tkinter. Please install it using your system ' +
-                         'package manager, since tkinter is not available on PyPI. On Ubuntu : ' +
-                         '`sudo apt-get install python-tk`.\n' +
-                         'The actual error was "{0}"\n'.format(e))
+        sys.stderr.write(
+            'Cannot import tkinter. Please install it using your system ' +
+            'package manager, since tkinter is not available on PyPI. ' +
+            ' In Ubuntu: \n' +
+            '    sudo apt-get install python-tk\n' +
+            'The actual error was "{0}"\n'.format(e))
         raise SystemExit(1)
     return tkinter
 
@@ -540,6 +546,7 @@ class TkGUI(object):
         self.loop()
         self.root.mainloop()
 
+
 class ColorPicker:
     """
     ColorPicker decides the background color the pytddmon window,
@@ -601,7 +608,9 @@ def parse_commandline():
     returns (files, test_mode) created from the command line arguments
     passed to pytddmon.
     """
-    parser = optparse.OptionParser()
+    usage = "usage: %prog [options] [static file list]"
+    version = "%prog " + '1.0.8'
+    parser = optparse.OptionParser(usage=usage, version=version)
     parser.add_option(
         "--log-and-exit",
         action="store_true",
@@ -609,10 +618,12 @@ def parse_commandline():
         help='Run all tests, write the results to "pytddmon.log" and exit.')
     parser.add_option(
         "--log-path",
-        help='Instead of writing to "pytddmon.log" in --log-and-exit, write to LOG_PATH.')
+        help='Instead of writing to "pytddmon.log" in --log-and-exit, ' +
+             'write to LOG_PATH.')
     parser.add_option(
         "--gen-kata",
-        help='Generate a stub unit test file appropriate for jump starting a kata')
+        help='Generate a stub unit test file appropriate for jump ' +
+             'starting a kata')
     parser.add_option(
         "--no-pulse",
         dest="pulse_disabled",
@@ -652,7 +663,8 @@ def run():
     sys.path[:0] = [cwd]
 
     # Command line argument handling
-    (static_file_set, test_mode, test_output, pulse_disabled, kata_name) = parse_commandline()
+    (static_file_set, test_mode, test_output,
+     pulse_disabled, kata_name) = parse_commandline()
 
     # Generating a kata unit test file? Do it and exit ...
     if kata_name:
@@ -664,7 +676,7 @@ def run():
 
     # What files to monitor?
     if not static_file_set:
-        regex = wildcard_to_regex("*.py")
+        regex = ("^[^\\.].*.py")
     else:
         regex = '|'.join(static_file_set)
     file_finder = FileFinder(cwd, regex)
