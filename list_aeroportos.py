@@ -41,6 +41,7 @@ aeroportos ={
         'GVR': 'Aeroporto Coronel Altino Machado',
         'GYN': 'Aeroporto Santa Genoveva',
         'HUW': 'Aeroporto de Humaiatá',
+        'IATA': 'Aeroporto Regional da Zona da Mata',
         'IGU': 'Aeroporto Internacional Cataratas',
         'IMP': 'Aeroporto de Imperatriz',
         'IOS': 'Aeroporto_de_Ilhéus',
