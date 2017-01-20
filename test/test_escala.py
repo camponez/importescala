@@ -87,6 +87,7 @@ class FrameTest(unittest.TestCase):
         escala = Escala('fixtures/escala_ics.xml')
         f = open(self.dir.get_data_dir()+'fixtures/escala.ics')
         self.assertEqual(escala.ics().split('\n'), f.read().split('\n')[:-1])
+        f.close()
 
     # test_ICS()
 
