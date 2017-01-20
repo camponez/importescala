@@ -201,7 +201,7 @@ class Escala(object):
             csv += "Voo "+ voo.origin + '-' +voo.destination +\
                     ' ' + voo.activity_info
             if voo.duty_design:
-                csv += " (E)"
+                csv += " (" + voo.duty_design + ")"
 
             csv += ","
             csv += format_date(voo)

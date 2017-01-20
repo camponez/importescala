@@ -87,6 +87,7 @@ class FrameTest(unittest.TestCase):
         escala = Escala('fixtures/escala_ics.xml')
         f = open(self.dir.get_data_dir()+'fixtures/escala.ics')
         self.assertEqual(escala.ics().split('\n'), f.read().split('\n')[:-1])
+        f.close()
 
     # test_ICS()
 
@@ -97,7 +98,7 @@ CheckIn,01/03/2013,10:36,01/03/2013,10:36,False,"Aeroporto Internacional Viracop
 Voo VCP-GYN AD4148,01/03/2013,11:36,01/03/2013,13:13,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:37\n\
 Voo GYN-PMW AD4298,01/03/2013,23:45,02/03/2013,01:55,False,"Aeroporto Santa Genoveva",Horas de voo: 2:10\n\
 CheckIn,01/04/2013,12:28,01/04/2013,12:28,False,"Aeroporto Internacional Tancredo Neves",-\n\
-Voo CNF-VCP AD4049 (E),01/04/2013,13:13,01/04/2013,14:28,False,"Aeroporto Internacional Tancredo Neves",Horas de voo: 1:15\n\
+Voo CNF-VCP AD4049 (P),01/04/2013,13:13,01/04/2013,14:28,False,"Aeroporto Internacional Tancredo Neves",Horas de voo: 1:15\n\
 FR,02/04/2013,03:15,02/04/2013,03:15,False,,-\n\
 FR,03/04/2013,03:15,03/04/2013,03:15,False,,-\n\
 REU,08/04/2013,13:40,08/04/2013,17:00,False,,-\n\
