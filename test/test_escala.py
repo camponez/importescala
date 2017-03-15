@@ -79,9 +79,6 @@ class FrameTest(unittest.TestCase):
     def test_CalculoHorasVoadas(self):
         self.assertEqual(self.escala.soma_horas(), ['4:10', '6:47', '10:57',
                                                     '0:00'])
-    def test_NumerosVoos(self):
-        self.assertEqual(self.escala.get_numero_voos(), 24)
-
     def test_ICS(self):
         """
         Check ICS output
