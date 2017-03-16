@@ -1,2 +1,2 @@
 MAJOR="1"
-MINOR="30.1"
+MINOR="30.2"
