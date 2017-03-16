@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 import sys
 from datetime import datetime
@@ -77,9 +79,6 @@ class FrameTest(unittest.TestCase):
     def test_CalculoHorasVoadas(self):
         self.assertEqual(self.escala.soma_horas(), ['4:10', '6:47', '10:57',
                                                     '0:00'])
-    def test_NumerosVoos(self):
-        self.assertEqual(self.escala.get_numero_voos(), 23)
-
     def test_ICS(self):
         """
         Check ICS output
@@ -120,7 +119,8 @@ CheckIn,29/10/2013,05:08,29/10/2013,05:08,False,"Aeroporto Internacional Viracop
 Voo VCP-FLN AD4050,29/10/2013,16:05,29/10/2013,20:18,False,"Aeroporto Internacional Viracopos",Horas de voo: 4:13\n\
 F,30/10/2013,06:50,30/10/2013,06:50,False,,-\n\
 FA,30/10/2013,06:50,30/10/2013,06:50,False,,-\n\
-SobreAviso,01/11/2013,03:00,01/11/2013,15:00,False,,-\n'
+SobreAviso,01/11/2013,03:00,01/11/2013,15:00,False,,-\n\
+Periódico,01/11/2013,04:00,01/11/2013,15:00,False,,-\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
