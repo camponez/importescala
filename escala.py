@@ -3,7 +3,6 @@
 print ("Content-type: text/html\n\n")
 
 from datetime import datetime
-#from datetime import time as dtime
 from datetime import timedelta
 import time
 import os
@@ -120,10 +119,6 @@ class Escala(object):
             # se houver mudanca de dia
             if voo.sta.time() > voo.std.time():
                 voo.std = voo.std + timedelta(days=1)
-
-            # ajuste horario de verao
-            # voo.sta = voo.sta - timedelta(hours=d_saving)
-            # voo.std = voo.std - timedelta(hours=d_saving)
 
             voo.horas_de_voo = str(voo.std - voo.sta)[:-3]
 
