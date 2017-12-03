@@ -1,16 +1,14 @@
-"""Module Escala"""
 #!/usr/bin/python
-# coding=utf-8
 # -*- coding: utf-8 -*-
 print("Content-type: text/html\n\n")
-
+"""Module Escala"""
 from datetime import datetime
 from datetime import timedelta
 import time
 import os
-import dirs
 import traceback
 import sys
+import dirs
 from list_aeroportos import aeroportos
 from func import load_xml
 from func import load_string_xml
@@ -20,6 +18,7 @@ from func import strfdate
 
 from __version__ import MINOR
 from __version__ import MAJOR
+
 
 VERSION = MAJOR + '.' + MINOR
 
@@ -333,13 +332,13 @@ class Horas(object):
         segundos_noturno_especial = 0
 
         for voo in self.escalas:
-            chegada_18h = self.calc_data(voo.std, 18, 0)
+            chegada_18h = calc_data(voo.std, 18, 0)
 
-            chegada_6h = self.calc_data(voo.std, 6, 0) + timedelta(hours=24)
+            chegada_6h = calc_data(voo.std, 6, 0) + timedelta(hours=24)
 
-            saida_18h = self.calc_data(voo.sta, 18, 0)
+            saida_18h = calc_data(voo.sta, 18, 0)
 
-            saida_6h = self.calc_data(voo.sta, 6, 0)
+            saida_6h = calc_data(voo.sta, 6, 0)
 
             if voo.activity_info not in self.ignore_list and \
                not voo.activity_info.startswith('R') and \
@@ -402,13 +401,13 @@ class Horas(object):
 
         tempo_total = datetime(1, 1, 1) + timedelta(seconds=segundos_total)
 
-        self.tempo_diurno_str = self.calc_tempo_str(tempo_diurno)
+        self.tempo_diurno_str = calc_tempo_str(tempo_diurno)
 
-        self.tempo_noturno_str = self.calc_tempo_str(tempo_noturno)
+        self.tempo_noturno_str = calc_tempo_str(tempo_noturno)
 
-        self.tempo_total_str = self.calc_tempo_str(tempo_total)
+        self.tempo_total_str = calc_tempo_str(tempo_total)
 
-        self.tempo_diurno_especial_str = self.calc_tempo_str(
+        self.tempo_diurno_especial_str = calc_tempo_str(
             tempo_diurno_especial)
 
         if ((tempo_total.day - 1) * 24 + tempo_total.hour) > 70:
@@ -418,17 +417,13 @@ class Horas(object):
 
     # calc_saidas_chegadas()
 
-    def calc_data(self, data, hora, minuto):
-        return datetime(data.year,
-                        data.month,
-                        data.day,
-                        hora, minuto)
-    # calc_data()
+def calc_data(data, hora, minuto):
+    return datetime(data.year, data.month, data.day, hora, minuto)
+# calc_data()
 
-    def calc_tempo_str(self, tempo):
-        return "%d:%02d" % ((tempo.day - 1) * 24 + tempo.hour, tempo.minute)
-
-    # calc_tempo()
+def calc_tempo_str(tempo):
+    return "%d:%02d" % ((tempo.day - 1) * 24 + tempo.hour, tempo.minute)
+# calc_tempo()
 
 
 class Voo(object):
@@ -545,9 +540,9 @@ document.getElementsByTagName("head")[0].appendChild(s);\n\
 })();</script>\n\
 '
 
-    html += ANALYTICS
-    html += AMONG_US
-    html += "</body></html>"
-    print (html)
+    HTML += ANALYTICS
+    HTML += AMONG_US
+    HTML += "</body></html>"
+    print(HTML)
 
 # vim:tabstop=4:expandtab:smartindent
