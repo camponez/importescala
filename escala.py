@@ -1,7 +1,9 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
-print("Content-type: text/html\n\n")
 """Module Escala"""
+#!/usr/bin/python2
+# coding=utf-8
+print("Content-type: text/html\n\n")
+
 from datetime import datetime
 from datetime import timedelta
 import time
@@ -29,6 +31,11 @@ QUINTA = 3
 SEXTA = 4
 SABADO = 5
 DOMINGO = 6
+
+
+def calc_tempo_str(tempo):
+    return "%d:%02d" % ((tempo.day - 1) * 24 + tempo.hour, tempo.minute)
+# calc_tempo()
 
 
 class Escala(object):
@@ -64,7 +71,7 @@ class Escala(object):
         Load lista de tipos
         """
         # Periodico
-        self.periodico = ['PP1', 'PP2', 'PC1']
+        self.periodico = ['PP1', 'PP2', 'PC1', 'GCI']
 
         self.ignore_list += self.periodico
 
@@ -306,8 +313,9 @@ class Escala(object):
 
         horas.calc_saidas_chegadas()
 
-        return  [horas.tempo_diurno_str, horas.tempo_noturno_str,
-                 horas.tempo_total_str, horas.tempo_faixa2_str]
+        return [horas.tempo_diurno_str, horas.tempo_noturno_str,
+                horas.tempo_total_str, horas.tempo_faixa2_str]
+
 
 class Horas(object):
     "Classe Horas"
@@ -342,7 +350,7 @@ class Horas(object):
 
             if voo.activity_info not in self.ignore_list and \
                not voo.activity_info.startswith('R') and \
-               not voo.duty_design:
+               (not voo.duty_design or voo.duty_design == 'T'):
 
                 if voo.sta > saida_18h and voo.std < chegada_6h:
                     delta = voo.std - voo.sta
@@ -417,13 +425,10 @@ class Horas(object):
 
     # calc_saidas_chegadas()
 
+
 def calc_data(data, hora, minuto):
     return datetime(data.year, data.month, data.day, hora, minuto)
 # calc_data()
-
-def calc_tempo_str(tempo):
-    return "%d:%02d" % ((tempo.day - 1) * 24 + tempo.hour, tempo.minute)
-# calc_tempo()
 
 
 class Voo(object):
@@ -508,17 +513,17 @@ if __name__ == "__main__":
             HORAS_TOTAL = ESCALA.soma_horas()[2]
             HORAS_FAIXA_2 = ESCALA.soma_horas()[3]
 
-            HTML += "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
-            HTML += "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
-            HTML += "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
-            HTML += "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_2 + "</p>"
+            html += "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
+            html += "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
+            html += "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
+            html += "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_2 + "</p>"
             if 'myfile' in FORM_DATA:
-                HTML += "<a href='" + TMP_ESCALA_CSV + "'>escala.csv</a><br />"
-                HTML += "<a href='" + TMP_ESCALA_ICS + "'>escala.ics</a>"
-            HTML += "<pre>" + OUTPUT_CSV + "</pre>"
-    except:
-        HTML += "Unexpected error:", sys.exc_info()[1]
-        HTML += traceback.format_exc()
+                html += "<a href='" + TMP_ESCALA_CSV + "'>escala.csv</a><br />"
+                html += "<a href='" + TMP_ESCALA_ICS + "'>escala.ics</a>"
+            html += "<pre>" + OUTPUT_CSV + "</pre>"
+    except BaseException:
+        html += "Unexpected error: {}".format(sys.exc_info()[1])
+        html += traceback.format_exc()
 
     ANALYTICS = "\
 <script>\n\
