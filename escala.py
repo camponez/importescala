@@ -1,6 +1,7 @@
 """Module Escala"""
 #!/usr/bin/python
 # coding=utf-8
+# -*- coding: utf-8 -*-
 print("Content-type: text/html\n\n")
 
 from datetime import datetime
