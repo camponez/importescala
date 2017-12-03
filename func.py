@@ -1,6 +1,7 @@
 import os
 import xml.etree.ElementTree as ET
 
+
 def load_xml(arquivo_xml):
     """
     Load xml
@@ -14,6 +15,7 @@ def load_xml(arquivo_xml):
 
     return root
 
+
 def load_string_xml(string_xml):
     """
     Loading string
@@ -21,17 +23,21 @@ def load_string_xml(string_xml):
     root = ET.fromstring(string_xml)
 
     return root
+
+
 def strfdate(date):
     """
     Converter data pra string
     """
     return date.strftime('%d/%m/%Y')
 
+
 def strfdate_ics(date):
     """
     Converter data ics pra string
     """
     return date.strftime('%Y%m%d')
+
 
 def format_date(voo):
     """
@@ -42,6 +48,7 @@ def format_date(voo):
     string += strfdate(voo.std) + ","
     string += voo.std.strftime('%H:%M') + ","
     return string
+
 
 def format_date_ics(voo, checkin=False):
     """
