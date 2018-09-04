@@ -310,8 +310,8 @@ class Escala(object):
 
         horas.calc_saidas_chegadas()
 
-        return  [horas.tempo_diurno_str, horas.tempo_noturno_str, horas.tempo_total_str,
-                 horas.tempo_faixa2_str]
+        return  [horas.tempo_diurno_str, horas.tempo_noturno_str,
+                 horas.tempo_total_str, horas.tempo_faixa2_str]
 
 class Horas(object):
     "Classe Horas"
@@ -427,9 +427,7 @@ class Horas(object):
     # calc_data()
 
     def calc_tempo_str(self, tempo):
-        return "%d:%02d" % \
-                ((tempo.day - 1) * 24 + tempo.hour,
-                  tempo.minute)
+        return "%d:%02d" % ((tempo.day - 1) * 24 + tempo.hour, tempo.minute)
 
     # calc_tempo()
 
