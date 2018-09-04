@@ -5,8 +5,8 @@ class Dir:
     def get_data_dir(self):
         return self.data_dir
 
-    def get_data_file(self, file):
-        return self.get_data_dir() + file
+    def get_data_file(self, _file):
+        return self.get_data_dir() + _file
 
 class DevelDir(Dir):
     def __init__(self):
@@ -16,15 +16,15 @@ class TestDir(Dir):
     def __init__(self):
         self.data_dir = "./test/"
 
-default_dir = None
+DEFAULT_DIR = None
 
-def set_default_dir(dir):
-    default_dir = dir
+def set_default_dir(_dir):
+    DEFAULT_DIR = _dir
 
 def get_default_dir():
-    global default_dir
-    if default_dir == None:
-        default_dir = DevelDir()
-    return default_dir
+    global DEFAULT_DIR
+    if DEFAULT_DIR == None:
+        DEFAULT_DIR = DevelDir()
+    return DEFAULT_DIR
 
 # vim:tabstop=4:expandtab:smartindent
