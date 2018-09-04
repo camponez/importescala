@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import sys
 from datetime import datetime
-from datetime import time
 
 from escala import Escala
 import dirs
@@ -79,6 +77,7 @@ class FrameTest(unittest.TestCase):
     def test_CalculoHorasVoadas(self):
         self.assertEqual(self.escala.soma_horas(), ['4:10', '6:47', '10:57',
                                                     '0:00'])
+
     def test_ICS(self):
         """
         Check ICS output
@@ -127,6 +126,7 @@ Periódico,01/11/2013,04:00,01/11/2013,15:00,False,,-\n'
 
 def main():
     unittest.main()
+
 
 if __name__ == '__main__':
     main()

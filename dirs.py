@@ -1,5 +1,3 @@
-import os
-
 class Dir:
     def __init__(self, userdata_dir):
         self.data_dir = userdata_dir
