@@ -63,7 +63,7 @@ class Escala(object):
         Load lista de tipos
         """
         # Periodico
-        self.periodico = ['PP1', 'PP2', 'PC1']
+        self.periodico = ['PP1', 'PP2', 'PC1', 'GCI']
 
         self.ignore_list += self.periodico
 
@@ -346,7 +346,7 @@ class Horas(object):
 
             if voo.activity_info not in self.ignore_list and \
                not voo.activity_info.startswith('R') and \
-               not voo.duty_design:
+               (not voo.duty_design or voo.duty_design == 'T'):
 
                 if voo.sta > saida_18h and voo.std < chegada_6h:
                     delta = voo.std - voo.sta

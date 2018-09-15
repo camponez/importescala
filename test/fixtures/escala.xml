@@ -935,4 +935,40 @@
       <Value3/>
       <Layout/>
   </CWPReportRoster>
+  <CWPReportRoster>
+    <RMDateDay>30TUE</RMDateDay>
+    <IdEmpNo>4162</IdEmpNo>
+    <EmpNo>4162</EmpNo>
+    <Signature>4162</Signature>
+    <FullName>LEANDRO DE OLIVEIRA PARATELLA</FullName>
+    <FuncSpec>ERJ;HUD;ODP;INTOK;RT</FuncSpec>
+    <TelephoneNo />
+    <Qual>ERJ</Qual>
+    <PresentLocation>CNF</PresentLocation>
+    <CheckInTime>08:15</CheckInTime>
+    <CheckoutTime>17:15</CheckoutTime>
+    <ActivityDate>30/10/2018 11:15:00</ActivityDate>
+    <Category>FO</Category>
+    <Base>CNF</Base>
+    <Request />
+    <STD>17:15</STD>
+    <STA>08:15</STA>
+    <Actype />
+    <FlightNo />
+    <Origin>VCP</Origin>
+    <Destination>VCP</Destination>
+    <DutyDesign />
+    <ActivityInfo>GCI</ActivityInfo>
+    <ActivityDesc>GCI</ActivityDesc>
+    <Pickup />
+    <Department />
+    <EndPeriod />
+    <HasNote />
+    <BoxNo />
+    <EmailAddress />
+    <Value1 />
+    <Value2 />
+    <Value3 />
+    <Layout />
+  </CWPReportRoster>
 </NewDataSet>

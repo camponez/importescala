@@ -76,7 +76,7 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.activity_info, 'AD2872')
 
     def test_CalculoHorasVoadas(self):
-        self.assertEqual(self.escala.soma_horas(), ['4:10', '6:47', '10:57',
+        self.assertEqual(self.escala.soma_horas(), ['6:40', '6:47', '13:27',
                                                     '0:00'])
 
     def test_ICS(self):
@@ -123,7 +123,8 @@ SobreAviso,01/11/2013,03:00,01/11/2013,15:00,False,,-\n\
 Periódico,01/11/2013,04:00,01/11/2013,15:00,False,,-\n\
 CheckIn,17/09/2018,07:10,17/09/2018,07:10,False,"Aeroporto Internacional Tancredo Neves",-\n\
 Voo CNF-CGH AD2684 (T),17/09/2018,08:00,17/09/2018,09:25,False,"Aeroporto Internacional Tancredo Neves",Horas de voo: 1:25\n\
-Voo CGH-CWB AD2872 (T),17/09/2018,11:40,17/09/2018,12:45,False,"Aeroporto de Congonhas",Horas de voo: 1:05\n'
+Voo CGH-CWB AD2872 (T),17/09/2018,11:40,17/09/2018,12:45,False,"Aeroporto de Congonhas",Horas de voo: 1:05\n\
+Periódico,30/10/2018,08:15,30/10/2018,17:15,False,,-\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
