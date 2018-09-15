@@ -1,9 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # coding=utf-8
-print ("Content-type: text/html\n\n")
+print("Content-type: text/html\n\n")
 
 from datetime import datetime
-#from datetime import time as dtime
 from datetime import timedelta
 import time
 import os
@@ -35,6 +34,7 @@ class Escala(object):
     """
     Classe escala
     """
+
     def __init__(self, arquivo_xml=None, string_xml=None):
 
         self.escalas = []
@@ -85,7 +85,6 @@ class Escala(object):
 
         self.ignore_list += self.simulador
 
-
     def __parser(self, root, timezone):
         """
         Parser
@@ -98,19 +97,20 @@ class Escala(object):
             datahora = time.strptime(child[11].text, "%d/%m/%Y %H:%M:%S")
             voo.activity_date = datetime.fromtimestamp(time.mktime(datahora))
 
-            #ajustando horario para UTC-3
-            voo.activity_date = voo.activity_date - timedelta(hours=timezone + d_saving)
+            # ajustando horario para UTC-3
+            voo.activity_date = voo.activity_date - \
+                timedelta(hours=timezone + d_saving)
 
             voo.present_location = child[8].text
 
-            #decolagem
+            # decolagem
             voo.sta = datetime(voo.activity_date.year,
                                voo.activity_date.month,
                                voo.activity_date.day,
                                int(child[16].text[:-3]),
                                int(child[16].text[3:]))
 
-            #pouso
+            # pouso
             voo.std = datetime(voo.activity_date.year,
                                voo.activity_date.month,
                                voo.activity_date.day,
@@ -152,8 +152,8 @@ class Escala(object):
         Criando arquivo CSV
         """
 
-        csv = 'Subject,Start Date,Start Time,End Date,End Time,'+\
-                'All Day Event,Location,Description\n'
+        csv = 'Subject,Start Date,Start Time,End Date,End Time,' +\
+            'All Day Event,Location,Description\n'
 
         for voo in self.escalas:
             if voo.activity_info in self.folgas:
@@ -169,7 +169,7 @@ class Escala(object):
                 continue
 
             if voo.activity_info.startswith('R'):
-                csv += 'Reserva('+voo.activity_info+'),'
+                csv += 'Reserva(' + voo.activity_info + '),'
                 csv += format_date(voo)
                 csv += 'False,,-\n'
                 continue
@@ -188,7 +188,7 @@ class Escala(object):
 
             if voo.checkin:
                 csv += 'CheckIn,'
-                #Data hora inicial
+                # Data hora inicial
                 csv += strfdate(voo.activity_date) + ","
                 csv += voo.checkin_time.strftime('%H:%M') + ","
                 csv += strfdate(voo.activity_date) + ","
@@ -198,8 +198,8 @@ class Escala(object):
                     csv += aeroportos[voo.origin]
                 csv += '",-\n'
 
-            csv += "Voo "+ voo.origin + '-' +voo.destination +\
-                    ' ' + voo.activity_info
+            csv += "Voo " + voo.origin + '-' + voo.destination +\
+                ' ' + voo.activity_info
             if voo.duty_design:
                 csv += " (" + voo.duty_design + ")"
 
@@ -249,7 +249,7 @@ class Escala(object):
                 continue
 
             if voo.activity_info.startswith('R'):
-                ics += 'SUMMARY:Reserva('+voo.activity_info+')\n'
+                ics += 'SUMMARY:Reserva(' + voo.activity_info + ')\n'
                 ics += end_event(voo)
                 continue
 
@@ -274,9 +274,8 @@ class Escala(object):
                 ics += 'BEGIN:VEVENT\n'
                 ics += 'UID:123\n'
 
-
-            ics += "SUMMARY:Voo "+ voo.origin + '-' +voo.destination +\
-                    ' ' + voo.activity_info
+            ics += "SUMMARY:Voo " + voo.origin + '-' + voo.destination +\
+                ' ' + voo.activity_info
             if voo.duty_design:
                 ics += " (E)"
             ics += '\n'
@@ -310,11 +309,13 @@ class Escala(object):
 
         horas.calc_saidas_chegadas()
 
-        return  [horas.tempo_diurno_str, horas.tempo_noturno_str,
-                 horas.tempo_total_str, horas.tempo_faixa2_str]
+        return [horas.tempo_diurno_str, horas.tempo_noturno_str,
+                horas.tempo_total_str, horas.tempo_faixa2_str]
+
 
 class Horas(object):
     "Classe Horas"
+
     def __init__(self, escalas, ignore_list):
         self.escalas = escalas
         self.ignore_list = ignore_list
@@ -396,10 +397,10 @@ class Horas(object):
 
         tempo_diurno = datetime(1, 1, 1) + timedelta(seconds=segundos_diurno)
         tempo_diurno_especial = datetime(1, 1, 1) + \
-                timedelta(seconds=segundos_diurno_especial)
+            timedelta(seconds=segundos_diurno_especial)
 
         tempo_noturno = datetime(1, 1, 1) + timedelta(seconds=segundos_noturno)
-        #tempo_noturno_especial = datetime(1, 1, 1) + \
+        # tempo_noturno_especial = datetime(1, 1, 1) + \
         #        timedelta(seconds=segundos_noturno)
 
         tempo_total = datetime(1, 1, 1) + timedelta(seconds=segundos_total)
@@ -410,12 +411,13 @@ class Horas(object):
 
         self.tempo_total_str = self.calc_tempo_str(tempo_total)
 
-        self.tempo_diurno_especial_str = self.calc_tempo_str(tempo_diurno_especial)
+        self.tempo_diurno_especial_str = self.calc_tempo_str(
+            tempo_diurno_especial)
 
         if ((tempo_total.day - 1) * 24 + tempo_total.hour) > 70:
             self.tempo_faixa2_str = "%d:%02d" % \
-                    ((tempo_total.day - 1) * 24 + tempo_total.hour - 70,
-                     tempo_total.minute)
+                ((tempo_total.day - 1) * 24 + tempo_total.hour - 70,
+                 tempo_total.minute)
 
     # calc_saidas_chegadas()
 
@@ -431,10 +433,12 @@ class Horas(object):
 
     # calc_tempo()
 
+
 class Voo(object):
     """
     Classe que representa um voo
     """
+
     def __init__(self):
         self.activity_date = None
         self.present_location = None
@@ -449,6 +453,7 @@ class Voo(object):
         self.activity_info = None
         self.duty_design = None
         self.horas_de_voo = None
+
 
 if __name__ == "__main__":
     html = "<html><head>"
@@ -511,18 +516,17 @@ if __name__ == "__main__":
             HORAS_TOTAL = ESCALA.soma_horas()[2]
             HORAS_FAIXA_2 = ESCALA.soma_horas()[3]
 
-            html +=  "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
-            html +=  "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
-            html +=  "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
-            html +=  "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_2 + "</p>"
+            html += "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
+            html += "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
+            html += "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
+            html += "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_2 + "</p>"
             if 'myfile' in FORM_DATA:
                 html += "<a href='" + TMP_ESCALA_CSV + "'>escala.csv</a><br />"
                 html += "<a href='" + TMP_ESCALA_ICS + "'>escala.ics</a>"
             html += "<pre>" + OUTPUT_CSV + "</pre>"
-    except:
-        html += "Unexpected error:", sys.exc_info()[1]
+    except BaseException:
+        html += "Unexpected error: {}".format(sys.exc_info()[1])
         html += traceback.format_exc()
-
 
     ANALYTICS = "\
 <script>\n\
@@ -544,10 +548,9 @@ document.getElementsByTagName("head")[0].appendChild(s);\n\
 })();</script>\n\
 '
 
-
     html += ANALYTICS
     html += AMONG_US
     html += "</body></html>"
-    print (html)
+    print(html)
 
 # vim:tabstop=4:expandtab:smartindent

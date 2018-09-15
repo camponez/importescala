@@ -863,4 +863,76 @@
     <Value3 />
     <Layout />
   </CWPReportRoster>
+  <CWPReportRoster>
+      <RMDateDay>17MON</RMDateDay>
+      <IdEmpNo>4162</IdEmpNo>
+      <EmpNo>4162</EmpNo>
+      <Signature>4162</Signature>
+      <FullName>LEANDRO DE OLIVEIRA PARATELLA</FullName>
+      <FuncSpec>ERJ;HUD;ODP;INTOK;RT</FuncSpec>
+      <TelephoneNo/>
+      <Qual>ERJ</Qual>
+      <PresentLocation>CNF</PresentLocation>
+      <CheckInTime>07:10</CheckInTime>
+      <CheckoutTime/>
+      <ActivityDate>17/09/2018 11:00:00</ActivityDate>
+      <Category>FO</Category>
+      <Base>CNF</Base>
+      <Request/>
+      <STD>09:25</STD>
+      <STA>08:00</STA>
+      <Actype>E95</Actype>
+      <FlightNo>2684</FlightNo>
+      <Origin>CNF</Origin>
+      <Destination>CGH</Destination>
+      <DutyDesign>T</DutyDesign>
+      <ActivityInfo>AD2684</ActivityInfo>
+      <ActivityDesc>2684</ActivityDesc>
+      <Pickup/>
+      <Department/>
+      <EndPeriod/>
+      <HasNote/>
+      <BoxNo/>
+      <EmailAddress/>
+      <Value1/>
+      <Value2/>
+      <Value3/>
+      <Layout/>
+  </CWPReportRoster>
+  <CWPReportRoster>
+      <RMDateDay>17MON</RMDateDay>
+      <IdEmpNo>4162</IdEmpNo>
+      <EmpNo>4162</EmpNo>
+      <Signature>4162</Signature>
+      <FullName>LEANDRO DE OLIVEIRA PARATELLA</FullName>
+      <FuncSpec>ERJ;HUD;ODP;INTOK;RT</FuncSpec>
+      <TelephoneNo/>
+      <Qual>ERJ</Qual>
+      <PresentLocation>CNF</PresentLocation>
+      <CheckInTime/>
+      <CheckoutTime/>
+      <ActivityDate>17/09/2018 14:40:00</ActivityDate>
+      <Category>FO</Category>
+      <Base>CNF</Base>
+      <Request/>
+      <STD>12:45</STD>
+      <STA>11:40</STA>
+      <Actype>E95</Actype>
+      <FlightNo>2872</FlightNo>
+      <Origin>CGH</Origin>
+      <Destination>CWB</Destination>
+      <DutyDesign>T</DutyDesign>
+      <ActivityInfo>AD2872</ActivityInfo>
+      <ActivityDesc>2872</ActivityDesc>
+      <Pickup/>
+      <Department/>
+      <EndPeriod/>
+      <HasNote/>
+      <BoxNo/>
+      <EmailAddress/>
+      <Value1/>
+      <Value2/>
+      <Value3/>
+      <Layout/>
+  </CWPReportRoster>
 </NewDataSet>

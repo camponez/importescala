@@ -8,6 +8,7 @@ import dirs
 
 dirs.DEFAULT_DIR = dirs.TestDir()
 
+
 class FrameTest(unittest.TestCase):
 
     def setUp(self):
@@ -68,11 +69,11 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.horas_de_voo, '1:17')
 
     def test_AttributosQuartoVoo(self):
-        p_voo = self.escala.escalas[4]
+        p_voo = self.escala.escalas[25]
         self.assertFalse(p_voo.checkin)
         self.assertEqual(p_voo.checkin_time, None)
-        self.assertEqual(p_voo.flight_no, None)
-        self.assertEqual(p_voo.activity_info, 'FR')
+        self.assertEqual(p_voo.flight_no, '2872')
+        self.assertEqual(p_voo.activity_info, 'AD2872')
 
     def test_CalculoHorasVoadas(self):
         self.assertEqual(self.escala.soma_horas(), ['4:10', '6:47', '10:57',
@@ -119,7 +120,10 @@ Voo VCP-FLN AD4050,29/10/2013,16:05,29/10/2013,20:18,False,"Aeroporto Internacio
 F,30/10/2013,06:50,30/10/2013,06:50,False,,-\n\
 FA,30/10/2013,06:50,30/10/2013,06:50,False,,-\n\
 SobreAviso,01/11/2013,03:00,01/11/2013,15:00,False,,-\n\
-Periódico,01/11/2013,04:00,01/11/2013,15:00,False,,-\n'
+Periódico,01/11/2013,04:00,01/11/2013,15:00,False,,-\n\
+CheckIn,17/09/2018,07:10,17/09/2018,07:10,False,"Aeroporto Internacional Tancredo Neves",-\n\
+Voo CNF-CGH AD2684 (T),17/09/2018,08:00,17/09/2018,09:25,False,"Aeroporto Internacional Tancredo Neves",Horas de voo: 1:25\n\
+Voo CGH-CWB AD2872 (T),17/09/2018,11:40,17/09/2018,12:45,False,"Aeroporto de Congonhas",Horas de voo: 1:05\n'
 
         self.assertEqual(self.escala.csv(), check_output)
 
