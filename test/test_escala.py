@@ -1,4 +1,6 @@
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
+# coding=utf-8
 
 import unittest
 from datetime import datetime

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+"""Module Escala"""
 #!/usr/bin/python2
 # coding=utf-8
 print("Content-type: text/html\n\n")
@@ -6,9 +8,9 @@ from datetime import datetime
 from datetime import timedelta
 import time
 import os
-import dirs
 import traceback
 import sys
+import dirs
 from list_aeroportos import aeroportos
 from func import load_xml
 from func import load_string_xml
@@ -19,6 +21,7 @@ from func import strfdate
 from __version__ import MINOR
 from __version__ import MAJOR
 
+
 VERSION = MAJOR + '.' + MINOR
 
 SEGUNDA = 0
@@ -28,6 +31,11 @@ QUINTA = 3
 SEXTA = 4
 SABADO = 5
 DOMINGO = 6
+
+
+def calc_tempo_str(tempo):
+    return "%d:%02d" % ((tempo.day - 1) * 24 + tempo.hour, tempo.minute)
+# calc_tempo()
 
 
 class Escala(object):
@@ -120,10 +128,6 @@ class Escala(object):
             # se houver mudanca de dia
             if voo.sta.time() > voo.std.time():
                 voo.std = voo.std + timedelta(days=1)
-
-            # ajuste horario de verao
-            # voo.sta = voo.sta - timedelta(hours=d_saving)
-            # voo.std = voo.std - timedelta(hours=d_saving)
 
             voo.horas_de_voo = str(voo.std - voo.sta)[:-3]
 
@@ -336,13 +340,13 @@ class Horas(object):
         segundos_noturno_especial = 0
 
         for voo in self.escalas:
-            chegada_18h = self.calc_data(voo.std, 18, 0)
+            chegada_18h = calc_data(voo.std, 18, 0)
 
-            chegada_6h = self.calc_data(voo.std, 6, 0) + timedelta(hours=24)
+            chegada_6h = calc_data(voo.std, 6, 0) + timedelta(hours=24)
 
-            saida_18h = self.calc_data(voo.sta, 18, 0)
+            saida_18h = calc_data(voo.sta, 18, 0)
 
-            saida_6h = self.calc_data(voo.sta, 6, 0)
+            saida_6h = calc_data(voo.sta, 6, 0)
 
             if voo.activity_info not in self.ignore_list and \
                not voo.activity_info.startswith('R') and \
@@ -405,13 +409,13 @@ class Horas(object):
 
         tempo_total = datetime(1, 1, 1) + timedelta(seconds=segundos_total)
 
-        self.tempo_diurno_str = self.calc_tempo_str(tempo_diurno)
+        self.tempo_diurno_str = calc_tempo_str(tempo_diurno)
 
-        self.tempo_noturno_str = self.calc_tempo_str(tempo_noturno)
+        self.tempo_noturno_str = calc_tempo_str(tempo_noturno)
 
-        self.tempo_total_str = self.calc_tempo_str(tempo_total)
+        self.tempo_total_str = calc_tempo_str(tempo_total)
 
-        self.tempo_diurno_especial_str = self.calc_tempo_str(
+        self.tempo_diurno_especial_str = calc_tempo_str(
             tempo_diurno_especial)
 
         if ((tempo_total.day - 1) * 24 + tempo_total.hour) > 70:
@@ -421,17 +425,10 @@ class Horas(object):
 
     # calc_saidas_chegadas()
 
-    def calc_data(self, data, hora, minuto):
-        return datetime(data.year,
-                        data.month,
-                        data.day,
-                        hora, minuto)
-    # calc_data()
 
-    def calc_tempo_str(self, tempo):
-        return "%d:%02d" % ((tempo.day - 1) * 24 + tempo.hour, tempo.minute)
-
-    # calc_tempo()
+def calc_data(data, hora, minuto):
+    return datetime(data.year, data.month, data.day, hora, minuto)
+# calc_data()
 
 
 class Voo(object):
@@ -456,33 +453,33 @@ class Voo(object):
 
 
 if __name__ == "__main__":
-    html = "<html><head>"
-    html += "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
-    html += "</head><body>"
-    html += "<table><tr><td>"
-    html += open('how-to.html').read()
-    html += "</td><td>"
-    html += "<div style='text-align:center'><p>Changelog</p></div>"
-    html += "<ul>"
-    html += open('changelog.html').read()
-    html += "</ul>"
-    html += "</td></tr></table>"
-    html += "<span>" + VERSION + "</span>"
-    html += '<form action="escala.py" method="post" enctype="multipart/form-data">'
-    html += 'Upload file: <input type="file" name="myfile" /> <br />'
-    html += ' <input type="submit" name="submit" value="Submit" />'
-    html += ' </form>'
+    HTML = "<html><head>"
+    HTML += "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>"
+    HTML += "</head><body>"
+    HTML += "<table><tr><td>"
+    HTML += open('how-to.html').read()
+    HTML += "</td><td>"
+    HTML += "<div style='text-align:center'><p>Changelog</p></div>"
+    HTML += "<ul>"
+    HTML += open('changelog.html').read()
+    HTML += "</ul>"
+    HTML += "</td></tr></table>"
+    HTML += "<span>" + VERSION + "</span>"
+    HTML += '<form action="escala.py" method="post" enctype="multipart/form-data">'
+    HTML += 'Upload file: <input type="file" name="myfile" /> <br />'
+    HTML += ' <input type="submit" name="submit" value="Submit" />'
+    HTML += ' </form>'
 
     try:
         import uuid
         import cgi
         FORM_DATA = cgi.FieldStorage()
 
-        tmp_name = str(uuid.uuid4().get_hex().upper()[0:6])
-        TMP_ESCALA_CSV = 'tmp/' + tmp_name + '.csv'
+        TMP_NAME = str(uuid.uuid4().get_hex().upper()[0:6])
+        TMP_ESCALA_CSV = 'tmp/' + TMP_NAME + '.csv'
 
-        tmp_name = str(uuid.uuid4().get_hex().upper()[0:6])
-        TMP_ESCALA_ICS = 'tmp/' + tmp_name + '.ics'
+        TMP_NAME = str(uuid.uuid4().get_hex().upper()[0:6])
+        TMP_ESCALA_ICS = 'tmp/' + TMP_NAME + '.ics'
 
         FILE_DATA = None
         if 'myfile' in FORM_DATA:
@@ -501,15 +498,15 @@ if __name__ == "__main__":
 
             OUTPUT_CSV = ESCALA.csv()
 
-            f = open(TMP_ESCALA_CSV, 'w+')
-            f.write(OUTPUT_CSV)
-            f.close()
+            F = open(TMP_ESCALA_CSV, 'w+')
+            F.write(OUTPUT_CSV)
+            F.close()
 
             OUTPUT_ICS = ESCALA.ics()
 
-            f = open(TMP_ESCALA_ICS, 'w+')
-            f.write(OUTPUT_ICS)
-            f.close()
+            F = open(TMP_ESCALA_ICS, 'w+')
+            F.write(OUTPUT_ICS)
+            F.close()
 
             HORAS_DIURNO = ESCALA.soma_horas()[0]
             HORAS_NOTURNO = ESCALA.soma_horas()[1]
@@ -548,9 +545,9 @@ document.getElementsByTagName("head")[0].appendChild(s);\n\
 })();</script>\n\
 '
 
-    html += ANALYTICS
-    html += AMONG_US
-    html += "</body></html>"
-    print(html)
+    HTML += ANALYTICS
+    HTML += AMONG_US
+    HTML += "</body></html>"
+    print(HTML)
 
 # vim:tabstop=4:expandtab:smartindent
