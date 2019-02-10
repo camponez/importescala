@@ -78,8 +78,15 @@ class FrameTest(unittest.TestCase):
         self.assertEqual(p_voo.activity_info, 'AD2872')
 
     def test_CalculoHorasVoadas(self):
-        self.assertEqual(self.escala.soma_horas(), ['6:40', '6:47', '13:27',
-                                                    '0:00'])
+        s_horas = {
+            'h_diurno': '6:40',
+            'h_noturno': '6:47',
+            'h_total_voo': '13:27',
+            'h_faixa2': '0:00',
+            'h_sobreaviso': '40:00',
+            'h_reserva': '29:13'
+        }
+        self.assertEqual(self.escala.soma_horas(), s_horas)
 
     def test_ICS(self):
         """

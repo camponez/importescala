@@ -309,25 +309,34 @@ class Escala(object):
         Soma de horas
         """
 
-        horas = Horas(self.escalas, self.ignore_list)
+        horas = Horas(self.escalas, self.ignore_list, self.sobreaviso)
 
         horas.calc_saidas_chegadas()
 
-        return [horas.tempo_diurno_str, horas.tempo_noturno_str,
-                horas.tempo_total_str, horas.tempo_faixa2_str]
+        return {
+            'h_diurno': horas.tempo_diurno_str,
+            'h_noturno': horas.tempo_noturno_str,
+            'h_total_voo': horas.tempo_total_str,
+            'h_faixa2': horas.tempo_faixa2_str,
+            'h_sobreaviso': horas.tempo_sobreaviso_str,
+            'h_reserva': horas.tempo_reserva_str
+        }
 
 
 class Horas(object):
     "Classe Horas"
 
-    def __init__(self, escalas, ignore_list):
+    def __init__(self, escalas, ignore_list, sobreaviso_list):
         self.escalas = escalas
         self.ignore_list = ignore_list
+        self.sobreaviso_list = sobreaviso_list
 
         self.tempo_total_str = None
         self.tempo_noturno_str = None
         self.tempo_diurno_str = None
         self.tempo_diurno_especial_str = None
+        self.tempo_sobreaviso_str = None
+        self.tempo_reserva_str = None
         self.tempo_faixa2_str = '0:00'
     # __init__()
 
@@ -338,6 +347,12 @@ class Horas(object):
         segundos_diurno = 0
         segundos_noturno = 0
         segundos_noturno_especial = 0
+        segundos_sobreaviso = 0
+        segundos_reserva = 0
+
+        def cal_segs_voo(std, sta):
+            delta = std - sta
+            return delta.seconds
 
         for voo in self.escalas:
             chegada_18h = calc_data(voo.std, 18, 0)
@@ -348,27 +363,33 @@ class Horas(object):
 
             saida_6h = calc_data(voo.sta, 6, 0)
 
+            if voo.activity_info in self.sobreaviso_list:
+                segundos_sobreaviso += cal_segs_voo(voo.std, voo.sta)
+
+            if voo.activity_info.startswith('R') and \
+                    not voo.activity_info.startswith('REU'):
+                segundos_reserva += cal_segs_voo(voo.std, voo.sta)
+
             if voo.activity_info not in self.ignore_list and \
                not voo.activity_info.startswith('R') and \
                (not voo.duty_design or voo.duty_design == 'T'):
 
                 if voo.sta > saida_18h and voo.std < chegada_6h:
-                    delta = voo.std - voo.sta
-                    segundos_noturno += delta.seconds
+                    segundos_noturno += cal_segs_voo(voo.std, voo.sta)
                     continue
 
                 if voo.sta > saida_6h and voo.std < chegada_18h:
-                    delta = voo.std - voo.sta
-                    segundos_diurno += delta.seconds
+                    delta = cal_segs_voo(voo.std, voo.sta)
+                    segundos_diurno += delta
 
                     if voo.std.weekday() == DOMINGO:
-                        segundos_diurno_especial += delta.seconds
+                        segundos_diurno_especial += delta
                     continue
 
                 if voo.sta > saida_18h and voo.std > chegada_6h or \
                         voo.sta > saida_18h and voo.std > saida_6h:
-                    delta = voo.std - saida_18h
-                    segundos_noturno += delta.seconds
+                    delta = cal_segs_voo(voo.std, saida_18h)
+                    segundos_noturno += delta
 
                     delta = chegada_18h - voo.sta
                     segundos_diurno += delta.seconds
@@ -407,6 +428,12 @@ class Horas(object):
         # tempo_noturno_especial = datetime(1, 1, 1) + \
         #        timedelta(seconds=segundos_noturno)
 
+        tempo_sobreaviso = datetime(1, 1, 1) + \
+            timedelta(seconds=segundos_sobreaviso)
+
+        tempo_reserva = datetime(1, 1, 1) + \
+            timedelta(seconds=segundos_reserva)
+
         tempo_total = datetime(1, 1, 1) + timedelta(seconds=segundos_total)
 
         self.tempo_diurno_str = calc_tempo_str(tempo_diurno)
@@ -414,6 +441,9 @@ class Horas(object):
         self.tempo_noturno_str = calc_tempo_str(tempo_noturno)
 
         self.tempo_total_str = calc_tempo_str(tempo_total)
+
+        self.tempo_sobreaviso_str = calc_tempo_str(tempo_sobreaviso)
+        self.tempo_reserva_str = calc_tempo_str(tempo_reserva)
 
         self.tempo_diurno_especial_str = calc_tempo_str(
             tempo_diurno_especial)
@@ -508,22 +538,22 @@ if __name__ == "__main__":
             F.write(OUTPUT_ICS)
             F.close()
 
-            HORAS_DIURNO = ESCALA.soma_horas()[0]
-            HORAS_NOTURNO = ESCALA.soma_horas()[1]
-            HORAS_TOTAL = ESCALA.soma_horas()[2]
-            HORAS_FAIXA_2 = ESCALA.soma_horas()[3]
-
-            html += "<p>Horas de voo diurno: " + HORAS_DIURNO + "</p>"
-            html += "<p>Horas de voo noturno: " + HORAS_NOTURNO + "</p>"
-            html += "<p>Horas de voo total: " + HORAS_TOTAL + "</p>"
-            html += "<p>Horas de voo Faixa 2: " + HORAS_FAIXA_2 + "</p>"
+            HTML += (
+                "<p>Horas de voo diurno: {h_diurno}</p>"
+                "<p>Horas de voo noturno: {h_noturno}</p>"
+                "<p>Horas de voo total: {h_total_voo}</p>"
+                "<p>Horas de voo Faixa 2: {h_faixa2}</p>"
+                "<p>Horas de voo Sobreaviso: {h_sobreaviso}</p>"
+                "<p>Horas de voo Reserva: {h_reserva}</p>"
+                .format(**ESCALA.soma_horas())
+            )
             if 'myfile' in FORM_DATA:
-                html += "<a href='" + TMP_ESCALA_CSV + "'>escala.csv</a><br />"
-                html += "<a href='" + TMP_ESCALA_ICS + "'>escala.ics</a>"
-            html += "<pre>" + OUTPUT_CSV + "</pre>"
+                HTML += "<a href='" + TMP_ESCALA_CSV + "'>escala.csv</a><br />"
+                HTML += "<a href='" + TMP_ESCALA_ICS + "'>escala.ics</a>"
+            HTML += "<pre>" + OUTPUT_CSV + "</pre>"
     except BaseException:
-        html += "Unexpected error: {}".format(sys.exc_info()[1])
-        html += traceback.format_exc()
+        HTML += "Unexpected error: {}".format(sys.exc_info()[1])
+        HTML += traceback.format_exc()
 
     ANALYTICS = "\
 <script>\n\
