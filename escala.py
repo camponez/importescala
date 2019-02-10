@@ -1,6 +1,6 @@
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 """Module Escala"""
-#!/usr/bin/python2
 # coding=utf-8
 print("Content-type: text/html\n\n")
 
