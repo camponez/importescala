@@ -1,4 +1,4 @@
-class Dir:
+class Dir(object):
     def __init__(self, userdata_dir):
         self.data_dir = userdata_dir
 
