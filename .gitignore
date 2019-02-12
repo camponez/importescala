@@ -7,6 +7,9 @@ tmp
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+export-site
+update.sh
+escala.xml
 
 # Unit test / coverage reports
 htmlcov/
