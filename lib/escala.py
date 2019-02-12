@@ -269,7 +269,7 @@ class Escala(object):
 
             ics += 'END:VEVENT\n'
 
-        ics += "END:VCALENDAR"
+        ics += "END:VCALENDAR\n"
 
         return ics
 

@@ -1,6 +1,7 @@
 *.swp
 *.pyc
 .ctags
+*.log
 tags
 tmp
 # Byte-compiled / optimized / DLL files
