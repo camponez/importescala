@@ -10,8 +10,8 @@ from lib.func import format_date
 from lib.func import format_date_ics
 from lib.func import strfdate
 from lib.voo import Voo
-from list_aeroportos import aeroportos
 from lib.horas import Horas
+from list_aeroportos import aeroportos
 
 class Escala(object):
     """
@@ -269,7 +269,7 @@ class Escala(object):
 
             ics += 'END:VEVENT\n'
 
-        ics += "END:VCALENDAR"
+        ics += "END:VCALENDAR\n"
 
         return ics
 

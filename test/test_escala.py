@@ -93,50 +93,18 @@ class FrameTest(unittest.TestCase):
         Check ICS output
         """
         escala = Escala('fixtures/escala_ics.xml')
-        f = open(self.dir.get_data_dir() + 'fixtures/escala.ics')
-        self.assertEqual(escala.ics().split('\n'), f.read().split('\n')[:-1])
-        f.close()
-
-    # test_ICS()
+        f_result = open(self.dir.get_data_dir() + 'fixtures/escala.ics')
+        self.assertEqual(escala.ics(), f_result.read())
+        f_result.close()
 
     def test_csv(self):
-        #pylint: disable=C0301
-        check_output = (
-            'Subject,Start Date,Start Time,End Date,End Time,All Day Event,Location,Description\n'
-            'CheckIn,01/03/2013,10:36,01/03/2013,10:36,False,"Aeroporto Internacional Viracopos",-\n'
-            'Voo VCP-GYN AD4148,01/03/2013,11:36,01/03/2013,13:13,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:37\n'
-            'Voo GYN-PMW AD4298,01/03/2013,23:45,02/03/2013,01:55,False,"Aeroporto Santa Genoveva",Horas de voo: 2:10\n'
-            'CheckIn,01/04/2013,12:28,01/04/2013,12:28,False,"Aeroporto Internacional Tancredo Neves",-\n'
-            'Voo CNF-VCP AD4049 (P),01/04/2013,13:13,01/04/2013,14:28,False,"Aeroporto Internacional Tancredo Neves",Horas de voo: 1:15\n'
-            'FR,02/04/2013,03:15,02/04/2013,03:15,False,,-\n'
-            'FR,03/04/2013,03:15,03/04/2013,03:15,False,,-\n'
-            'REU,08/04/2013,13:40,08/04/2013,17:00,False,,-\n'
-            'Voo GYN-PMW AD4035,05/08/2013,21:15,05/08/2013,22:55,False,"Aeroporto Santa Genoveva",Horas de voo: 1:40\n'
-            'Reserva(R08),04/09/2013,08:16,04/09/2013,14:15,False,,-\n'
-            'Reserva(R04),05/09/2013,04:46,05/09/2013,08:45,False,,-\n'
-            'SobreAviso,08/09/2013,11:00,08/09/2013,23:00,False,,-\n'
-            'Reserva(RHC),09/09/2013,10:00,09/09/2013,14:00,False,,-\n'
-            'SobreAviso,09/10/2013,10:00,09/10/2013,14:00,False,,-\n'
-            'Simulador (S04),09/11/2013,10:00,09/11/2013,14:00,False,,-\n'
-            'Reserva(R0),09/12/2013,05:00,09/12/2013,12:00,False,,-\n'
-            'Reserva(R07),26/10/2013,06:15,26/10/2013,09:30,False,,-\n'
-            'FP,06/10/2013,06:50,06/10/2013,06:50,False,,-\n'
-            'Reserva(R12),25/10/2013,11:00,25/10/2013,16:00,False,,-\n'
-            'SobreAviso,28/10/2013,03:00,28/10/2013,15:00,False,,-\n'
-            'CheckIn,29/10/2013,05:08,29/10/2013,05:08,False,"Aeroporto Internacional Viracopos",-\n'
-            'Voo VCP-FLN AD4050,29/10/2013,04:58,29/10/2013,06:15,False,"Aeroporto Internacional Viracopos",Horas de voo: 1:17\n'
-            'CheckIn,29/10/2013,05:08,29/10/2013,05:08,False,"Aeroporto Internacional Viracopos",-\n'
-            'Voo VCP-FLN AD4050,29/10/2013,16:05,29/10/2013,20:18,False,"Aeroporto Internacional Viracopos",Horas de voo: 4:13\n'
-            'F,30/10/2013,06:50,30/10/2013,06:50,False,,-\n'
-            'FA,30/10/2013,06:50,30/10/2013,06:50,False,,-\n'
-            'SobreAviso,01/11/2013,03:00,01/11/2013,15:00,False,,-\n'
-            'Periódico,01/11/2013,04:00,01/11/2013,15:00,False,,-\n'
-            'CheckIn,17/09/2018,07:10,17/09/2018,07:10,False,"Aeroporto Internacional Tancredo Neves",-\n'
-            'Voo CNF-CGH AD2684 (T),17/09/2018,08:00,17/09/2018,09:25,False,"Aeroporto Internacional Tancredo Neves",Horas de voo: 1:25\n'
-            'Voo CGH-CWB AD2872 (T),17/09/2018,11:40,17/09/2018,12:45,False,"Aeroporto de Congonhas",Horas de voo: 1:05\n'
-            'Periódico,30/10/2018,08:15,30/10/2018,17:15,False,,-\n')
+        """
+        Check CSV output
+        """
+        f_result = open(self.dir.get_data_dir() + 'fixtures/escala.csv')
 
-        self.assertEqual(self.escala.csv(), check_output)
+        self.assertEqual(self.escala.csv(), f_result.read())
+        f_result.close()
 
 
 def main():
